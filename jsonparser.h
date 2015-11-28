@@ -18,10 +18,10 @@ public:
     QJsonArray listClasses();
     QJsonArray listClassAttributes(QString classRequested);
     QJsonArray listClassMethods(QString classRequested);
-    QJsonArray listLinksCalls();
-    QJsonArray listLinksReferences();
-    QJsonArray listLinksInherits();
-
+    QJsonArray listLinksCallsInside(QString classRequested);
+    QJsonArray listLinksCallsOutside(QString classRequested);
+    QJsonArray listLinksReferences(QString classRequested, QString methodName);
+    QJsonArray listLinksInherits(QString classRequested);
 };
 
 #endif // JSONPARSER_H

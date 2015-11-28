@@ -17,4 +17,5 @@ include(deployment.pri)
 
 HEADERS += \
     jsonparser.h \
-    datamodel.h
+    datamodel.h \
+    dataobjects.h
