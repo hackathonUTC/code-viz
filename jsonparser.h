@@ -17,6 +17,11 @@ public:
     ~JsonParser();
     QJsonArray listClasses();
     QJsonArray listClassAttributes(QString classRequested);
+    QJsonArray listClassMethods(QString classRequested);
+    QJsonArray listLinksCalls();
+    QJsonArray listLinksReferences();
+    QJsonArray listLinksInherits();
+
 };
 
 #endif // JSONPARSER_H
