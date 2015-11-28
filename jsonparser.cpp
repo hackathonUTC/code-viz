@@ -35,11 +35,12 @@ JsonParser::JsonParser()
     QString val;
     QFile file;
     file.setFileName("code_model.json");
-    file.open(QIODevice::ReadOnly);
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
     val = file.readAll();
     file.close();
 
-    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+    QJsonParseError error;
+    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8(), &error);
     QJsonObject sett2 = d.object();
 
     QJsonValue fullData = sett2.value(QString("data"));

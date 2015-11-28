@@ -300,7 +300,7 @@
 					{
 						"name":"supprimerCursus",
 						"visibility":"public"
-					},
+					}
 				],
 				"attributes":
 				[
@@ -373,7 +373,7 @@
 					{
 						"name":"slotEditApplied",
 						"visibility":"public"
-					},
+					}
 					
 				],
 				"attributes":
@@ -430,10 +430,10 @@
 					{
 						"name":"parentCursus",
 						"type":"Cursus"
-					},
+					}
 				]
 			}
-		],
+		]
 	},
 	"listLinks":{
 		"links":
@@ -547,7 +547,7 @@
 				"methodFrom":"slotCursusChanged",
 
 				"classTo":"CursusEditor",
-				"methodTo":"updateView",
+				"methodTo":"updateView"
 			},
 			{
 				"type":"calls",
@@ -556,7 +556,7 @@
 				"methodFrom":"slotAjouter",
 
 				"classTo":"CursusEditor",
-				"methodTo":"updateView",
+				"methodTo":"updateView"
 			},
 			{
 				"type":"calls",
@@ -565,7 +565,7 @@
 				"methodFrom":"slotSupprimer",
 
 				"classTo":"CursusEditor",
-				"methodTo":"updateView",
+				"methodTo":"updateView"
 			},
 			{
 				"type":"calls",
@@ -574,7 +574,7 @@
 				"methodFrom":"slotSupprimer",
 
 				"classTo":"CursusManager",
-				"methodTo":"getInstance",
+				"methodTo":"getInstance"
 			},
 			{
 				"type":"calls",
@@ -583,7 +583,7 @@
 				"methodFrom":"slotSupprimer",
 
 				"classTo":"CursusManager",
-				"methodTo":"supprimerCursus",
+				"methodTo":"supprimerCursus"
 			},
 			{
 				"type":"calls",
@@ -592,7 +592,7 @@
 				"methodFrom":"slotSupprimer",
 
 				"classTo":"CursusSelector",
-				"methodTo":"resetFormations",
+				"methodTo":"resetFormations"
 			},
 			{
 				"type":"calls",
@@ -601,7 +601,7 @@
 				"methodFrom":"slotEditApplied",
 
 				"classTo":"Cursus",
-				"methodTo":"creationCursus",
+				"methodTo":"creationCursus"
 			},
 			{
 				"type":"calls",
@@ -610,7 +610,7 @@
 				"methodFrom":"slotEditApplied",
 
 				"classTo":"Formation",
-				"methodTo":"Formation",
+				"methodTo":"Formation"
 			},
 			{
 				"type":"calls",
@@ -619,7 +619,7 @@
 				"methodFrom":"slotEditApplied",
 
 				"classTo":"Mineur",
-				"methodTo":"Mineur",
+				"methodTo":"Mineur"
 			},
 			{
 				"type":"calls",
@@ -628,7 +628,7 @@
 				"methodFrom":"slotEditApplied",
 
 				"classTo":"CursusSelector",
-				"methodTo":"getSelectedCBB",
+				"methodTo":"getSelectedCBB"
 			},
 			{
 				"type":"calls",
@@ -637,7 +637,7 @@
 				"methodFrom":"slotEditApplied",
 
 				"classTo":"CursusSelector",
-				"methodTo":"resetSpecialites",
+				"methodTo":"resetSpecialites"
 			},
 			{
 				"type":"calls",
@@ -646,7 +646,7 @@
 				"methodFrom":"slotEditApplied",
 
 				"classTo":"CursusSelector",
-				"methodTo":"resetFilieres",
+				"methodTo":"resetFilieres"
 			},
 			{
 				"type":"calls",
@@ -655,7 +655,7 @@
 				"methodFrom":"slotEditApplied",
 
 				"classTo":"CursusSelector",
-				"methodTo":"resetFormations",
+				"methodTo":"resetFormations"
 			},
 			{
 				"type":"calls",
@@ -664,7 +664,7 @@
 				"methodFrom":"slotCancel",
 
 				"classTo":"CursusFillIn",
-				"methodTo":"cancelled",
+				"methodTo":"cancelled"
 			},
 			{
 				"type":"calls",
@@ -673,7 +673,7 @@
 				"methodFrom":"slotApply",
 
 				"classTo":"CursusFillIn",
-				"methodTo":"applied",
+				"methodTo":"applied"
 			},
 			{
 				"type":"references",
