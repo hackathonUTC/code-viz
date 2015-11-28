@@ -4,7 +4,8 @@ QT += qml quick
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    jsonparser.cpp
+    jsonparser.cpp \
+    datamodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -16,7 +17,8 @@ include(deployment.pri)
 <<<<<<< HEAD
 
 HEADERS += \
-    jsonparser.h
+    jsonparser.h \
+    datamodel.h
 
 =======
 >>>>>>> 358242089eef9a0fd25f3c73c8d1d12200ddfcfb
