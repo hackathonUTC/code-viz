@@ -555,27 +555,141 @@
 			"type":"calls",
 
 			"classFrom":"Mineur",
-			"methodFrom":"ajouterChoix",
+			"methodFrom":"creationCursus",
 
-			"classTo":"Choix",
-			"methodTo":"Choix"
-
+			"classTo":"Mineur",
+			"methodTo":"ajouterChoix"
 		},
 		{
-			"type":"",
+			"type":"calls",
 
+			"classFrom":"Formation",
+			"methodFrom":"Formation",
+
+			"classTo":"CursusManager",
+			"methodTo":"getInstance"
 		},
 		{
-			"type":"",
+			"type":"calls",
 
+			"classFrom":"Formation",
+			"methodFrom":"ajouterSpecialite",
+
+			"classTo":"Specialite",
+			"methodTo":"Specialite"
 		},
 		{
-			"type":"",
+			"type":"references",
 
+			"class":"Formation",
+			"method":"supprimerSpecialite",
+			"attribute":"specialites"
 		},
 		{
-			"type":"",
+			"type":"calls",
 
+			"classFrom":"Formation",
+			"methodFrom":"creationCursus",
+
+			"classTo":"Formation",
+			"methodTo":"ajouterSpecialite"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"Specialite",
+			"methodFrom":"Specialite",
+
+			"classTo":"CursusManager",
+			"methodTo":"getInstance"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"Specialite",
+			"methodFrom":"ajouterFiliere",
+
+			"classTo":"Filiere",
+			"methodTo":"Filiere"
+		},
+		{
+			"type":"references",
+
+			"class":"Specialite",
+			"method":"supprimerFiliere",
+			"attribute":"filieres"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"Specialite",
+			"methodFrom":"creationCursus",
+
+			"classTo":"Specialite",
+			"methodTo":"ajouterFiliere"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"Filiere",
+			"methodFrom":"Filiere",
+
+			"classTo":"CursusManager",
+			"methodTo":"getInstance"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"Filiere",
+			"methodFrom":"creationCursus",
+
+			"classTo":"Filiere",
+			"methodTo":"creationCursus"
+		},
+		{
+			"type":"references",
+
+			"class":"CursusManager",
+			"method":"freeInstance",
+			"attribute":"cursusManager"
+		},
+		{
+			"type":"references",
+
+			"class":"CursusManager",
+			"method":"addFormation",
+			"attribute":"formations"
+		},
+		{
+			"type":"references",
+
+			"class":"CursusManager",
+			"method":"addSpecialite",
+			"attribute":"specialites"
+		},
+		{
+			"type":"references",
+
+			"class":"CursusManager",
+			"method":"addFiliere",
+			"attribute":"filieres"
+		},
+		{
+			"type":"references",
+
+			"class":"CursusManager",
+			"method":"addMineur",
+			"attribute":"mineurs"
+		},
+		{
+			"type":"references",
+
+			"class":"CursusManager",
+			"method":"addCursus",
+			"attribute":"cursus"
+		},
+		{
+			
 		}
 	]
 }
