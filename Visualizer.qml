@@ -4,7 +4,7 @@ import QtQuick.Controls 1.2
 Item {
     id: root
 
-    property real zoom
+    property real zoom: 1.0
     property real distanceFromCenter: 400
 
 
@@ -29,6 +29,18 @@ Item {
         anchors.fill: parent
         contentWidth: 1000
         contentHeight: 1000
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                console.debug("Click on blank")
+            }
+
+            onWheel: {
+                console.debug("wheel = " + JSON.stringify(wheel.angleDelta))
+            }
+        }
+
         Repeater {
             id: repeater
             model: listModel
