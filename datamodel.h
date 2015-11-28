@@ -24,14 +24,14 @@ public:
             return &getInstance();
     }
 
-    QList<QObject*> queryClasses();
-    QList<QObject*> queryMethods(QString className);
-    QList<QObject*> queryAttributes(QString className);
+    Q_INVOKABLE QList<QObject*> queryClasses();
+    Q_INVOKABLE QList<QObject*> queryMethods(QString className);
+    Q_INVOKABLE QList<QObject*> queryAttributes(QString className);
 
-    QList<QObject*> queryCallsInsideClass(QString className);
-    QList<QObject*> queryCallsOutsideClass(QString className);
-    QList<QObject*> queryMethodReferences(QString className, QString methodName);
-    QList<QObject*> queryInherits(QString className);
+    Q_INVOKABLE QList<QObject*> queryCallsInsideClass(QString className);
+    Q_INVOKABLE QList<QObject*> queryCallsOutsideClass(QString className);
+    Q_INVOKABLE QList<QObject*> queryMethodReferences(QString className, QString methodName);
+    Q_INVOKABLE QList<QObject*> queryInherits(QString className);
 
 
 private:
