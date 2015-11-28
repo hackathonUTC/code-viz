@@ -30,6 +30,7 @@ Item {
             width: 100
             height: 150
             x: index * 200
+            title: "index = " + index
         }
 
     }

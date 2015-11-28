@@ -10,4 +10,3 @@ Window {
         anchors.fill: parent
     }
 }
-

@@ -1,8 +1,11 @@
 import QtQuick 2.0
+import Material 0.1
 
-Rectangle {
+
+View {
     id: root
 
+    elevation: 2
     property string title
     property var methods
     property var attributes
@@ -13,6 +16,9 @@ Rectangle {
         anchors.right: parent.right
         height: 50
         color: "purple"
+        Text {
+            text: root.title
+        }
     }
 
     Rectangle {
@@ -24,4 +30,3 @@ Rectangle {
         color: "green"
     }
 }
-
