@@ -1,28 +1,37 @@
 import QtQuick 2.0
+import codeviz 1.0
 
 Item {
     id: root
     property alias title: titleText.text
-    property double zoom: 6
+    property double zoom: 4
+    /*property var methods
+    property var attributes
+
+    Component.onCompleted: {
+        attributes = DataModel.queryAttributes(title);
+        methods = DataModel.queryMethods(title);
+    }*/
+
+
     property var methods: ListModel{
-        id:listMethods
-        ListElement{
-            name:"blabla"
-            visibility:"machin"
+            id:listMethods
+            ListElement{
+                name:"blabla"
+                visibility:"machin"
+            }
+            ListElement{
+                name:"method"
+                visibility:"public"
+            }
         }
-        ListElement{
-            name:"method"
-            visibility:"public2"
-        }
-    }//dataModel.queryMethods(title)
 
-
-    /*states: [State {name: "zeroZoom"
+    states: [State {name: "zeroZoom"
                     when: zoom > 5},
              State {name: "firstZoom"
                     when: zoom <= 5 && zoom > 2.5},
              State {name: "secondZoom"
-                    when: zoom <= 2.5}]*/
+                    when: zoom <= 2.5}]
 
 
 
@@ -37,7 +46,7 @@ Item {
             name:"method"
             type:"truc"
         }
-    }//dataModel.queryAttributes(title)
+    }
 
     Column {
         anchors.fill: parent
@@ -54,8 +63,8 @@ Item {
 
         Row {
             Column{
-                //visible: states == "zeroZoom"
-                width: titleContainer.width / 2
+                visible: root.state === "zeroZoom"
+                width: /*titleContainer.width / 2 */ root.state === "zeroZoom" ? titleContainer.width / 2 : 0
                 id: attributesContainer
                 Repeater{
                     model: attributes
@@ -68,15 +77,15 @@ Item {
                 }
             }
             Column{
-                width: titleContainer.width / 2//states == "zeroZoom" ? (titleContainer.width / 2) : titleContainer.width
-                //visible: !states == "secondZoom"
+                width: /*titleContainer.width / 2*/ root.state === "zeroZoom" ? titleContainer.width / 2 : titleContainer.width
+                visible: !(root.state === "secondZoom")
                 id: methodsContainer
                 Repeater{
                     model: methods
                     delegate:
                         Row{
                         Text{
-                            text: name + ":" + visibility//states == "oneZoom" ? (visibility == "public" ? name : "") : name + ":" + visibility
+                            text: /*name + ":" + visibility*/root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
                         }
                     }
                 }
