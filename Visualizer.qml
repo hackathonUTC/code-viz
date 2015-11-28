@@ -72,7 +72,7 @@ Item {
             model: listModel
             anchors.fill: parent
             delegate: ClassBox {
-                zoom: zoom
+                zoom: root.zoom
                 scale: zoom
 
                 Behavior on scale {
