@@ -1,11 +1,36 @@
 import QtQuick 2.0
-import Material 0.1
 
 Item {
     id: root
     property alias title: titleText.text
-    property var methods
-    property var attributes
+    property var methods: ListModel{
+        id:listMethods
+        ListElement{
+            name:"blabla"
+            visibility:"machin"
+        }
+        ListElement{
+            name:"method"
+            visibility:"public2"
+        }
+    }//dataModel.queryMethods(title)
+
+
+/*    states: [State {name: "zeroZoom"},
+             State {name: "firstZoom"},
+             State {name: "secondZoom"}]
+*/
+    property var attributes: ListModel{
+        id:listAttributes
+        ListElement{
+            name:"blabla"
+            type:"public"
+        }
+        ListElement{
+            name:"method"
+            type:"truc"
+        }
+    }//dataModel.queryAttributes(title)
 
     Column {
         anchors.fill: parent
@@ -21,25 +46,34 @@ Item {
         }
 
         Row {
-            Rectangle {
-                height: 100
+            Column{
                 width: titleContainer.width / 2
                 id: attributesContainer
-                color: "green"
+                //color: "green"
+                Repeater{
+                    model: attributes
+                    delegate:
+                        Row{
+                        Text{
+                            text: name + ":"+ type
+                        }
+                    }
+                }
             }
-            Rectangle {
-                height: 100
+            Column{
                 width: titleContainer.width / 2
                 id: methodsContainer
-                color: "red"
+                //color: "green"
+                Repeater{
+                    model: methods
+                    delegate:
+                        Row{
+                        Text{
+                            text: name + ":"+ visibility
+                        }
+                    }
+                }
             }
-        }
-
-        Rectangle {
-            id: instancesContainer
-            height: 150
-            width: titleContainer.width
-            color: "yellow"
         }
     }
 

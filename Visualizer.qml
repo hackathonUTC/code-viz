@@ -56,8 +56,6 @@ Item {
             }
         }
     }
-
-
     Button {
         anchors.centerIn: parent
         width: 50
