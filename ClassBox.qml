@@ -5,16 +5,16 @@ Item {
     id: root
     property alias title: titleText.text
     property double zoom: 4
-    /*property var methods
+    property var methods
     property var attributes
 
     Component.onCompleted: {
         attributes = DataModel.queryAttributes(title);
         methods = DataModel.queryMethods(title);
-    }*/
+    }
 
 
-    property var methods: ListModel{
+    /*property var methods: ListModel{
             id:listMethods
             ListElement{
                 name:"blabla"
@@ -24,7 +24,7 @@ Item {
                 name:"method"
                 visibility:"public"
             }
-        }
+        }*/
 
     states: [State {name: "zeroZoom"
                     when: zoom > 5},
@@ -36,7 +36,7 @@ Item {
 
 
 
-    property var attributes: ListModel{
+    /*property var attributes: ListModel{
         id:listAttributes
         ListElement{
             name:"blabla"
@@ -46,7 +46,7 @@ Item {
             name:"method"
             type:"truc"
         }
-    }
+    }*/
 
     Column {
         anchors.fill: parent
