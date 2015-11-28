@@ -1,997 +1,894 @@
 {
-	"id":"listClasses",
+	"listClasses":{
 	"classes":
-	[
-		{
-			"name":"Accueil",
-			"methods":
-			[
-				{
-					"name":"Accueil",
-					"visibility":"public"
-				},
-				{
-					"name":"slotSwitchedTab",
-					"visibility":"public"
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"cursusEditor",
-					"type":"CursusEditor"
-				},
-				{
-					"name":"uvEditor",
-					"type":"UVSelection"
-				},
-				{
-					"name":"dossierEditor",
-					"type":"DossierEditor"
-				}
-			]
-		},
-		{
-			"name":"Cursus",
-			"methods":
-			[
-				{
-					"name":"Cursus",
-					"visibility":"public"
-				},
-				{
-					"name":"nomClass",
-					"visibility":"public"
-				},
-				{
-					"name":"ajouterUV",
-					"visibility":"public"
-				},
-				{
-					"name":"supprimerUV",
-					"visibility":"public"
-				},
-				{
-					"name":"creationCursus",
-					"visibility":"public"
-				},
-				{
-					"name":"ajouterCreditsVectorCat",
-					"visibility":"public"
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"code",
-					"type":"String"
-				},
-				{
-					"name":"nom",
-					"type":"String"
-				},
-				{
-					"name":"description",
-					"type":"String"
-				},
-				{
-					"name":"duree",
-					"type":"int"
-				},
-				{
-					"name":"groupeUVs",
-					"type":"UV"
-				},
-				{
-					"name":"creditsVectorCat",
-					"type":"CreditsVectorCategorie"
-				}
-			]
-		},
-		{
-			"name":"Choix",
-			"methods":
-			[
-				{
-					"name":"Choix",
-					"visibility":"public"
-				},
-				{
-					"name":"ajouterUV",
-					"visibility":"public"
-				},
-				{
-					"name":"supprimerUV",
-					"visibility":"public"
-				},
-				{
-					"name":"hasUV",
-					"visibility":"public"
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"nbChoix",
-					"type":"int"
-				},
-				{
-					"name":"groupeUVs",
-					"type":"UV"
-				}
-			]
-		},
-		{
-			"name":"Mineur",
-			"methods":
-			[
-				{
-					"name":"Mineur",
-					"visibility":"public"
-				},
-				{
-					"name":"ajouterChoix",
-					"visibility":"public"
-				},
-				{
-					"name":"supprimerChoix",
-					"visibility":"public"
-				},
-				{
-					"name":"creationCursus",
-					"visibility":"public"
-				},
-				{
-					"name":"nomClass",
-					"visibility":"public"
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"choix",
-					"type":"Choix"
-				}
-			]
-		},
-		{
-			"name":"Formation",
-			"methods":
-			[
-				{
-					"name":"Formation",
-					"visibility":"public"
-				},
-				{
-					"name":"ajouterSpecialite",
-					"visibility":"public"
-				},
-				{
-					"name":"supprimerSpecialite",
-					"visibility":"public"
-				},
-				{
-					"name":"creationCursus",
-					"visibility":"public"
-				},
-				{
-					"name":"nomClass",
-					"visibility":"public"
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"specialites",
-					"type":"Specialite"
-				}
-			]
-		},
-		{
-			"name":"Specialite",
-			"methods":
-			[
-				{
-					"name":"Specialite",
-					"visibility":"public"
-				},
-				{
-					"name":"ajouterFiliere",
-					"visibility":"public"
-				},
-				{
-					"name":"supprimerFiliere",
-					"visibility":"public"
-				},
-				{
-					"name":"creationCursus",
-					"visibility":"public"
-				},
-				{
-					"name":"nomClass",
-					"visibility":"public"
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"filieres",
-					"type":"Filiere"
-				},
-				{
-					"name":"formation",
-					"type":"Formation"
-				}
-			]
-		},
-		{
-			"name":"Filiere",
-			"methods":
-			[
-				{
-					"name":"creationCursus",
-					"visibility":"public"
-				},
-				{
-					"name":"Filiere",
-					"visibility":"public"
-				},
-				{
-					"name":"nomClass",
-					"visibility":"public"
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"specialite",
-					"type":"Specialite"
-				},
-				{
-					"name":"isNull",
-					"type":"bool"
-				}
-			]
-		},
-		{
-			"name":"CursusManager",
-			"methods":
-			[
-				{
-					"name":"CursusManager",
-					"visibility":"private"
-				},
-				{
-					"name":"getInstance",
-					"visibility":"public"
-				},
-				{
-					"name":"freeInstance",
-					"visibility":"public"
-				},
-				{
-					"name":"addFormation",
-					"visibility":"public"
-				},
-				{
-					"name":"addSpecialite",
-					"visibility":"public"
-				},
-				{
-					"name":"addFiliere",
-					"visibility":"public"
-				},
-				{
-					"name":"addMineur",
-					"visibility":"public"
-				},
-				{
-					"name":"addCursus",
-					"visibility":"public"
-				},
-				{
-					"name":"save",
-					"visibility":"public"
-				},
-				{
-					"name":"load",
-					"visibility":"public"
-				},
-				{
-					"name":"supprimerCursus",
-					"visibility":"public"
-				},
-			],
-			"attributes":
-			[
-				{
-					"name":"cursusManager",
-					"type":"CursusManager"
-				},
-				{
-					"name":"formations",
-					"type":"Formation"
-				},
-				{
-					"name":"specialites",
-					"type":"Specialite"
-				},
-				{
-					"name":"filieres",
-					"type":"Filiere"
-				},
-				{
-					"name":"mineurs",
-					"type":"Mineur"
-				},
-				{
-					"name":"cursus",
-					"type":"Cursus"
-				},
-				{
-					"name":"file",
-					"type":"String"
-				}
-			]
-		},
-		{
-			"name":"",
-			"methods":
-			[
-				{
-					"name":"",
-					"visibility":""
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"",
-					"type":""
-				}
-			]
-		},
-		{
-			"name":"",
-			"methods":
-			[
-				{
-					"name":"",
-					"visibility":""
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"",
-					"type":""
-				}
-			]
-		},
-		{
-			"name":"",
-			"methods":
-			[
-				{
-					"name":"",
-					"visibility":""
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"",
-					"type":""
-				}
-			]
-		},
-		{
-			"name":"",
-			"methods":
-			[
-				{
-					"name":"",
-					"visibility":""
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"",
-					"type":""
-				}
-			]
-		},
-		{
-			"name":"",
-			"methods":
-			[
-				{
-					"name":"",
-					"visibility":""
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"",
-					"type":""
-				}
-			]
-		},
-		{
-			"name":"",
-			"methods":
-			[
-				{
-					"name":"",
-					"visibility":""
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"",
-					"type":""
-				}
-			]
-		}
-
-		{
-			"name":"CursusEditor",
-			"methods":
-			[
-				{
-					"name":"CursusEditor",
-					"visibility":"public"
-				},
-				{
-					"name":"disable",
-					"visibility":"public"
-				},
-				{
-					"name":"disable",
-					"visibility":"public"
-				},
-				{
-					"name":"updateView",
-					"visibility":"public"
-				},
-				{
-					"name":"slotCursusChanged",
-					"visibility":"public"
-				},
-				{
-					"name":"slotAjouter",
-					"visibility":"public"
-				},
-				{
-					"name":"slotSupprimer",
-					"visibility":"public"
-				},
-				{
-					"name":"slotEditCancelled",
-					"visibility":"public"
-				},
-				{
-					"name":"slotEditApplied",
-					"visibility":"public"
-				},
-				
-			],
-			"attributes":
-			[
-				{
-					"name":"currentCursus",
-					"type":"Cursus"
-				},
-				{
-					"name":"cursusSelector",
-					"type":"CursusSelector"
-				},
-				{
-					"name":"cursusFillIn",
-					"type":"CursusFillIn"
-				},
-				{
-					"name":"lastButtonClicked",
-					"type":"int"
-				},
-				{
-					"name":"createMode",
-					"type":"bool"
-				}
-			]
-		},
-		{
-			"name":"CursusFillIn",
-			"methods":
-			[
-				{
-					"name":"CursusFillIn",
-					"visibility":"public"
-				},
-				{
-					"name":"cancelled",
-					"visibility":"public"
-				},
-				{
-					"name":"applied",
-					"visibility":"public"
-				},
-				{
-					"name":"slotCancel",
-					"visibility":"public"
-				},
-				{
-					"name":"slotApply",
-					"visibility":"public"
-				}
-			],
-			"attributes":
-			[
-				{
-					"name":"parentCursus",
-					"type":"Cursus"
-				},
-			]
-		}
-	],
-},
-{
-	"id":"listLinks",
-	"links":
-	[
-		{
-			"type":"calls",
-
-			"classFrom":"Accueil",
-			"methodFrom":"slotSwitchedTab",
-
-			"classTo":"CursusEditor",
-			"methodTo":"update"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Accueil",
-			"methodFrom":"slotSwitchedTab",
-
-			"classTo":"UVSelection",
-			"methodTo":"update"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Accueil",
-			"methodFrom":"slotSwitchedTab",
-
-			"classTo":"DossierEditor",
-			"methodTo":"update"
-		},
-{
-			"type":"references",
-
-			"class":"Accueil",
-			"method":"slotSwitchedTab",
-			"attribute":"cursusEditor"
-		},
-		{
-			"type":"references",
-
-			"class":"Accueil",
-			"method":"slotSwitchedTab",
-			"attribute":"uvEditor"
-		},
-		{
-			"type":"references",
-
-			"class":"Accueil",
-			"method":"slotSwitchedTab",
-			"attribute":"dossierEditor"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"CursusEditor",
-
-			"classTo":"CursusSelector",
-			"methodTo":"CursusSelector"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"CursusEditor",
-
-			"classTo":"CursusFillIn",
-			"methodTo":"CursusFillIn"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"cancelled",
-
-			"classTo":"CursusEditor",
-			"methodTo":"slotEditCancelled"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"applied",
-
-			"classTo":"CursusEditor",
-			"methodTo":"slotEditApplied"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"CursusEditor",
-
-			"classTo":"CursusEditor",
-			"methodTo":"updateView"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"updateView",
-
-			"classTo":"CursusFillIn",
-			"methodTo":"enableCursusType"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotCursusChanged",
-
-			"classTo":"CursusEditor",
-			"methodTo":"updateView",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotAjouter",
-
-			"classTo":"CursusEditor",
-			"methodTo":"updateView",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotSupprimer",
-
-			"classTo":"CursusEditor",
-			"methodTo":"updateView",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotSupprimer",
-
-			"classTo":"CursusManager",
-			"methodTo":"getInstance",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotSupprimer",
-
-			"classTo":"CursusManager",
-			"methodTo":"supprimerCursus",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotSupprimer",
-
-			"classTo":"CursusSelector",
-			"methodTo":"resetFormations",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotEditApplied",
-
-			"classTo":"Cursus",
-			"methodTo":"creationCursus",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotEditApplied",
-
-			"classTo":"Formation",
-			"methodTo":"Formation",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotEditApplied",
-
-			"classTo":"Mineur",
-			"methodTo":"Mineur",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotEditApplied",
-
-			"classTo":"CursusSelector",
-			"methodTo":"getSelectedCBB",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotEditApplied",
-
-			"classTo":"CursusSelector",
-			"methodTo":"resetSpecialites",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotEditApplied",
-
-			"classTo":"CursusSelector",
-			"methodTo":"resetFilieres",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusEditor",
-			"methodFrom":"slotEditApplied",
-
-			"classTo":"CursusSelector",
-			"methodTo":"resetFormations",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusFillIn",
-			"methodFrom":"slotCancel",
-
-			"classTo":"CursusFillIn",
-			"methodTo":"cancelled",
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"CursusFillIn",
-			"methodFrom":"slotApply",
-
-			"classTo":"CursusFillIn",
-			"methodTo":"applied",
-		},
-		{
-			"type":"references",
-
-			"class":"Cursus",
-			"method":"ajouterUV",
-			"attribute":"groupeUVs"
-		},
-		{
-			"type":"references",
-
-			"class":"Cursus",
-			"method":"supprimerUV",
-			"attribute":"groupeUVs"
-		},
-		{
-			"type":"references",
-
-			"class":"Cursus",
-			"method":"ajouterCreditsVectorCat",
-			"attribute":"groupeUVs"
-		},
-		{
-			"type":"references",
-
-			"class":"Choix",
-			"method":"ajouterUV",
-			"attribute":"groupeUVs"
-		},
-		{
-			"type":"references",
-
-			"class":"Choix",
-			"method":"supprimerUV",
-			"attribute":"groupeUVs"
-		},
-		{
-			"type":"inherits",
-
-			"classFrom":"Mineur",
-			"classTo":"Cursus"
-		},
-		{
-			"type":"inherits",
-
-			"classFrom":"Formation",
-			"classTo":"Cursus"
-		},
-		{
-			"type":"inherits",
-
-			"classFrom":"Specialite",
-			"classTo":"Cursus"
-		},
-		{
-			"type":"inherits",
-
-			"classFrom":"Filiere",
-			"classTo":"Cursus"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Mineur",
-			"methodFrom":"Mineur",
-
-			"classTo":"CursusManager",
-			"methodTo":"getInstance"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Mineur",
-			"methodFrom":"ajouterChoix",
-
-			"classTo":"Choix",
-			"methodTo":"Choix"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Mineur",
-			"methodFrom":"creationCursus",
-
-			"classTo":"Mineur",
-			"methodTo":"ajouterChoix"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Formation",
-			"methodFrom":"Formation",
-
-			"classTo":"CursusManager",
-			"methodTo":"getInstance"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Formation",
-			"methodFrom":"ajouterSpecialite",
-
-			"classTo":"Specialite",
-			"methodTo":"Specialite"
-		},
-		{
-			"type":"references",
-
-			"class":"Formation",
-			"method":"supprimerSpecialite",
-			"attribute":"specialites"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Formation",
-			"methodFrom":"creationCursus",
-
-			"classTo":"Formation",
-			"methodTo":"ajouterSpecialite"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Specialite",
-			"methodFrom":"Specialite",
-
-			"classTo":"CursusManager",
-			"methodTo":"getInstance"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Specialite",
-			"methodFrom":"ajouterFiliere",
-
-			"classTo":"Filiere",
-			"methodTo":"Filiere"
-		},
-		{
-			"type":"references",
-
-			"class":"Specialite",
-			"method":"supprimerFiliere",
-			"attribute":"filieres"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Specialite",
-			"methodFrom":"creationCursus",
-
-			"classTo":"Specialite",
-			"methodTo":"ajouterFiliere"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Filiere",
-			"methodFrom":"Filiere",
-
-			"classTo":"CursusManager",
-			"methodTo":"getInstance"
-		},
-		{
-			"type":"calls",
-
-			"classFrom":"Filiere",
-			"methodFrom":"creationCursus",
-
-			"classTo":"Filiere",
-			"methodTo":"creationCursus"
-		},
-		{
-			"type":"references",
-
-			"class":"CursusManager",
-			"method":"freeInstance",
-			"attribute":"cursusManager"
-		},
-		{
-			"type":"references",
-
-			"class":"CursusManager",
-			"method":"addFormation",
-			"attribute":"formations"
-		},
-		{
-			"type":"references",
-
-			"class":"CursusManager",
-			"method":"addSpecialite",
-			"attribute":"specialites"
-		},
-		{
-			"type":"references",
-
-			"class":"CursusManager",
-			"method":"addFiliere",
-			"attribute":"filieres"
-		},
-		{
-			"type":"references",
-
-			"class":"CursusManager",
-			"method":"addMineur",
-			"attribute":"mineurs"
-		},
-		{
-			"type":"references",
-
-			"class":"CursusManager",
-			"method":"addCursus",
-			"attribute":"cursus"
-		}
-	]
+		[
+			{
+				"name":"Accueil",
+				"methods":
+				[
+					{
+						"name":"Accueil",
+						"visibility":"public"
+					},
+					{
+						"name":"slotSwitchedTab",
+						"visibility":"public"
+					}
+				],
+				"attributes":
+				[
+					{
+						"name":"cursusEditor",
+						"type":"CursusEditor"
+					},
+					{
+						"name":"uvEditor",
+						"type":"UVSelection"
+					},
+					{
+						"name":"dossierEditor",
+						"type":"DossierEditor"
+					}
+				]
+			},
+			{
+				"name":"Cursus",
+				"methods":
+				[
+					{
+						"name":"Cursus",
+						"visibility":"public"
+					},
+					{
+						"name":"nomClass",
+						"visibility":"public"
+					},
+					{
+						"name":"ajouterUV",
+						"visibility":"public"
+					},
+					{
+						"name":"supprimerUV",
+						"visibility":"public"
+					},
+					{
+						"name":"creationCursus",
+						"visibility":"public"
+					},
+					{
+						"name":"ajouterCreditsVectorCat",
+						"visibility":"public"
+					}
+				],
+				"attributes":
+				[
+					{
+						"name":"code",
+						"type":"String"
+					},
+					{
+						"name":"nom",
+						"type":"String"
+					},
+					{
+						"name":"description",
+						"type":"String"
+					},
+					{
+						"name":"duree",
+						"type":"int"
+					},
+					{
+						"name":"groupeUVs",
+						"type":"UV"
+					},
+					{
+						"name":"creditsVectorCat",
+						"type":"CreditsVectorCategorie"
+					}
+				]
+			},
+			{
+				"name":"Choix",
+				"methods":
+				[
+					{
+						"name":"Choix",
+						"visibility":"public"
+					},
+					{
+						"name":"ajouterUV",
+						"visibility":"public"
+					},
+					{
+						"name":"supprimerUV",
+						"visibility":"public"
+					},
+					{
+						"name":"hasUV",
+						"visibility":"public"
+					}
+				],
+				"attributes":
+				[
+					{
+						"name":"nbChoix",
+						"type":"int"
+					},
+					{
+						"name":"groupeUVs",
+						"type":"UV"
+					}
+				]
+			},
+			{
+				"name":"Mineur",
+				"methods":
+				[
+					{
+						"name":"Mineur",
+						"visibility":"public"
+					},
+					{
+						"name":"ajouterChoix",
+						"visibility":"public"
+					},
+					{
+						"name":"supprimerChoix",
+						"visibility":"public"
+					},
+					{
+						"name":"creationCursus",
+						"visibility":"public"
+					},
+					{
+						"name":"nomClass",
+						"visibility":"public"
+					}
+				],
+				"attributes":
+				[
+					{
+						"name":"choix",
+						"type":"Choix"
+					}
+				]
+			},
+			{
+				"name":"Formation",
+				"methods":
+				[
+					{
+						"name":"Formation",
+						"visibility":"public"
+					},
+					{
+						"name":"ajouterSpecialite",
+						"visibility":"public"
+					},
+					{
+						"name":"supprimerSpecialite",
+						"visibility":"public"
+					},
+					{
+						"name":"creationCursus",
+						"visibility":"public"
+					},
+					{
+						"name":"nomClass",
+						"visibility":"public"
+					}
+				],
+				"attributes":
+				[
+					{
+						"name":"specialites",
+						"type":"Specialite"
+					}
+				]
+			},
+			{
+				"name":"Specialite",
+				"methods":
+				[
+					{
+						"name":"Specialite",
+						"visibility":"public"
+					},
+					{
+						"name":"ajouterFiliere",
+						"visibility":"public"
+					},
+					{
+						"name":"supprimerFiliere",
+						"visibility":"public"
+					},
+					{
+						"name":"creationCursus",
+						"visibility":"public"
+					},
+					{
+						"name":"nomClass",
+						"visibility":"public"
+					}
+				],
+				"attributes":
+				[
+					{
+						"name":"filieres",
+						"type":"Filiere"
+					},
+					{
+						"name":"formation",
+						"type":"Formation"
+					}
+				]
+			},
+			{
+				"name":"Filiere",
+				"methods":
+				[
+					{
+						"name":"creationCursus",
+						"visibility":"public"
+					},
+					{
+						"name":"Filiere",
+						"visibility":"public"
+					},
+					{
+						"name":"nomClass",
+						"visibility":"public"
+					}
+				],
+				"attributes":
+				[
+					{
+						"name":"specialite",
+						"type":"Specialite"
+					},
+					{
+						"name":"isNull",
+						"type":"bool"
+					}
+				]
+			},
+			{
+				"name":"CursusManager",
+				"methods":
+				[
+					{
+						"name":"CursusManager",
+						"visibility":"private"
+					},
+					{
+						"name":"getInstance",
+						"visibility":"public"
+					},
+					{
+						"name":"freeInstance",
+						"visibility":"public"
+					},
+					{
+						"name":"addFormation",
+						"visibility":"public"
+					},
+					{
+						"name":"addSpecialite",
+						"visibility":"public"
+					},
+					{
+						"name":"addFiliere",
+						"visibility":"public"
+					},
+					{
+						"name":"addMineur",
+						"visibility":"public"
+					},
+					{
+						"name":"addCursus",
+						"visibility":"public"
+					},
+					{
+						"name":"save",
+						"visibility":"public"
+					},
+					{
+						"name":"load",
+						"visibility":"public"
+					},
+					{
+						"name":"supprimerCursus",
+						"visibility":"public"
+					},
+				],
+				"attributes":
+				[
+					{
+						"name":"cursusManager",
+						"type":"CursusManager"
+					},
+					{
+						"name":"formations",
+						"type":"Formation"
+					},
+					{
+						"name":"specialites",
+						"type":"Specialite"
+					},
+					{
+						"name":"filieres",
+						"type":"Filiere"
+					},
+					{
+						"name":"mineurs",
+						"type":"Mineur"
+					},
+					{
+						"name":"cursus",
+						"type":"Cursus"
+					},
+					{
+						"name":"file",
+						"type":"String"
+					}
+				]
+			},
+			{
+				"name":"CursusEditor",
+				"methods":
+				[
+					{
+						"name":"CursusEditor",
+						"visibility":"public"
+					},
+					{
+						"name":"disable",
+						"visibility":"public"
+					},
+					{
+						"name":"disable",
+						"visibility":"public"
+					},
+					{
+						"name":"updateView",
+						"visibility":"public"
+					},
+					{
+						"name":"slotCursusChanged",
+						"visibility":"public"
+					},
+					{
+						"name":"slotAjouter",
+						"visibility":"public"
+					},
+					{
+						"name":"slotSupprimer",
+						"visibility":"public"
+					},
+					{
+						"name":"slotEditCancelled",
+						"visibility":"public"
+					},
+					{
+						"name":"slotEditApplied",
+						"visibility":"public"
+					},
+					
+				],
+				"attributes":
+				[
+					{
+						"name":"currentCursus",
+						"type":"Cursus"
+					},
+					{
+						"name":"cursusSelector",
+						"type":"CursusSelector"
+					},
+					{
+						"name":"cursusFillIn",
+						"type":"CursusFillIn"
+					},
+					{
+						"name":"lastButtonClicked",
+						"type":"int"
+					},
+					{
+						"name":"createMode",
+						"type":"bool"
+					}
+				]
+			},
+			{
+				"name":"CursusFillIn",
+				"methods":
+				[
+					{
+						"name":"CursusFillIn",
+						"visibility":"public"
+					},
+					{
+						"name":"cancelled",
+						"visibility":"public"
+					},
+					{
+						"name":"applied",
+						"visibility":"public"
+					},
+					{
+						"name":"slotCancel",
+						"visibility":"public"
+					},
+					{
+						"name":"slotApply",
+						"visibility":"public"
+					}
+				],
+				"attributes":
+				[
+					{
+						"name":"parentCursus",
+						"type":"Cursus"
+					},
+				]
+			}
+		],
+	},
+	"listLinks":{
+		"links":
+		[
+			{
+				"type":"calls",
+
+				"classFrom":"Accueil",
+				"methodFrom":"slotSwitchedTab",
+
+				"classTo":"CursusEditor",
+				"methodTo":"update"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Accueil",
+				"methodFrom":"slotSwitchedTab",
+
+				"classTo":"UVSelection",
+				"methodTo":"update"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Accueil",
+				"methodFrom":"slotSwitchedTab",
+
+				"classTo":"DossierEditor",
+				"methodTo":"update"
+			},
+			{
+				"type":"references",
+
+				"class":"Accueil",
+				"method":"slotSwitchedTab",
+				"attribute":"cursusEditor"
+			},
+			{
+				"type":"references",
+
+				"class":"Accueil",
+				"method":"slotSwitchedTab",
+				"attribute":"uvEditor"
+			},
+			{
+				"type":"references",
+
+				"class":"Accueil",
+				"method":"slotSwitchedTab",
+				"attribute":"dossierEditor"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"CursusEditor",
+
+				"classTo":"CursusSelector",
+				"methodTo":"CursusSelector"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"CursusEditor",
+
+				"classTo":"CursusFillIn",
+				"methodTo":"CursusFillIn"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"cancelled",
+
+				"classTo":"CursusEditor",
+				"methodTo":"slotEditCancelled"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"applied",
+
+				"classTo":"CursusEditor",
+				"methodTo":"slotEditApplied"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"CursusEditor",
+
+				"classTo":"CursusEditor",
+				"methodTo":"updateView"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"updateView",
+
+				"classTo":"CursusFillIn",
+				"methodTo":"enableCursusType"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotCursusChanged",
+
+				"classTo":"CursusEditor",
+				"methodTo":"updateView",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotAjouter",
+
+				"classTo":"CursusEditor",
+				"methodTo":"updateView",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotSupprimer",
+
+				"classTo":"CursusEditor",
+				"methodTo":"updateView",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotSupprimer",
+
+				"classTo":"CursusManager",
+				"methodTo":"getInstance",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotSupprimer",
+
+				"classTo":"CursusManager",
+				"methodTo":"supprimerCursus",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotSupprimer",
+
+				"classTo":"CursusSelector",
+				"methodTo":"resetFormations",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotEditApplied",
+
+				"classTo":"Cursus",
+				"methodTo":"creationCursus",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotEditApplied",
+
+				"classTo":"Formation",
+				"methodTo":"Formation",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotEditApplied",
+
+				"classTo":"Mineur",
+				"methodTo":"Mineur",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotEditApplied",
+
+				"classTo":"CursusSelector",
+				"methodTo":"getSelectedCBB",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotEditApplied",
+
+				"classTo":"CursusSelector",
+				"methodTo":"resetSpecialites",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotEditApplied",
+
+				"classTo":"CursusSelector",
+				"methodTo":"resetFilieres",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusEditor",
+				"methodFrom":"slotEditApplied",
+
+				"classTo":"CursusSelector",
+				"methodTo":"resetFormations",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusFillIn",
+				"methodFrom":"slotCancel",
+
+				"classTo":"CursusFillIn",
+				"methodTo":"cancelled",
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"CursusFillIn",
+				"methodFrom":"slotApply",
+
+				"classTo":"CursusFillIn",
+				"methodTo":"applied",
+			},
+			{
+				"type":"references",
+
+				"class":"Cursus",
+				"method":"ajouterUV",
+				"attribute":"groupeUVs"
+			},
+			{
+				"type":"references",
+
+				"class":"Cursus",
+				"method":"supprimerUV",
+				"attribute":"groupeUVs"
+			},
+			{
+				"type":"references",
+
+				"class":"Cursus",
+				"method":"ajouterCreditsVectorCat",
+				"attribute":"groupeUVs"
+			},
+			{
+				"type":"references",
+
+				"class":"Choix",
+				"method":"ajouterUV",
+				"attribute":"groupeUVs"
+			},
+			{
+				"type":"references",
+
+				"class":"Choix",
+				"method":"supprimerUV",
+				"attribute":"groupeUVs"
+			},
+			{
+				"type":"inherits",
+
+				"classFrom":"Mineur",
+				"classTo":"Cursus"
+			},
+			{
+				"type":"inherits",
+
+				"classFrom":"Formation",
+				"classTo":"Cursus"
+			},
+			{
+				"type":"inherits",
+
+				"classFrom":"Specialite",
+				"classTo":"Cursus"
+			},
+			{
+				"type":"inherits",
+
+				"classFrom":"Filiere",
+				"classTo":"Cursus"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Mineur",
+				"methodFrom":"Mineur",
+
+				"classTo":"CursusManager",
+				"methodTo":"getInstance"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Mineur",
+				"methodFrom":"ajouterChoix",
+
+				"classTo":"Choix",
+				"methodTo":"Choix"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Mineur",
+				"methodFrom":"creationCursus",
+
+				"classTo":"Mineur",
+				"methodTo":"ajouterChoix"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Formation",
+				"methodFrom":"Formation",
+
+				"classTo":"CursusManager",
+				"methodTo":"getInstance"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Formation",
+				"methodFrom":"ajouterSpecialite",
+
+				"classTo":"Specialite",
+				"methodTo":"Specialite"
+			},
+			{
+				"type":"references",
+
+				"class":"Formation",
+				"method":"supprimerSpecialite",
+				"attribute":"specialites"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Formation",
+				"methodFrom":"creationCursus",
+
+				"classTo":"Formation",
+				"methodTo":"ajouterSpecialite"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Specialite",
+				"methodFrom":"Specialite",
+
+				"classTo":"CursusManager",
+				"methodTo":"getInstance"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Specialite",
+				"methodFrom":"ajouterFiliere",
+
+				"classTo":"Filiere",
+				"methodTo":"Filiere"
+			},
+			{
+				"type":"references",
+
+				"class":"Specialite",
+				"method":"supprimerFiliere",
+				"attribute":"filieres"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Specialite",
+				"methodFrom":"creationCursus",
+
+				"classTo":"Specialite",
+				"methodTo":"ajouterFiliere"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Filiere",
+				"methodFrom":"Filiere",
+
+				"classTo":"CursusManager",
+				"methodTo":"getInstance"
+			},
+			{
+				"type":"calls",
+
+				"classFrom":"Filiere",
+				"methodFrom":"creationCursus",
+
+				"classTo":"Filiere",
+				"methodTo":"creationCursus"
+			},
+			{
+				"type":"references",
+
+				"class":"CursusManager",
+				"method":"freeInstance",
+				"attribute":"cursusManager"
+			},
+			{
+				"type":"references",
+
+				"class":"CursusManager",
+				"method":"addFormation",
+				"attribute":"formations"
+			},
+			{
+				"type":"references",
+
+				"class":"CursusManager",
+				"method":"addSpecialite",
+				"attribute":"specialites"
+			},
+			{
+				"type":"references",
+
+				"class":"CursusManager",
+				"method":"addFiliere",
+				"attribute":"filieres"
+			},
+			{
+				"type":"references",
+
+				"class":"CursusManager",
+				"method":"addMineur",
+				"attribute":"mineurs"
+			},
+			{
+				"type":"references",
+
+				"class":"CursusManager",
+				"method":"addCursus",
+				"attribute":"cursus"
+			}
+		]
+	}
 }
