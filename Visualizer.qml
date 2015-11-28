@@ -5,8 +5,7 @@ Item {
     id: root
 
     property real zoom: 1.0
-    property real distanceFromCenter: 400
-
+    property real distanceFromCenter: 400 * zoom
 
     ListModel {
         id: listModel
@@ -26,14 +25,31 @@ Item {
 
     Flickable {
         id: flickable
+        focus: true
         anchors.fill: parent
-        contentWidth: 1000
-        contentHeight: 1000
+        contentWidth: 1000 * zoom
+        contentHeight: contentWidth
+        onContentWidthChanged: {
+            console.debug("content width = " + contentWidth);
+        }
+
+//        Rectangle {
+//            width: flickable.contentWidth
+//            height: flickable.contentHeight
+//            color: "red"
+//            opacity: 0.7
+//        }
 
         MouseArea {
-            anchors.fill: parent
+            width: flickable.contentWidth
+            height: flickable.contentHeight
             onClicked: {
                 console.debug("Click on blank")
+            }
+
+            onDoubleClicked: {
+                console.debug("double click")
+                ++zoom;
             }
 
             onWheel: {
@@ -46,6 +62,21 @@ Item {
             model: listModel
             anchors.fill: parent
             delegate: ClassBox {
+                scale: zoom
+                Behavior on scale {
+                    NumberAnimation {
+
+                    }
+                }
+
+                Behavior on x {
+                    NumberAnimation { }
+                }
+
+                Behavior on y {
+                    NumberAnimation { }
+                }
+
                 width: 150
                 height: 250
                 x: (root.width - width) / 2.0 -
