@@ -4,8 +4,10 @@ import codeviz 1.0
 Item {
     id: root
     property alias title: titleText.text
-    property double zoom: 4
+
+    property double zoom: 1.0
     property var methods
+
     property var attributes
 
     Component.onCompleted: {

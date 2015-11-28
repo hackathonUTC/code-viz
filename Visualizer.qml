@@ -1,11 +1,18 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 
+import codeviz 1.0
+
 Item {
     id: root
 
     property real zoom: 1.0
-    property real distanceFromCenter: 400 * zoom
+    property real distanceFromCenter: 350 * zoom
+
+    Component.onCompleted: {
+        console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
+        listModel.append(DataModel.queryClasses());
+    }
 
     ListModel {
         id: listModel
@@ -19,7 +26,6 @@ Item {
             property var attributes;
             property var methods;
             property var inheritsFrom;
-
         }
     }
 
@@ -49,7 +55,9 @@ Item {
             }
 
             onDoubleClicked: {
-                console.debug("double click");
+                var mousePoint = Qt.point(mouse.x, mouse.y);
+                console.debug("MAP " + mapToItem(flickable.contentItem, mouse.x, mouse.y))
+                console.debug("double click " + mouse.x + " ; " + mouse.y);
                 ++zoom;
             }
 
@@ -64,7 +72,7 @@ Item {
             model: listModel
             anchors.fill: parent
             delegate: ClassBox {
-                zoom: zoom
+                zoom: root.zoom
                 scale: zoom
 
                 Behavior on scale {
@@ -87,30 +95,8 @@ Item {
                    + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                 y: (flickable.contentHeight - height) / 2.0
                     + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
-                title: className
+                title: name
             }
-        }
-    }
-    Button {
-        anchors.centerIn: parent
-        width: 50
-        height: 50
-
-        onClicked: {
-            console.debug("clicked")
-            var newAttributes = {"test": "real",
-                    "aaa":"string"};
-            var newMethods = {
-                "foo": "bar"
-            };
-            var newElement = cListElement.createObject(root, {
-                className: "firstClass",
-                attributes: newAttributes,
-                methods: newMethods
-            });
-            listModel.append(newElement);
-
-            console.debug(JSON.stringify(newElement))
         }
     }
 }
