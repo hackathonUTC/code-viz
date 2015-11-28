@@ -1,14 +1,14 @@
 import QtQuick 2.0
 import Material 0.1
 
-View {
+Item {
     id: root
-    elevation: 2
     property alias title: titleText.text
     property var methods
     property var attributes
 
     Column {
+        anchors.fill: parent
         Rectangle {
             id: titleContainer
             anchors.left: parent.left
@@ -41,6 +41,13 @@ View {
             width: titleContainer.width
             color: "yellow"
         }
+    }
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            console.debug("Click on box " + title)
+        }
     }
 }
+
