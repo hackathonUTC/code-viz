@@ -4,5 +4,5 @@
         <file>MainForm.ui.qml</file>
         <file>Visualizer.qml</file>
         <file>ClassBox.qml</file>
-    </qresource>
+        <file>model.qml</file>    </qresource>
 </RCC>
