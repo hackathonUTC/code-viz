@@ -5,8 +5,7 @@ Item {
     id: root
 
     property real zoom: 1.0
-    property real distanceFromCenter: 400
-
+    property real distanceFromCenter: 400 * zoom
 
     ListModel {
         id: listModel
@@ -26,18 +25,37 @@ Item {
 
     Flickable {
         id: flickable
+        focus: true
         anchors.fill: parent
-        contentWidth: 1000
-        contentHeight: 1000
+        contentWidth: parent.width * zoom
+        contentHeight: parent.height * zoom
+
+        Rectangle {
+            width: flickable.contentWidth
+            height: flickable.contentHeight
+            color: "red"
+            opacity: 0.7
+        }
 
         MouseArea {
-            anchors.fill: parent
+            width: flickable.contentWidth
+            height: flickable.contentHeight
             onClicked: {
-                console.debug("Click on blank")
+                if (mouse.button === Qt.RightButton) {
+                    console.debug("Click right on blank")
+                } else if (mouse.button === Qt.LeftButton) {
+                    console.debug("Click left on blank")
+                }
+            }
+
+            onDoubleClicked: {
+                console.debug("double click");
+                ++zoom;
             }
 
             onWheel: {
-                console.debug("wheel = " + JSON.stringify(wheel.angleDelta))
+                console.debug("dezoom")
+                zoom = Math.max(1.0, zoom - 1);
             }
         }
 
@@ -122,18 +140,32 @@ Item {
                 }
             }
             delegate: ClassBox {
+                scale: zoom
+
+                Behavior on scale {
+                    NumberAnimation {
+
+                    }
+                }
+
+                Behavior on x {
+                    NumberAnimation { }
+                }
+
+                Behavior on y {
+                    NumberAnimation { }
+                }
+
                 width: 150
                 height: 250
-                x: (root.width - width) / 2.0 -
+                x: (flickable.contentWidth - width) / 2.0 -
                    + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
-                y: (root.height - height) / 2.0
+                y: (flickable.contentHeight - height) / 2.0
                     + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                 title: className
             }
         }
     }
-
-
     Button {
         anchors.centerIn: parent
         width: 50

@@ -71,13 +71,15 @@ QJsonArray JsonParser::listClassMethods(QString classRequested)
     return result;
 }
 
-QJsonArray JsonParser::listLinksCalls()
+QJsonArray JsonParser::listLinksCallsInside(QString classRequested)
 {
     QJsonArray result;
     foreach (const QJsonValue & value, _linksArray) {
         QJsonObject obj = value.toObject();
 
-        if (obj["type"].toString() == "calls")
+        if (obj["type"].toString() == "calls"
+                && obj["classFrom"].toString() == classRequested
+                && obj["classFrom"].toString() == obj["classTo"].toString())
         {
             result.append(obj);
         }
@@ -85,13 +87,15 @@ QJsonArray JsonParser::listLinksCalls()
     return result;
 }
 
-QJsonArray JsonParser::listLinksReferences()
+QJsonArray JsonParser::listLinksCallsOutside(QString classRequested)
 {
     QJsonArray result;
     foreach (const QJsonValue & value, _linksArray) {
         QJsonObject obj = value.toObject();
 
-        if (obj["type"].toString() == "references")
+        if (obj["type"].toString() == "calls"
+                && obj["classFrom"].toString() == classRequested
+                && obj["classFrom"].toString() != obj["classTo"].toString())
         {
             result.append(obj);
         }
@@ -99,13 +103,30 @@ QJsonArray JsonParser::listLinksReferences()
     return result;
 }
 
-QJsonArray JsonParser::listLinksInherits()
+QJsonArray JsonParser::listLinksReferences(QString classRequested, QString methodName)
 {
     QJsonArray result;
     foreach (const QJsonValue & value, _linksArray) {
         QJsonObject obj = value.toObject();
 
-        if (obj["type"].toString() == "inherits")
+        if (obj["type"].toString() == "references"
+                && obj["class"].toString() == classRequested
+                && obj["method"].toString() == methodName)
+        {
+            result.append(obj);
+        }
+    }
+    return result;
+}
+
+QJsonArray JsonParser::listLinksInherits(QString classRequested)
+{
+    QJsonArray result;
+    foreach (const QJsonValue & value, _linksArray) {
+        QJsonObject obj = value.toObject();
+
+        if (obj["type"].toString() == "inherits"
+                && obj["classFrom"].toString() == classRequested)
         {
             result.append(obj);
         }
