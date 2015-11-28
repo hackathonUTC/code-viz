@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
-        <file>model.qml</file>
-    </qresource>
+        <file>Visualizer.qml</file>
+        <file>ClassBox.qml</file>
+        <file>model.qml</file>    </qresource>
 </RCC>
