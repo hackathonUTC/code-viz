@@ -55,7 +55,7 @@ JsonParser::JsonParser()
     QJsonValue classes = listClassesObject.value(QString("classes"));
     QJsonArray classesArray = classes.toArray();
 
-    qDebug() << fullData;
+    qDebug() << d;
 
 
 
