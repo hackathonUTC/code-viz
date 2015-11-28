@@ -1,10 +1,7 @@
 #include "datamodel.h"
 
-#include <QObject>
-
-DataModel::DataModel() : public QObject
+DataModel::DataModel()
 {
-    Q_OBJECT;
 
 }
 
