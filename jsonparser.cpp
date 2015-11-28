@@ -37,7 +37,6 @@ JsonParser::JsonParser()
     file.setFileName("code_model.json");
     file.open(QIODevice::ReadOnly);
     val = file.readAll();
-    qDebug() << val;
     file.close();
 
     QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
@@ -55,6 +54,8 @@ JsonParser::JsonParser()
 
     QJsonValue classes = listClassesObject.value(QString("classes"));
     QJsonArray classesArray = classes.toArray();
+
+    qDebug() << fullData;
 
 
 
