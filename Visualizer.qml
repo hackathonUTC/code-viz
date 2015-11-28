@@ -27,8 +27,8 @@ Item {
         model: listModel
         anchors.fill: parent
         delegate: ClassBox {
-            width: 100
-            height: 150
+            width: 150
+            height: 250
             x: index * 200
             title: "index = " + index
         }
