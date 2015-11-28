@@ -7,10 +7,12 @@
 			"methods":
 			[
 				{
-					"name":"Accueil"
+					"name":"Accueil",
+					"visibility":"public"
 				},
 				{
-					"name":"slotSwitchedTab"
+					"name":"slotSwitchedTab",
+					"visibility":"public"
 				}
 			],
 			"attributes":
@@ -30,6 +32,106 @@
 			]
 		},
 
+
+		{
+			"name":"CursusEditor",
+			"methods":
+			[
+				{
+					"name":"CursusEditor",
+					"visibility":"public"
+				},
+				{
+					"name":"disable",
+					"visibility":"public"
+				},
+				{
+					"name":"disable",
+					"visibility":"public"
+				},
+				{
+					"name":"updateView",
+					"visibility":"public"
+				},
+				{
+					"name":"slotCursusChanged",
+					"visibility":"public"
+				},
+				{
+					"name":"slotAjouter",
+					"visibility":"public"
+				},
+				{
+					"name":"slotSupprimer",
+					"visibility":"public"
+				},
+				{
+					"name":"slotEditCancelled",
+					"visibility":"public"
+				},
+				{
+					"name":"slotEditApplied",
+					"visibility":"public"
+				},
+				
+			],
+			"attributes":
+			[
+				{
+					"name":"currentCursus",
+					"type":"Cursus"
+				},
+				{
+					"name":"cursusSelector",
+					"type":"CursusSelector"
+				},
+				{
+					"name":"cursusFillIn",
+					"type":"CursusFillIn"
+				},
+				{
+					"name":"lastButtonClicked",
+					"type":"int"
+				},
+				{
+					"name":"createMode",
+					"type":"bool"
+				}
+			]
+		},
+		{
+			"name":"CursusFillIn",
+			"methods":
+			[
+				{
+					"name":"CursusFillIn",
+					"visibility":"public"
+				},
+				{
+					"name":"cancelled",
+					"visibility":"public"
+				},
+				{
+					"name":"applied",
+					"visibility":"public"
+				},
+				{
+					"name":"slotCancel",
+					"visibility":"public"
+				},
+				{
+					"name":"slotApply",
+					"visibility":"public"
+				}
+			],
+			"attributes":
+			[
+				{
+					"name":"parentCursus",
+					"type":"Cursus"
+				},
+			]
+		}
 	],
 },
 {
@@ -64,13 +166,242 @@
 			"methodTo":"update"
 		},
 		{
-			"type":"references",
+			"type":"calls",
 
 			"classFrom":"Accueil",
-			"methodFrom":"slotSwitchedTab",
+			"methodFrom":"Accueil",
 
 			"classTo":"CursusEditor",
-			"methodTo":"update"
+			"methodTo":"CursusEditor"
 		},
+		{
+			"type":"calls",
+
+			"classFrom":"Accueil",
+			"methodFrom":"Accueil",
+
+			"classTo":"UVSelection",
+			"methodTo":"UVSelection"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"Accueil",
+			"methodFrom":"Accueil",
+
+			"classTo":"DossierEditor",
+			"methodTo":"DossierEditor"
+		},
+		{
+			"type":"references",
+
+			"class":"Accueil",
+			"method":"slotSwitchedTab",
+			"attribute":"cursusEditor"
+		},
+		{
+			"type":"references",
+
+			"class":"Accueil",
+			"method":"slotSwitchedTab",
+			"attribute":"uvEditor"
+		},
+		{
+			"type":"references",
+
+			"class":"Accueil",
+			"method":"slotSwitchedTab",
+			"attribute":"dossierEditor"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"CursusEditor",
+
+			"classTo":"CursusSelector",
+			"methodTo":"CursusSelector"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"CursusEditor",
+
+			"classTo":"CursusFillIn",
+			"methodTo":"CursusFillIn"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"cancelled",
+
+			"classTo":"CursusEditor",
+			"methodTo":"slotEditCancelled"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"applied",
+
+			"classTo":"CursusEditor",
+			"methodTo":"slotEditApplied"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"CursusEditor",
+
+			"classTo":"CursusEditor",
+			"methodTo":"updateView"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"updateView",
+
+			"classTo":"CursusFillIn",
+			"methodTo":"enableCursusType"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotCursusChanged",
+
+			"classTo":"CursusEditor",
+			"methodTo":"updateView",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotAjouter",
+
+			"classTo":"CursusEditor",
+			"methodTo":"updateView",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotSupprimer",
+
+			"classTo":"CursusEditor",
+			"methodTo":"updateView",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotSupprimer",
+
+			"classTo":"CursusManager",
+			"methodTo":"getInstance",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotSupprimer",
+
+			"classTo":"CursusManager",
+			"methodTo":"supprimerCursus",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotSupprimer",
+
+			"classTo":"CursusSelector",
+			"methodTo":"resetFormations",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotEditApplied",
+
+			"classTo":"Cursus",
+			"methodTo":"creationCursus",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotEditApplied",
+
+			"classTo":"Formation",
+			"methodTo":"Formation",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotEditApplied",
+
+			"classTo":"Mineur",
+			"methodTo":"Mineur",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotEditApplied",
+
+			"classTo":"CursusSelector",
+			"methodTo":"getSelectedCBB",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotEditApplied",
+
+			"classTo":"CursusSelector",
+			"methodTo":"resetSpecialites",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotEditApplied",
+
+			"classTo":"CursusSelector",
+			"methodTo":"resetFilieres",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusEditor",
+			"methodFrom":"slotEditApplied",
+
+			"classTo":"CursusSelector",
+			"methodTo":"resetFormations",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusFillIn",
+			"methodFrom":"slotCancel",
+
+			"classTo":"CursusFillIn",
+			"methodTo":"cancelled",
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"CursusFillIn",
+			"methodFrom":"slotApply",
+
+			"classTo":"CursusFillIn",
+			"methodTo":"applied",
+		},
+		
 	]
 }
