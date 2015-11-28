@@ -5,30 +5,8 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QDebug>
+#include <QString>
 
-/*
-{
-   "appDesc": {
-      "description": "SomeDescription",
-      "message": "SomeMessage"
-   },
-   "appName": {
-      "description": "Home",
-      "message": "Welcome",
-      "imp":["awesome","best","good"]
-   }
-}
-*/
-/*
- QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
-      QJsonObject sett2 = d.object();
-      QJsonValue value = sett2.value(QString("appName"));
-      QJsonObject item = value.toObject();
-
-      QJsonValue subobj = item["description"];
-
-      QJsonArray test = item["imp"].toArray();
-*/
 
 JsonParser::JsonParser()
 {
@@ -40,31 +18,99 @@ JsonParser::JsonParser()
     file.close();
 
     QJsonParseError error;
-    QJsonDocument d = QJsonDocument::fromJson(val.toUtf8(), &error);
-    QJsonObject sett2 = d.object();
-
-    QJsonValue fullData = sett2.value(QString("data"));
-    QJsonObject fullObject = fullData.toObject();
+    QJsonDocument fullData = QJsonDocument::fromJson(val.toUtf8(), &error);
+    QJsonObject fullObject = fullData.object();
 
     QJsonValue listClasses = fullObject.value(QString("listClasses"));
     QJsonObject listClassesObject = listClasses.toObject();
     QJsonValue listLinks = fullObject.value(QString("listLinks"));
     QJsonObject listLinksObject = listLinks.toObject();
 
-
-
     QJsonValue classes = listClassesObject.value(QString("classes"));
-    QJsonArray classesArray = classes.toArray();
-
-    qDebug() << d;
-
-
-
+    _classesArray = classes.toArray();
 
     QJsonValue links = listLinksObject.value(QString("links"));
+    _linksArray = links.toArray();
 
 
+}
 
+QJsonArray JsonParser::listClasses()
+{
+    QJsonArray result;
+    foreach (const QJsonValue & value, _classesArray) {
+        QJsonObject obj = value.toObject();
+        result.append(obj["name"].toString());
+    }
+    return result;
+}
+
+QJsonArray JsonParser::listClassAttributes(QString classRequested)
+{
+    QJsonArray result;
+    foreach (const QJsonValue & value, _classesArray) {
+        QJsonObject obj = value.toObject();
+        if (obj["name"].toString() == classRequested)
+        {
+            result = obj["attributes"].toArray();
+        }
+    }
+    return result;
+}
+
+QJsonArray JsonParser::listClassMethods(QString classRequested)
+{
+    QJsonArray result;
+    foreach (const QJsonValue & value, _classesArray) {
+        QJsonObject obj = value.toObject();
+        if (obj["name"].toString() == classRequested)
+        {
+            result = obj["methods"].toArray();
+        }
+    }
+    return result;
+}
+
+QJsonArray JsonParser::listLinksCalls()
+{
+    QJsonArray result;
+    foreach (const QJsonValue & value, _linksArray) {
+        QJsonObject obj = value.toObject();
+
+        if (obj["type"].toString() == "calls")
+        {
+            result.append(obj);
+        }
+    }
+    return result;
+}
+
+QJsonArray JsonParser::listLinksReferences()
+{
+    QJsonArray result;
+    foreach (const QJsonValue & value, _linksArray) {
+        QJsonObject obj = value.toObject();
+
+        if (obj["type"].toString() == "references")
+        {
+            result.append(obj);
+        }
+    }
+    return result;
+}
+
+QJsonArray JsonParser::listLinksInherits()
+{
+    QJsonArray result;
+    foreach (const QJsonValue & value, _linksArray) {
+        QJsonObject obj = value.toObject();
+
+        if (obj["type"].toString() == "inherits")
+        {
+            result.append(obj);
+        }
+    }
+    return result;
 }
 
 JsonParser::~JsonParser()
