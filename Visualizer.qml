@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
+import codeviz 1.0
 
 Item {
     id: root
@@ -7,9 +8,14 @@ Item {
     property real zoom: 1.0
     property real distanceFromCenter: 400 * zoom
 
+
+
     ListModel {
         id: listModel
+
     }
+
+
 
     Component {
         id: cListElement
@@ -59,10 +65,10 @@ Item {
             }
         }
 
+
         Repeater {
             id: repeaterLinks
-
-            model: listModel
+            model: DataModel.queryInherits("Filiere")[0].classTo
             anchors.fill: parent
             /*delegate: Rectangle {
                 color: "blue"
@@ -117,13 +123,16 @@ Item {
                 rec.rotation = Math.atan(myItem.height/myItem.width)*180/Math.PI
 
             }
+            Component.onCompleted: {
+                console.debug(DataModel.queryInherits("Filiere")[0].classTo, "----------")
+            }
 
             Rectangle{
                 id: rec
                 anchors.centerIn: myItem
                 antialiasing: true
                 height: 1
-                color: "blue"
+                color: "green"
             }
         }
 
@@ -131,14 +140,6 @@ Item {
             id: repeater
             model: listModel
             anchors.fill: parent
-            onCountChanged: {
-                console.debug("count " + count)
-                if (count === 3)
-                {
-                    rec.width = Qt.binding(function() { return repeater.itemAt(2).x - repeater.itemAt(1).x });
-                    rec.height = Qt.binding(function() { return repeater.itemAt(2).y - repeater.itemAt(1).y });
-                }
-            }
             delegate: ClassBox {
                 scale: zoom
 

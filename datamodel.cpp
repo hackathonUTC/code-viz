@@ -156,11 +156,13 @@ QList<QObject *> DataModel::queryInherits(QString className)
         QJsonObject jObj = jInheritance.toObject();
         QString classTo = jObj["classTo"].toString();
 
+
         LinkObject* linkObj = new LinkObject();
         linkObj->setType("inherits");
         linkObj->setClassFrom(className);
 
         linkObj->setClassTo(classTo);
+        qDebug() << classTo;
 
         result.append(linkObj);
     }
