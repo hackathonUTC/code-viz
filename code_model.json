@@ -1,0 +1,76 @@
+{
+	"id":"listClasses",
+	"classes":
+	[
+		{
+			"name":"Accueil",
+			"methods":
+			[
+				{
+					"name":"Accueil"
+				},
+				{
+					"name":"slotSwitchedTab"
+				}
+			],
+			"attributes":
+			[
+				{
+					"name":"cursusEditor",
+					"type":"CursusEditor"
+				},
+				{
+					"name":"uvEditor",
+					"type":"UVSelection"
+				},
+				{
+					"name":"dossierEditor",
+					"type":"DossierEditor"
+				}
+			]
+		},
+
+	],
+},
+{
+	"id":"listLinks",
+	"links":
+	[
+		{
+			"type":"calls",
+
+			"classFrom":"Accueil",
+			"methodFrom":"slotSwitchedTab",
+
+			"classTo":"CursusEditor",
+			"methodTo":"update"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"Accueil",
+			"methodFrom":"slotSwitchedTab",
+
+			"classTo":"UVSelection",
+			"methodTo":"update"
+		},
+		{
+			"type":"calls",
+
+			"classFrom":"Accueil",
+			"methodFrom":"slotSwitchedTab",
+
+			"classTo":"DossierEditor",
+			"methodTo":"update"
+		},
+		{
+			"type":"references",
+
+			"classFrom":"Accueil",
+			"methodFrom":"slotSwitchedTab",
+
+			"classTo":"CursusEditor",
+			"methodTo":"update"
+		},
+	]
+}
