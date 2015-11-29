@@ -4,11 +4,15 @@ import codeviz 1.0
 Item {
     id: root
     property alias title: titleText.text
+
     property double zoom: 1.0
 
     Component.onCompleted: {
         methodListModel.append(DataModel.queryMethods(root.title))
-        attributeListModel.append(DataModel.queryAttributes(root.title));
+        attributeListModel.append(DataModel.queryAttributes(root.title))
+        referenceListModel.append(DataModel.queryMethodReferences(root.title))
+        callInsideListModel.append(DataModel.queryCallsInsideClass(root.title))
+        inheritageListModel.append(DataModel.queryInherits(root.title))
     }
 
     ListModel {
@@ -17,6 +21,18 @@ Item {
 
     ListModel {
         id: attributeListModel
+    }
+
+    ListModel {
+        id: referenceListModel
+    }
+
+    ListModel {
+        id: callInsideListModel
+    }
+
+    ListModel {
+        id: inheritageListModel
     }
 
     states: [State {name: "zeroZoom"
@@ -42,14 +58,19 @@ Item {
 
         Row {
             Column{
-                visible: root.state === "zeroZoom"
+                visible: opacity > 0.0
+                opacity: root.state === "zeroZoom" ? 1.0 : 0.0
+                Behavior on opacity {
+                    NumberAnimation {}
+                }
+
                 width: root.state === "zeroZoom" ? titleContainer.width / 2 : 0
                 id: attributesContainer
                 Repeater{
                     model: attributeListModel
                     delegate:
-                        Row{
-                        Text{
+                        Row {
+                        Text {
                             text: name + ":"+ type
                         }
                     }
@@ -57,13 +78,18 @@ Item {
             }
             Column{
                 width: /*titleContainer.width / 2*/ root.state === "zeroZoom" ? titleContainer.width / 2 : titleContainer.width
-                visible: !(root.state === "secondZoom")
+                visible: opacity > 0.0
+                opacity: !(root.state === "secondZoom") ? 1.0 : 0.0
+                Behavior on opacity {
+                    NumberAnimation {}
+                }
+
                 id: methodsContainer
-                Repeater{
+                Repeater {
                     model: methodListModel
                     delegate:
-                        Row{
-                        Text{
+                        Row {
+                        Text {
                             text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
                         }
                     }
