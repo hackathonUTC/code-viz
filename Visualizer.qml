@@ -50,6 +50,53 @@ Item {
         id: lineMethodsList
     }
 
+    function computePoints(objectA, objectB)
+    {
+        if(objectA && objectB)
+        {
+            var fromX; var fromY; var toX; var toY;
+            if((objectA.x + objectA.width > objectB.x || objectB.x + objectB.width < objectA.x))
+            {
+                fromX = objectA.x + objectA.width / 2;
+                toX = objectB.x + objectB.width / 2;
+                // top or bottom
+                if(objectA.y > objectB.y)
+                {
+                    // A is below B
+                    fromY = objectA.y
+                    toY = objectB.y + objectB.height
+                }
+                else
+                {
+                    fromY = objectA.y + objectA.height;
+                    toY = objectB.y;
+                }
+            }
+            else
+            {
+                fromY = objectA.y + objectA.height / 2;
+                toY = objectB.y + objectB.height / 2;
+                if(objectA.x < objectB.x)
+                {
+                    // A is left from B
+                    fromX = objectA.x + objectA.width;
+                    toX = objectB.x;
+                }
+                else
+                {
+                    fromX = objectA.x;
+                    toX = objectB.x + objectB.width;
+                }
+            }
+
+            return {
+                "fromX":fromX,
+                "fromY":fromY,
+                "toX":toX,
+                "toY":toY
+            }
+        }
+    }
 
     function refreshInheritance()
     {
@@ -64,12 +111,8 @@ Item {
                     var motherClass = getChildFromName(motherList.get(0).classTo)
                     if(motherClass)
                     {
-                        lineList.append({
-                            "fromX": childAt.x,
-                            "fromY": childAt.y,
-                            "toX": motherClass.x,
-                            "toY": motherClass.y
-                        });
+                        var points = computePoints(childAt, motherClass)
+                        lineList.append(points);
                     }
                 }
             }
@@ -93,19 +136,18 @@ Item {
                             var pointFrom = getChildFromName(methodList.get(j).classFrom)
                             var pointTo = getChildFromName(methodList.get(j).classTo)
 
+                            var points = computePoints(pointFrom, pointTo);
 
-
-                            //console.debug("-----------------" + getIndexMethodFromClass(methodList.get(j).classFrom, methodList.get(j).methodFrom))
                             lineMethodsList.append({
 
                                 "nameClassFrom":  methodList.get(j).classFrom,
                                 "nameClassTo":  methodList.get(j).classTo,
                                 "nameMethodFrom":  methodList.get(j).methodFrom,
                                 "nameMethodTo":  methodList.get(j).methodTo,
-                                "fromX": pointFrom.x + pointFrom.width/2,
-                                "fromY": pointFrom.y,
-                                "toX": pointTo.x  + pointTo.width/2,
-                                "toY": pointTo.y
+                                "fromX": points.fromX,
+                                "fromY": points.fromY,
+                                "toX": points.toX,
+                                "toY": points.toY
                             });
                         }
                     }
