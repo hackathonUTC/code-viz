@@ -5,7 +5,8 @@ import codeviz 1.0
 Item {
     id: root
 
-    property string focusedMethod: ""
+    property string focusedMethodFrom: ""
+    property string focusedMethodTo: ""
     property string focusedClass: ""
 
     states: [
@@ -88,7 +89,6 @@ Item {
 
 
                         //console.debug("-----------------" + getIndexMethodFromClass(methodList.get(j).classFrom, methodList.get(j).methodFrom))
-
                         lineMethodsList.append({
 
                             "nameClassFrom":  methodList.get(j).classFrom,
@@ -166,16 +166,12 @@ Item {
             height: flickable.contentHeight
             onClicked: {
                 if (mouse.button === Qt.RightButton) {
-//                    console.debug("Click right on blank")
                 } else if (mouse.button === Qt.LeftButton) {
-//                    console.debug("Click left on blank")
                 }
             }
 
             onDoubleClicked: {
                 var mousePoint = Qt.point(mouse.x, mouse.y);
-//                console.debug("MAP " + mapFromItem(flickable.contentItem, mouse.x, mouse.y))
-//                console.debug("double click " + mouse.x + " ; " + mouse.y);
                 ++zoom;
             }
 
@@ -184,23 +180,16 @@ Item {
                     var scrollPoint = root.mapFromItem(flickable.contentItem, wheel.x, wheel.y);
 
                     var newZoom = Math.min(root.maximumZoom, zoom + zoomOffset);
-                    console.debug("newZoom " + newZoom)
                     var currentWidth = flickable.contentWidth;
-                    console.debug("currentWidth " + currentWidth)
                     var currentHeight = flickable.contentHeight;
-                    console.debug("currentHeight " + currentHeight)
                     var newWidth = root.width * newZoom;
-                    console.debug("newWidth " + newWidth)
                     var newHeight = root.height * newZoom;
-                    console.debug("newHeight " + newHeight)
                     var offsetWidth = (newWidth - currentWidth) / 2.0
                     var offsetHeight = (newHeight - currentHeight) / 2.0
 
                     var scrollOffset = Qt.point(newZoom * (scrollPoint.x - root.width / 2.0),
                                                 newZoom * (scrollPoint.y - root.height / 2.0))
 
-                    console.debug("scroll " + scrollPoint.x + ";" + scrollPoint.y)
-                    console.debug("scrollOffset = " + scrollOffset.x + ";" + scrollOffset.y)
 
                     if (zoom != newZoom) {
                         zoom = newZoom;
@@ -238,24 +227,12 @@ Item {
             delegate: ClassBox {
                 id: classBox
                 zoom: root.zoom
-                focusedMethod: root.focusedMethod
+                focusedMethodFrom: root.focusedMethodFrom
+                focusedMethodTo: root.focusedMethodTo
+
+
                 centralityCoefficient: centrality
 
-//                    Behavior on width {
-//                        NumberAnimation { }
-//                    }
-
-//                    Behavior on height {
-//                        NumberAnimation { }
-//                    }
-
-//                    Behavior on x {
-//                        NumberAnimation { }
-//                    }
-
-//                    Behavior on y {
-//                        NumberAnimation { }
-//                    }
 
                     x: (flickable.contentWidth - width) / 2.0 -
                        + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
@@ -396,12 +373,14 @@ Item {
                     width: parent.width
                     hoverEnabled: true
                     onEntered: {
-                        root.focusedMethod = nameMethodFrom
+                        root.focusedMethodFrom = nameMethodFrom
+                        root.focusedMethodTo = nameMethodTo
                         repeaterLinksMethods.focusedLinkIndex = index
                     }
 
                     onExited: {
-                        root.focusedMethod = ""
+                        root.focusedMethodFrom = ""
+                        root.focusedMethodTo = ""
                         repeaterLinksMethods.focusedLinkIndex = -1
                     }
 

@@ -15,7 +15,8 @@ Item {
     property alias inheritsListModel:inheritageListModel
     property alias callOutsideListModel: callOutsideListModel
 
-    property var focusedMethod: ""
+    property string focusedMethodFrom: ""
+    property string focusedMethodTo: ""
 
 
     Behavior on width {
@@ -60,7 +61,6 @@ Item {
 
     function refreshLinks()
     {
-        console.log(referenceListModel.count)
         lineList.clear();
         for(var i = 0 ; i < referenceListModel.count ; ++i)
         {
@@ -70,7 +70,6 @@ Item {
 
             var pointFrom = mapToItem(attributeRepeater, attrObj.x + attrObj.width, attrObj.y + contentContainer.height)
             var pointTo = mapToItem(methodRepeater, methodObj.x + root.width/2, methodObj.y + contentContainer.height)
-            console.log("***************" + pointFrom.x + " " + pointFrom.y + " " + pointTo.x + " " + pointTo.y)
 
             lineList.append({
                            "fromX":pointFrom.x,
@@ -96,7 +95,6 @@ Item {
             j = 0
             while (tmp[j])
             {
-                console.debug(tmp[j])
                 referenceListModel.append(tmp[j++])
             }
         } // Ranger les noms de fonction 1 à 1 dans la ListModel
@@ -235,8 +233,8 @@ Item {
                             text: root.state === "firstZoom" ? (visibility === "public" ? name+"()" : "") : visibility +": " + name + "()"
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            color: methodName == root.focusedMethod ? "red" : "black"
+                            horizontalAlignment: Text.AlignHCenter                            
+                            color: methodName == root.focusedMethodFrom || methodName == root.focusedMethodTo ? "red" : "black"
                         }
                     }
                 }
@@ -269,7 +267,6 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.debug("Click on box " + title)
         }
     }
 }
