@@ -6,6 +6,9 @@ Item {
     property alias title: titleText.text
 
     property double zoom: 1.0
+    property alias inheritsListModel:inheritsListModel
+
+
 
     Component.onCompleted: {
         methodListModel.append(DataModel.queryMethods(root.title))
@@ -17,6 +20,10 @@ Item {
 
     ListModel {
         id: methodListModel
+    }
+
+    ListModel {
+        id: inheritsListModel
     }
 
     ListModel {
