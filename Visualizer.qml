@@ -131,6 +131,7 @@ Item {
                         flickable.resizeContent(newZoom * root.width,
                                                 newZoom * root.height,
                                                 newCenter)
+                        flickable.returnToBounds();
                     }
                 } else {
                     var newZoom = Math.max(root.minimumZoom, zoom - zoomOffset);
@@ -138,9 +139,10 @@ Item {
                         zoom = newZoom;
                         var newCenter = Qt.point(flickable.contentWidth / 2.0,
                                                  flickable.contentHeight / 2.0)
-                            flickable.resizeContent(newZoom * root.width,
+                        flickable.resizeContent(newZoom * root.width,
                                                     newZoom * root.height,
                                                     newCenter)
+                        flickable.returnToBounds();
                     }
                 }
             }
