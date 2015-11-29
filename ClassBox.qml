@@ -18,6 +18,9 @@ Item {
     property string focusedMethodFrom: ""
     property string focusedMethodTo: ""
 
+    signal methodFocused(var className ,var methodName)
+    signal methodUnFocused()
+
 
     Behavior on width {
         NumberAnimation { }
@@ -227,6 +230,21 @@ Item {
                         property string methodName: name
                         width: parent.width
                         Text {
+
+                            MouseArea{
+                                anchors.fill: parent
+
+                                hoverEnabled: true
+
+                                onEntered: {
+                                    methodFocused(root.title, methodName)
+                                }
+
+                                onExited: {
+                                    methodUnFocused()
+                                }
+                            }
+
                             id: textField
                             font.pixelSize: 15
                             width: parent.width

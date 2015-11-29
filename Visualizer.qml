@@ -240,6 +240,16 @@ Item {
                         + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                     title: name
 
+                    onMethodFocused: {
+                        root.focusedMethodFrom = methodName
+                        root.focusedClass = className
+                    }
+
+                    onMethodUnFocused: {
+                        root.focusedMethodFrom = ""
+                    }
+
+
                     onXChanged: {
                         refreshInheritance()
                         refreshMethods()
