@@ -12,27 +12,31 @@ Item {
         }
     }
 
+    ListModel {
+        id: lineList
+    }
+
+
     function refreshInheritance()
     {
-        canvas.lineList = [];
+        lineList.clear()
         for(var i = 0; i < repeater.model.count; ++i){
             var childAt = repeater.itemAt(i)
             var motherList = childAt.inheritsListModel;
             if(motherList.count > 0)
             {
                 var motherClass = getChildFromName(motherList.get(0).classTo)
-
-                canvas.lineList.push({
+                lineList.append({
 
                     "fromX": childAt.x,
                     "fromY": childAt.y,
                     "toX": motherClass.x,
                     "toY": motherClass.y
                 });
+
             }
         }
 
-        canvas.requestPaint()
     }
 
     property real zoom: 1.0
@@ -44,6 +48,7 @@ Item {
 
     Component.onCompleted: {
         classListModel.append(DataModel.queryClasses());
+        console.debug("moo" + classListModel.get(0).centrality)
         refreshInheritance();
     }
 
@@ -74,11 +79,12 @@ Item {
         anchors.fill: parent
         contentWidth: parent.width// * zoom
         contentHeight: parent.height //* zoom
+        boundsBehavior: Flickable.StopAtBounds
 
         Rectangle {
             width: flickable.contentWidth
             height: flickable.contentHeight
-            color: "red"
+            color: "black"
             opacity: 0.7
         }
 
@@ -125,8 +131,7 @@ Item {
 
                     if (zoom != newZoom) {
                         zoom = newZoom;
-                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
-                                             flickable.contentHeight / 2.0)
+                        var newCenter = Qt.point(wheel.x, wheel.y);
                         flickable.resizeContent(newZoom * root.width,
                                                 newZoom * root.height,
                                                 newCenter)
@@ -136,46 +141,18 @@ Item {
                     var newZoom = Math.max(root.minimumZoom, zoom - zoomOffset);
                     if (zoom != newZoom) {
                         zoom = newZoom;
-                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
-                                                 flickable.contentHeight / 2.0)
+                        var newCenter = Qt.point(wheel.x, wheel.y);
                         flickable.resizeContent(newZoom * root.width,
                                                     newZoom * root.height,
                                                     newCenter)
                         flickable.returnToBounds();
                     }
                 }
+
+                refreshInheritance()
             }
         }
 
-        Canvas {
-            id: canvas
-            height: flickable.contentHeight;
-            width: flickable.contentWidth;
-            anchors.fill: parent;
-
-            property var context: getContext("2d");
-            property var lineList;
-
-            onPaint: {
-
-
-                // Draw a line
-                context.reset()
-                context.beginPath();
-                context.lineWidth = 2;
-                context.strokeStyle = "grey"
-                for(var i = 0 ; i < lineList.length ; ++i)
-                {
-                    var line = lineList[i];
-
-                    context.moveTo(line.fromX, line.fromY);
-                    context.lineTo(line.toX, line.toY);
-                    context.arc(line.toX, line.toY, 10, 0, 2*Math.PI, true)
-                }
-                context.stroke();
-            }
-
-        }
 
 
 
@@ -184,9 +161,11 @@ Item {
             model: classListModel
             anchors.fill: parent
 
+
             delegate: ClassBox {
                 id: classBox
                     zoom: root.zoom
+                    centralityCoefficient: centrality
 
 //                    Behavior on width {
 //                        NumberAnimation { }
@@ -204,8 +183,6 @@ Item {
 //                        NumberAnimation { }
 //                    }
 
-                    width: 150 * zoom
-                    height: 250 * zoom
                     x: (flickable.contentWidth - width) / 2.0 -
                        + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                     y: (flickable.contentHeight - height) / 2.0
@@ -220,56 +197,64 @@ Item {
                         refreshInheritance()
                     }
 
-
-
             }
 
         }
 
         Repeater{
             id: repeaterLinksClasses
-            model: classListModel
+            model: lineList
             anchors.fill: parent
 
 
-            delegate: Rectangle{
-
+            delegate: Rectangle {
                 id: rec
 
-                property var from: getChildFromName(name)
-                property var to: getChildFromName(from.inheritsListModel.get(0).classTo)
-
+                property point to: Qt.point(toX, toY)
                 transform: Rotation {
-                    angle: from.x < to.x ? Math.atan((to.y - from.y)/(to.x - from.x))*180/Math.PI : 180 + Math.atan((to.y - from.y)/(to.x - from.x))*180/Math.PI
+                    angle: fromX < toX ? Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI : 180 + Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI
                 }
 
-                x: from.x
-                y: from.y
-                z: parent.z + 1
+                x: fromX
+                y: fromY
+                z: flickable.z + 1
 
 
                 height: 2
-                width: Math.sqrt((from.x - to.x)*(from.x - to.x) + (from.y - to.y)*(from.y - to.y))
+                width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
 
-                //rotation: -20
 
-                Component.onCompleted: {
-                    /*from = getChildFromName(name)
-                    to = getChildFromName(from.inheritsListModel.get(0).classTo)
+                MouseArea {
+                    anchors.centerIn: parent
+                    height: parent.height * 4.0
+                    width: parent.width
+                    hoverEnabled: true
+                    onEntered: {
+                        linkHighlight.visible = true;
+                    }
 
-                    rec.x = from.x
-                    rec.y = from.y
+                    onExited: {
+                        linkHighlight.visible = false;
+                    }
 
-                    rec.width = Math.sqrt((from.x - to.x)*(from.x - to.x) + (from.y - to.y)*(from.y - to.y))
+                    onClicked: {
+                        var deltaX = rec.to.x - (flickable.contentX + root.width / 2.0)
+                        var deltaY = rec.to.y - (flickable.contentY + root.height / 2.0)
+                        flickable.contentX += deltaX
+                        flickable.contentY += deltaY
+                        flickable.returnToBounds();
+                    }
 
-                    rec.rotation = 30*/
-
-                    console.log("***********" + (Math.atan2((to.y - from.y)/(to.x - from.x)))*180/Math.PI)
+                    Rectangle {
+                        id: linkHighlight
+                        anchors.fill: parent
+                        visible: false
+                        color: "yellow"
+                        antialiasing: true
+                        radius: height / 2.0
+                    }
                 }
-
             }
-
         }
-
     }
 }
