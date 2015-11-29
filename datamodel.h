@@ -35,7 +35,6 @@ public:
     Q_INVOKABLE QList<QObject*> queryMethodReferences(QString className, QString methodName);
     Q_INVOKABLE QList<QObject*> queryInherits(QString className);
 
-
 private:
     DataModel();
     DataModel(const DataModel& other) {}
@@ -49,6 +48,10 @@ private:
     void computePositions();
 
     float closeness(QString class1, QString class2);
+
+    void dist(float cov1, float cov2, float R, float angle, float res[2]);
+
+
 
     JsonParser _dataSource;
 };

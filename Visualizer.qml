@@ -275,10 +275,8 @@ Item {
                 centralityCoefficient: centrality
 
 
-                    x: (flickable.contentWidth - width) / 2.0 -
-                       + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
-                    y: (flickable.contentHeight - height) / 2.0
-                        + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
+                x: (flickable.contentWidth) / 2.0 + positionX
+                    y: (flickable.contentHeight) / 2.0 + positionY
                     title: name
 
                     onMethodFocused: {
@@ -335,7 +333,7 @@ Item {
                 y: fromY
                 z: flickable.z + 1
 
-                color: index === repeaterLinksClasses.focusedLinkIndex ? "red" : "grey"
+                color: index === repeaterLinksClasses.focusedLinkIndex ? "purple" : "grey"
                 opacity: index === repeaterLinksClasses.focusedLinkIndex ? 1.0 : 0.2
 
 
@@ -374,7 +372,7 @@ Item {
                         id: linkHighlight
                         anchors.fill: parent
                         visible: false
-                        color: "yellow"
+                        color: "purple"
                         opacity: 0.9
                         antialiasing: true
                         radius: height / 2.0

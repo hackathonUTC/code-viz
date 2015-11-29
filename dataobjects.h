@@ -2,16 +2,22 @@
 #define DATAOBJECTS_H
 
 #include <QObject>
+#include <QPoint>
 
 class ClassObject : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
     Q_PROPERTY(float centrality READ centrality WRITE setCentrality)
+    Q_PROPERTY(float positionX READ positionX WRITE setPositionX)
+    Q_PROPERTY(float positionY READ positionY WRITE setPositionY)
 
     QString m_name;
 
     float m_centrality;
+
+    float m_positionX;
+    float m_positionY;
 
 public:
     QString name() const { return m_name; }
@@ -25,6 +31,22 @@ public:
     void setCentrality(float centrality)
     {
         m_centrality = centrality;
+    }
+    float positionX() const
+    {
+        return m_positionX;
+    }
+    void setPositionX(float arg)
+    {
+        m_positionX = arg;
+    }
+    float positionY() const
+    {
+        return m_positionY;
+    }
+    void setPositionY(float arg)
+    {
+        m_positionY = arg;
     }
 };
 
