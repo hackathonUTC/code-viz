@@ -177,7 +177,6 @@ Item {
 
                 onWidthChanged: refreshLinks();
 
-                id: attributesContainer
                 Repeater{
                     id: attributeRepeater
                     model: attributeListModel
