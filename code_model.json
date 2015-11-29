@@ -347,11 +347,11 @@
 						"visibility":"public"
 					},
 					{
-						"name":"disable",
+						"name":"updateView",
 						"visibility":"public"
 					},
 					{
-						"name":"updateView",
+						"name":"update",
 						"visibility":"public"
 					},
 					{

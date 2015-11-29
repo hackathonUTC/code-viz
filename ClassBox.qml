@@ -4,16 +4,31 @@ import codeviz 1.0
 Item {
     id: root
 
-    width: classNamePlaceHolder.implicitWidth // size * zoom * centralityCoefficient
-    height: classContent.height * zoom * centralityCoefficient
-
+    height: classContent.height
+    clip: true
     property real baseSize: 25
-    property real coefficientSize: baseSize + centralityCoefficient * 25
-    property real centralityCoefficient
+    property real coefficientSize: baseSize + centralityCoefficient * baseSize
+    property real centralityCoefficient: 1.0
     property double zoom: 1.0
 
     property alias title: classNamePlaceHolder.text
     property alias inheritsListModel:inheritageListModel
+    property alias callOutsideListModel: callOutsideListModel
+
+    property string focusedMethodFrom: ""
+    property string focusedMethodTo: ""
+
+    signal methodFocused(var className ,var methodName)
+    signal methodUnFocused()
+
+
+    Behavior on width {
+        NumberAnimation { }
+    }
+
+    Behavior on height {
+        NumberAnimation { }
+    }
 
     Rectangle {
         color: "grey"
@@ -49,31 +64,13 @@ Item {
 
     function refreshLinks()
     {
-        /*console.log(referenceListModel.count)
-        lineList.clear();
-        for(var i = 0 ; i < referenceListModel.count ; ++i)
-        {
-            var ref = referenceListModel.get(i);
-            var methodObj = getMethodPoint(ref.method);
-            var attrObj = getAttributePoint(ref.attribute)
-
-            var pointFrom = mapToItem(attributeRepeater, attrObj.x + attrObj.width, attrObj.y + contentContainer.y)
-            var pointTo = mapToItem(methodRepeater, methodObj.x + root.width/2, methodObj.y + contentContainer.y)
-            console.log("***************" + pointFrom.x + " " + pointFrom.y + " " + pointTo.x + " " + pointTo.y)
-
-//            lineList.append({
-//                           "fromX":pointFrom.x,
-//                           "fromY":pointFrom.y,
-//                           "toX":pointTo.x,
-//                           "toY":pointTo.y
-//                       });
-        }*/
     }
 
     Component.onCompleted: {
         methodListModel.append(DataModel.queryMethods(root.title))
         attributeListModel.append(DataModel.queryAttributes(root.title))
         callInsideListModel.append(DataModel.queryCallsInsideClass(root.title))
+        callOutsideListModel.append(DataModel.queryCallsOutsideClass(root.title))
         inheritageListModel.append(DataModel.queryInherits(root.title))
 
         // Récupérer les références
@@ -84,7 +81,6 @@ Item {
             j = 0
             while (tmp[j])
             {
-                console.debug(tmp[j])
                 referenceListModel.append(tmp[j++])
             }
         } // Ranger les noms de fonction 1 à 1 dans la ListModel
@@ -108,15 +104,39 @@ Item {
     }
 
     ListModel {
+        id: callOutsideListModel
+    }
+
+    ListModel {
         id: inheritageListModel
     }
 
-    states: [State {name: "zeroZoom"
-            when: zoom > 3},
-        State {name: "firstZoom"
-            when: zoom <= 3 && zoom > 2},
-        State {name: "secondZoom"
-            when: zoom <= 2}]
+    states: [
+        State {
+            name: "zeroZoom"
+            when: zoom > 3
+            PropertyChanges {
+                target: root
+                width: 450 // Math.min(classNamePlaceHolder.implicitWidth, 400)
+            }
+        },
+        State {
+            name: "firstZoom"
+            when: zoom <= 3 && zoom > 2
+            PropertyChanges {
+                target: root
+                width: 300 // Math.min(classNamePlaceHolder.implicitWidth, 300)
+            }
+        },
+        State {
+            name: "secondZoom"
+            when: zoom <= 2
+            PropertyChanges {
+                target: root
+                width: Math.min(classNamePlaceHolder.implicitWidth, 200)
+            }
+        }
+    ]
 
     Column {
         id: classContent
@@ -132,12 +152,21 @@ Item {
             opacity: 0.8
             Text {
                 id: classNamePlaceHolder
-                font.pixelSize: titleContainer.height
+                anchors.fill: parent
+                elide: Text.ElideRight
+                font.pixelSize: titleContainer.height - 10
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
             }
         }
 
         Row {
+            id: classRow
+            height: attributesContainer.height > methodsContainer.height
+            ? attributesContainer.height
+            : methodsContainer.height
             Column {
+                id: attributesContainer
                 visible: opacity > 0.0
                 opacity: root.state === "zeroZoom" ? 1.0 : 0.0
                 Behavior on opacity {
@@ -148,15 +177,20 @@ Item {
 
                 onWidthChanged: refreshLinks();
 
-                id: attributesContainer
                 Repeater{
                     id: attributeRepeater
                     model: attributeListModel
+                    width: parent.width
                     delegate:
                         Row {
+                        width: parent.width
                         property string attributeName: name
                         Text {
-                            text: name + ":"+ type
+                            text: type + " "+ name
+                            width: parent.width
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
                         }
                     }
                 }
@@ -170,16 +204,38 @@ Item {
                     NumberAnimation {}
                 }
 
-                Repeater {
+                Repeater {                    
                     id: methodRepeater
                     model: methodListModel
+                    width: parent.width
                     delegate:
                         Row {
                         property string methodName: name
+                        width: parent.width
                         Text {
-                            id: textField
 
-                            text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
+                            MouseArea{
+                                anchors.fill: parent
+
+                                hoverEnabled: true
+
+                                onEntered: {
+                                    methodFocused(root.title, methodName)
+                                }
+
+                                onExited: {
+                                    methodUnFocused()
+                                }
+                            }
+
+                            id: textField
+                            font.pixelSize: 15
+                            width: parent.width
+                            text: root.state === "firstZoom" ? (visibility === "public" ? name+"()" : "") : visibility +": " + name + "()"
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter                            
+                            color: methodName == root.focusedMethodFrom || methodName == root.focusedMethodTo ? "red" : "black"
                         }
                     }
                 }
@@ -200,8 +256,9 @@ Item {
 
             x: fromX
             y: fromY
-            z: parent.z + 1
+            z: classContent.z + 1
             height: 2
+            color: "green"
             width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
 
 
@@ -211,7 +268,6 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.debug("Click on box " + title)
         }
     }
 }
