@@ -18,13 +18,6 @@ Item {
         console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
         classListModel.append(DataModel.queryClasses());
 
-        /*for (var i = 0; i < listModel.count; ++i){
-            listInheritance.append(DataModel.queryInherits(listModel.get(i).name))
-            console.debug(listInheritance.get(0).name, "------")
-        }*/
-
-
-
     }
 
 
@@ -92,23 +85,7 @@ Item {
         }
 
 
-        Repeater {
-            id: repeaterLinks
-            model: DataModel.queryInherits("Filiere")[0].classTo
-            anchors.fill: parent
-            /*delegate: Rectangle {
-                color: "blue"
-                opacity: 0.7
-                width: repeater.itemAt(index).x - repeater.itemAt(index+1).x
-                height: repeater.itemAt(index).y - repeater.itemAt(index+1).y
-                x:
-                    repeater.itemAt(index).x
-                y:
-                    repeater.itemAt(index).y
-                z:
-                    repeater.itemAt(index).z + 1
-            }*/
-        }
+
 
         ClassBox {
             id: toto1
@@ -128,69 +105,77 @@ Item {
             title: className
         }
 
-        Item {
-            id: myItem
-            property real index : 2
-            opacity: 0.7
-            anchors.top: toto1.y < toto2.y ? toto1.top : toto2.top
-            anchors.bottom: toto1.y < toto2.y ? toto2.top : toto1.top
-            anchors.right: toto1.x < toto2.x ? toto2.left : toto1.left
-            anchors.left: toto1.x < toto2.x ? toto1.left : toto2.left
-            z:
-                repeater.itemAt(index).z + 1
 
-            onWidthChanged: {
-                rec.width = Math.sqrt(myItem.height*myItem.height + myItem.width*myItem.width)
-                rec.rotation = Math.atan(myItem.height/myItem.width)
-
-            }
-            onHeightChanged:{
-                rec.width = Math.sqrt(myItem.height*myItem.height + myItem.width*myItem.width)
-                rec.rotation = Math.atan(myItem.height/myItem.width)*180/Math.PI
-
-            }
-
-            Rectangle{
-                id: rec
-                anchors.centerIn: myItem
-                antialiasing: true
-                height: 1
-                color: "green"
-            }
-        }
 
         Repeater {
             id: repeater
             model: classListModel
             anchors.fill: parent
-            delegate: ClassBox {
-                zoom: root.zoom
-                scale: zoom
+            delegate: Item{
 
-                Behavior on scale {
-                    NumberAnimation {
+                /*Path{
+                    id: myPath
+                    startX: classBox.x
+                    startY: classBox.y
 
+                    PathArc{
+                        x: classBox.inheritsListModel[0].x
+                        y: classBox.inheritsListModel[0].y
+                    }
+
+                }*/
+
+                Canvas {
+                    width: 1000
+                    height: 1000
+
+                    onPaint: {
+                        // Get drawing context
+                        var context = getContext("2d");
+
+                        // Draw a line
+                        context.beginPath();
+                        context.lineWidth = 2;
+                        context.moveTo(classBox.x, classBox.y);
+                        context.strokeStyle = "blue"
+                        context.lineTo(toto1.x, toto1.y);
+                        context.stroke();
                     }
                 }
 
-                Behavior on x {
-                    NumberAnimation { }
+                ClassBox {
+                    zoom: root.zoom
+                    scale: zoom
+                    id: classBox
+
+                    Behavior on scale {
+                        NumberAnimation {
+
+                        }
+                    }
+
+                    Behavior on x {
+                        NumberAnimation { }
+                    }
+
+                    Behavior on y {
+                        NumberAnimation { }
+                    }
+
+                    width: 150
+                    height: 250
+                    x: (flickable.contentWidth - width) / 2.0 -
+                       + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
+                    y: (flickable.contentHeight - height) / 2.0
+                        + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
+                    title: name
                 }
 
-                Behavior on y {
-                    NumberAnimation { }
-                }
 
-                width: 150
-                height: 250
-                x: (flickable.contentWidth - width) / 2.0 -
-                   + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
-                y: (flickable.contentHeight - height) / 2.0
-                    + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
-                title: name
             }
         }
     }
+
     Button {
         anchors.centerIn: parent
         width: 50
