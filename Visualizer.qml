@@ -129,8 +129,7 @@ Item {
 
                     if (zoom != newZoom) {
                         zoom = newZoom;
-                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
-                                             flickable.contentHeight / 2.0)
+                        var newCenter = Qt.point(wheel.x, wheel.y);
                         flickable.resizeContent(newZoom * root.width,
                                                 newZoom * root.height,
                                                 newCenter)
@@ -140,8 +139,7 @@ Item {
                     var newZoom = Math.max(root.minimumZoom, zoom - zoomOffset);
                     if (zoom != newZoom) {
                         zoom = newZoom;
-                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
-                                                 flickable.contentHeight / 2.0)
+                        var newCenter = Qt.point(wheel.x, wheel.y);
                         flickable.resizeContent(newZoom * root.width,
                                                     newZoom * root.height,
                                                     newCenter)
@@ -209,8 +207,7 @@ Item {
             anchors.fill: parent
 
 
-            delegate: Rectangle{
-
+            delegate: Rectangle {
                 id: rec
 
                 transform: Rotation {
@@ -226,6 +223,32 @@ Item {
                 width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
 
 
+                MouseArea {
+                    anchors.centerIn: parent
+                    height: parent.height * 3.0
+                    width: parent.width
+                    hoverEnabled: true
+                    onEntered: {
+                        linkHighlight.visible = true;
+                    }
+
+                    onExited: {
+                        linkHighlight.visible = false;
+                    }
+
+                    onClicked: {
+                        console.debug("clicked on rect :)")
+                    }
+
+                    Rectangle {
+                        id: linkHighlight
+                        anchors.fill: parent
+                        visible: false
+                        color: "yellow"
+                        antialiasing: true
+                        radius: height / 2.0
+                    }
+                }
             }
 
         }
