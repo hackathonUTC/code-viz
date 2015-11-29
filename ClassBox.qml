@@ -3,9 +3,16 @@ import codeviz 1.0
 
 Item {
     id: root
-    property alias title: titleText.text
 
+    width: classNamePlaceHolder.implicitWidth // size * zoom * centralityCoefficient
+    height: classContent.height * zoom * centralityCoefficient
+
+    property real baseSize: 25
+    property real coefficientSize: baseSize + centralityCoefficient * 25
+    property real centralityCoefficient
     property double zoom: 1.0
+
+    property alias title: classNamePlaceHolder.text
     property alias inheritsListModel:inheritageListModel
 
     Rectangle {
@@ -61,21 +68,24 @@ Item {
             when: zoom <= 2}]
 
     Column {
-        anchors.fill: parent
+        id: classContent
+        anchors.left: parent.left
+        anchors.right: parent.right
 
         Rectangle {
             id: titleContainer
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 50
-            color: "purple"
+            height: coefficientSize
+            color: "steelblue"
             Text {
-                id: titleText
+                id: classNamePlaceHolder
+                font.pixelSize: titleContainer.height
             }
         }
 
         Row {
-            Column{
+            Column {
                 visible: opacity > 0.0
                 opacity: root.state === "zeroZoom" ? 1.0 : 0.0
                 Behavior on opacity {
@@ -95,7 +105,7 @@ Item {
                     }
                 }
             }
-            Column{
+            Column {
                 id: methodsContainer
                 width: /*titleContainer.width / 2*/ root.state === "zeroZoom" ? titleContainer.width / 2 : titleContainer.width
                 visible: opacity > 0.0

@@ -48,6 +48,7 @@ Item {
 
     Component.onCompleted: {
         classListModel.append(DataModel.queryClasses());
+        console.debug("moo" + classListModel.get(0).centrality)
         refreshInheritance();
     }
 
@@ -83,7 +84,7 @@ Item {
         Rectangle {
             width: flickable.contentWidth
             height: flickable.contentHeight
-            color: "red"
+            color: "black"
             opacity: 0.7
         }
 
@@ -164,6 +165,7 @@ Item {
             delegate: ClassBox {
                 id: classBox
                     zoom: root.zoom
+                    centralityCoefficient: centrality
 
 //                    Behavior on width {
 //                        NumberAnimation { }
@@ -181,14 +183,11 @@ Item {
 //                        NumberAnimation { }
 //                    }
 
-                    width: 150 * zoom
-                    height: 250 * zoom
                     x: (flickable.contentWidth - width) / 2.0 -
                        + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                     y: (flickable.contentHeight - height) / 2.0
                         + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                     title: name
-
 
                     onXChanged: {
                         refreshInheritance()
