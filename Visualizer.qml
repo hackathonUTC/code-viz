@@ -2,8 +2,6 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import codeviz 1.0
 
-import codeviz 1.0
-
 Item {
     id: root
 
@@ -41,19 +39,15 @@ Item {
     property real zoom: 1.0
     readonly property real maximumZoom: 4.0
     readonly property real minimumZoom: 1.0
-    readonly property real zoomOffset: 0.4
+    readonly property real zoomOffset: 1.5
 
     property real distanceFromCenter: 350 * zoom
 
     Component.onCompleted: {
         console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
         classListModel.append(DataModel.queryClasses());
-
         refreshInheritance();
-
     }
-
-
 
     ListModel {
         id: classListModel
@@ -82,6 +76,13 @@ Item {
         anchors.fill: parent
         contentWidth: parent.width * zoom
         contentHeight: parent.height * zoom
+
+        Rectangle {
+            width: flickable.contentWidth
+            height: flickable.contentHeight
+            color: "red"
+            opacity: 0.7
+        }
 
         MouseArea {
             width: flickable.contentWidth
@@ -122,8 +123,6 @@ Item {
             }
         }
 
-
-
         Canvas {
             id: canvas
             height: flickable.contentHeight;
@@ -162,6 +161,7 @@ Item {
             delegate: ClassBox {
                     zoom: root.zoom
                     //scale: zoom
+
                     id: classBox
 
                     Behavior on scale {

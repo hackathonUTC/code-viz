@@ -731,6 +731,12 @@
 			{
 				"type":"inherits",
 
+				"classFrom":"Choix",
+				"classTo":"Specialite"
+			},
+			{
+				"type":"inherits",
+
 				"classFrom":"Filiere",
 				"classTo":"Cursus"
 			},

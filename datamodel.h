@@ -41,6 +41,7 @@ private:
     DataModel& operator=(const DataModel& other) {}
 
     QHash<QString, float> _degrees;
+    float _maxDegree;
 
     void computeDegreeCentrality();
 
