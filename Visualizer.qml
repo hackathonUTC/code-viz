@@ -200,7 +200,7 @@ Item {
             model: lineList
             anchors.fill: parent
 
-            property Rectangle recColored : null
+            property int focusedLinkIndex: -1
 
             delegate: Rectangle {
                 id: rec
@@ -223,8 +223,8 @@ Item {
                 y: fromY
                 z: flickable.z + 1
 
-                color: "grey"
-                opacity: 0.3
+                color: index === repeaterLinksClasses.focusedLinkIndex ? "red" : "grey"
+                opacity: index === repeaterLinksClasses.focusedLinkIndex ? 1.0 : 0.2
 
 
                 height: 2
@@ -251,15 +251,11 @@ Item {
                         flickable.contentX += deltaX
                         flickable.contentY += deltaY
                         flickable.returnToBounds();
-                        if (repeaterLinksClasses.recColored)
-                        {
-                            repeaterLinksClasses.recColored.color = "grey"
-                            repeaterLinksClasses.recColored.opacity = 0.2
+                        if (repeaterLinksClasses.focusedLinkIndex === index) {
+                            repeaterLinksClasses.focusedLinkIndex = -1;
+                        } else {
+                            repeaterLinksClasses.focusedLinkIndex = index;
                         }
-
-                        rec.color = "red"
-                        rec.opacity = 1
-                        repeaterLinksClasses.recColored = rec
                     }
 
                     Rectangle {
