@@ -22,6 +22,8 @@ public:
     QJsonArray listLinksCallsOutside(QString classRequested);
     QJsonArray listLinksReferences(QString classRequested, QString methodName);
     QJsonArray listLinksInherits(QString classRequested);
+    QJsonArray listLinksInheritsReverse(QString motherClass);
+
 };
 
 #endif // JSONPARSER_H
