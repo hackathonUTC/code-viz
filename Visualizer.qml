@@ -123,6 +123,7 @@ Item {
             }
         }
 
+
         Canvas {
             id: canvas
             height: flickable.contentHeight;
@@ -134,11 +135,12 @@ Item {
 
             onPaint: {
 
+
                 // Draw a line
                 context.reset()
                 context.beginPath();
                 context.lineWidth = 2;
-                context.strokeStyle = "red"
+                context.strokeStyle = "grey"
                 for(var i = 0 ; i < lineList.length ; ++i)
                 {
                     var line = lineList[i];
@@ -146,6 +148,7 @@ Item {
                     console.log("line to " + line.toX + ";" + line.toY)
                     context.moveTo(line.fromX, line.fromY);
                     context.lineTo(line.toX, line.toY);
+                    context.arc(line.toX, line.toY, 10, 0, 2*Math.PI, true)
                 }
                 context.stroke();
             }
