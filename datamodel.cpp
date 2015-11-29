@@ -4,6 +4,8 @@
 #include <QJsonObject>
 #include "dataobjects.h"
 
+#include <QDebug>
+
 QList<QObject *> DataModel::queryClasses()
 {
     QList<QObject*> result;
@@ -169,6 +171,8 @@ QList<QObject *> DataModel::queryInherits(QString className)
 DataModel::DataModel()
 {
     computeDegreeCentrality();
+
+    computePositions();
 }
 
 void DataModel::computeDegreeCentrality()
@@ -217,6 +221,45 @@ void DataModel::computeDegreeCentrality()
     {
         if(_maxDegree < degree)
             _maxDegree = degree;
+    }
+}
+
+void DataModel::computePositions()
+{
+    class ClassPair : public QPair<QString, float>
+    {
+    public:
+        ClassPair(QString x, float y) : QPair<QString, float>(x, y) {}
+        bool operator<(const ClassPair& other) const
+        {
+            return second > other.second; // we want the biggest value first
+        }
+    };
+
+    QList<ClassPair> sortedClasses;
+    auto keys = _degrees.keys();
+    auto values = _degrees.values();
+    sortedClasses.reserve(keys.size());
+    for(int i = 0 ; i < keys.size() ; ++i)
+    {
+        ClassPair classValue(keys[i], values[i]);
+        sortedClasses.append(classValue);
+    }
+
+    qSort(sortedClasses.begin(), sortedClasses.end());
+
+    // Let's take the biggest one
+    ClassPair biggest = sortedClasses[0];
+    _positions.insert(biggest.first, QPoint(0, 0));
+
+
+
+    QJsonArray children = _dataSource.listLinksInheritsReverse(biggest.first);
+
+
+    for(QJsonValue childVal : children)
+    {
+
     }
 }
 
