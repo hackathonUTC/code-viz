@@ -4,7 +4,6 @@
 #include <QVariant>
 #include <QFile>
 #include <QJsonArray>
-#include <QDebug>
 #include <QString>
 
 
