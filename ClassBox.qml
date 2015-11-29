@@ -49,7 +49,7 @@ Item {
 
     function refreshLinks()
     {
-        /*console.log(referenceListModel.count)
+        console.log(referenceListModel.count)
         lineList.clear();
         for(var i = 0 ; i < referenceListModel.count ; ++i)
         {
@@ -57,17 +57,17 @@ Item {
             var methodObj = getMethodPoint(ref.method);
             var attrObj = getAttributePoint(ref.attribute)
 
-            var pointFrom = mapToItem(attributeRepeater, attrObj.x + attrObj.width, attrObj.y + contentContainer.y)
-            var pointTo = mapToItem(methodRepeater, methodObj.x + root.width/2, methodObj.y + contentContainer.y)
+            var pointFrom = mapToItem(attributeRepeater, attrObj.x + attrObj.width, attrObj.y + contentContainer.height)
+            var pointTo = mapToItem(methodRepeater, methodObj.x + root.width/2, methodObj.y + contentContainer.height)
             console.log("***************" + pointFrom.x + " " + pointFrom.y + " " + pointTo.x + " " + pointTo.y)
 
-//            lineList.append({
-//                           "fromX":pointFrom.x,
-//                           "fromY":pointFrom.y,
-//                           "toX":pointTo.x,
-//                           "toY":pointTo.y
-//                       });
-        }*/
+            lineList.append({
+                           "fromX":pointFrom.x,
+                           "fromY":pointFrom.y,
+                           "toX":pointTo.x,
+                           "toY":pointTo.y
+                       });
+        }
     }
 
     Component.onCompleted: {
@@ -200,8 +200,9 @@ Item {
 
             x: fromX
             y: fromY
-            z: parent.z + 1
+            z: classContent.z + 1
             height: 2
+            color: "green"
             width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
 
 
