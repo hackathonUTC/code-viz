@@ -26,7 +26,7 @@ Item {
 
     function getChildFromName(name){
         for(var i = 0; i < repeater.count; ++i){
-            if (repeater.itemAt(i).title === name)
+            if (repeater.itemAt(i) && repeater.itemAt(i).title === name)
                 return repeater.itemAt(i);
         }
         return null;
@@ -56,17 +56,22 @@ Item {
         lineList.clear()
         for(var i = 0; i < repeater.model.count; ++i){
             var childAt = repeater.itemAt(i)
-            var motherList = childAt.inheritsListModel;
-            if(motherList.count > 0)
+            if(childAt)
             {
-                var motherClass = getChildFromName(motherList.get(0).classTo)
-                lineList.append({
-
-                    "fromX": childAt.x,
-                    "fromY": childAt.y,
-                    "toX": motherClass.x,
-                    "toY": motherClass.y
-                });
+                var motherList = childAt.inheritsListModel;
+                if(motherList.count > 0)
+                {
+                    var motherClass = getChildFromName(motherList.get(0).classTo)
+                    if(motherClass)
+                    {
+                        lineList.append({
+                            "fromX": childAt.x,
+                            "fromY": childAt.y,
+                            "toX": motherClass.x,
+                            "toY": motherClass.y
+                        });
+                    }
+                }
             }
         }
     }
@@ -76,34 +81,35 @@ Item {
         lineMethodsList.clear()
         for(var i = 0; i < repeater.model.count; ++i){
             var childAt = repeater.itemAt(i)
-            var methodList = childAt.callOutsideListModel;
-            if(methodList.count > 0)
+            if(childAt)
             {
-                for (var j = 0; j < methodList.count; ++j){
+                var methodList = childAt.callOutsideListModel;
+                if(methodList.count > 0)
+                {
+                    for (var j = 0; j < methodList.count; ++j){
 
-                    if(getChildFromName(methodList.get(j).classTo))
-                    {
-                        var pointFrom = getChildFromName(methodList.get(j).classFrom)
-                        var pointTo = getChildFromName(methodList.get(j).classTo)
+                        if(getChildFromName(methodList.get(j).classTo))
+                        {
+                            var pointFrom = getChildFromName(methodList.get(j).classFrom)
+                            var pointTo = getChildFromName(methodList.get(j).classTo)
 
 
 
-                        //console.debug("-----------------" + getIndexMethodFromClass(methodList.get(j).classFrom, methodList.get(j).methodFrom))
-                        lineMethodsList.append({
+                            //console.debug("-----------------" + getIndexMethodFromClass(methodList.get(j).classFrom, methodList.get(j).methodFrom))
+                            lineMethodsList.append({
 
-                            "nameClassFrom":  methodList.get(j).classFrom,
-                            "nameClassTo":  methodList.get(j).classTo,
-                            "nameMethodFrom":  methodList.get(j).methodFrom,
-                            "nameMethodTo":  methodList.get(j).methodTo,
-                            "fromX": pointFrom.x + pointFrom.width/2,
-                            "fromY": pointFrom.y,
-                            "toX": pointTo.x  + pointTo.width/2,
-                            "toY": pointTo.y
-                        });
+                                "nameClassFrom":  methodList.get(j).classFrom,
+                                "nameClassTo":  methodList.get(j).classTo,
+                                "nameMethodFrom":  methodList.get(j).methodFrom,
+                                "nameMethodTo":  methodList.get(j).methodTo,
+                                "fromX": pointFrom.x + pointFrom.width/2,
+                                "fromY": pointFrom.y,
+                                "toX": pointTo.x  + pointTo.width/2,
+                                "toY": pointTo.y
+                            });
+                        }
                     }
                 }
-
-
             }
         }
 
