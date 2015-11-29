@@ -171,9 +171,7 @@ Item {
             width: flickable.contentWidth
             height: flickable.contentHeight
             onClicked: {
-                if (mouse.button === Qt.RightButton) {
-                } else if (mouse.button === Qt.LeftButton) {
-                }
+                repeaterLinksClasses.focusedLinkIndex = -1
             }
 
             onWheel: {
