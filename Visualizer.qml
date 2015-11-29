@@ -161,7 +161,7 @@ Item {
 
             delegate: ClassBox {
                     zoom: root.zoom
-                    scale: zoom
+                    //scale: zoom
                     id: classBox
 
                     Behavior on scale {
@@ -178,8 +178,8 @@ Item {
                         NumberAnimation { }
                     }
 
-                    width: 150
-                    height: 250
+                    width: 150 * zoom
+                    height: 250 * zoom
                     x: (flickable.contentWidth - width) / 2.0 -
                        + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                     y: (flickable.contentHeight - height) / 2.0
