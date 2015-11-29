@@ -205,6 +205,15 @@ Item {
             delegate: Rectangle {
                 id: rec
 
+                Rectangle {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+
+                    color:parent.color;
+                    height: 15
+                    width: 15
+                }
+
                 property point to: Qt.point(toX, toY)
                 transform: Rotation {
                     angle: fromX < toX ? Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI : 180 + Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI
