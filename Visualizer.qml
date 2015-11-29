@@ -348,8 +348,8 @@ Item {
 
                 visible: opacity > 0.0
 
-                color: index === repeaterLinksMethods.focusedLinkIndex ? "red" : "grey"
-                opacity: root.state === "zeroZoom" || root.state === "firstZoom" ? (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.2) : 0.0
+                color: index === repeaterLinksMethods.focusedLinkIndex ? "red" : "green"
+                opacity: (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.2)
 
 
                 Behavior on opacity {
