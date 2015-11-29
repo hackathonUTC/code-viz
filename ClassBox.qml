@@ -6,9 +6,13 @@ Item {
     property alias title: titleText.text
 
     property double zoom: 1.0
-    property alias inheritsListModel:inheritsListModel
+    property alias inheritsListModel:inheritageListModel
 
-
+    Rectangle {
+        color: "grey"
+        opacity: 0.5
+        anchors.fill: parent
+    }
 
     Component.onCompleted: {
         methodListModel.append(DataModel.queryMethods(root.title))
@@ -21,19 +25,16 @@ Item {
         var j
         for (; i < methodListModel.count; ++i)
         { var tmp = DataModel.queryMethodReferences(root.title, methodListModel.get(i).name)
-          j = 0
-          while (tmp[j])
-          {
-              console.debug(tmp[j])
-              referenceListModel.append(tmp[j++])}} // Ranger les noms de fonction 1 à 1 dans la ListModel
+            j = 0
+            while (tmp[j])
+            {
+                console.debug(tmp[j])
+                referenceListModel.append(tmp[j++])}} // Ranger les noms de fonction 1 à 1 dans la ListModel
     }
+
 
     ListModel {
         id: methodListModel
-    }
-
-    ListModel {
-        id: inheritsListModel
     }
 
     ListModel {
@@ -120,50 +121,50 @@ Item {
     }
 
 
-//    Canvas {
-//        width: 1000
-//        height: 1000
-//        onPaint: {
-//            var j = 0
-//            // Get drawing context
-//            var context = getContext("2d");
-//            var methodposX
-//            var methodposY
-//            var attributeposX
-//            var attributeposY
-//            for (; j < referenceListModel.count; ++j)
-//            {
-//                var i = 0
+        Canvas {
+            width: 1000
+            height: 1000
+            onPaint: {
+                var j = 0
+                // Get drawing context
+                var context = getContext("2d");
+                var methodposX
+                var methodposY
+                var attributeposX
+                var attributeposY
+                for (; j < referenceListModel.count; ++j)
+                {
+                    var i = 0
 
-//                while (i < methodsContainer.children.length && methodsContainer.children[i].methodName !== referenceListModel.get(i).method)
-//                {
-//                    console.debug(referenceListModel.get(i).method)
-//                    ++i;}
-//                if (methodsContainer.children[i].methodName == referenceListModel.get(i).method)
-//                {
-//                    methodposX = methodsContainer.children.mapToItem(null, 0, 0).x
-//                    methodposY = methodsContainer.children.mapToItem(null, 0, 0).y
-//                }
-//                i = 0
-//                while (i < attributesContainer.children.length && attributesContainer.children.attributeName != attribute)
-//                    ++i;
-//                if (attributesContainer.children.attributeName == attribute)
-//                {
-//                    attributeposX = attributesContainer.children[i].mapToItem(null, 0, 0).x
-//                    attributeposY = attributesContainer.children[i].mapToItem(null, 0, 0).y
-//                }
+                    while (i < methodsContainer.children.length && methodsContainer.children[i].methodName !== referenceListModel.get(i).method)
+                    {
+                        console.debug(referenceListModel.get(i).method)
+                        ++i;}
+                    if (methodsContainer.children[i].methodName == referenceListModel.get(i).method)
+                    {
+                        methodposX = methodsContainer.children.mapToItem(null, 0, 0).x
+                        methodposY = methodsContainer.children.mapToItem(null, 0, 0).y
+                    }
+                    i = 0
+                    while (i < attributesContainer.children.length && attributesContainer.children.attributeName != attribute)
+                        ++i;
+                    if (attributesContainer.children.attributeName == attribute)
+                    {
+                        attributeposX = attributesContainer.children[i].mapToItem(null, 0, 0).x
+                        attributeposY = attributesContainer.children[i].mapToItem(null, 0, 0).y
+                    }
 
-//                console.debug("Tracer une ligne de (" + methodposX + ", " + methodposY + ") vers (" + attributeposX + ", " + attributeposY + ").")
-//                // Draw a line
-//                context.beginPath();
-//                context.lineWidth = 2;
-//                context.moveTo(methodposX, methodposY);
-//                context.strokeStyle = "blue"
-//                context.lineTo(attributeposX, attributeposY);
-//                context.stroke();
-//            }
-//        }
-//    }
+                    console.debug("Tracer une ligne de (" + methodposX + ", " + methodposY + ") vers (" + attributeposX + ", " + attributeposY + ").")
+                    // Draw a line
+                    context.beginPath();
+                    context.lineWidth = 2;
+                    context.moveTo(methodposX, methodposY);
+                    context.strokeStyle = "blue"
+                    context.lineTo(attributeposX, attributeposY);
+                    context.stroke();
+                }
+            }
+        }
 
 
 
