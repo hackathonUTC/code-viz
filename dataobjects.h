@@ -7,12 +7,24 @@ class ClassObject : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName)
+    Q_PROPERTY(float centrality READ centrality WRITE setCentrality)
+
     QString m_name;
+
+    float m_centrality;
 
 public:
     QString name() const { return m_name; }
     void setName(const QString &name) {
         m_name = name;
+    }
+    float centrality() const
+    {
+        return m_centrality;
+    }
+    void setCentrality(float centrality)
+    {
+        m_centrality = centrality;
     }
 };
 

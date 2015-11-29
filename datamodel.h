@@ -2,6 +2,7 @@
 #define DATAMODEL_H
 
 #include <QObject>
+#include <QHash>
 #include "jsonparser.h"
 
 class QQmlEngine;
@@ -38,6 +39,10 @@ private:
     DataModel();
     DataModel(const DataModel& other) {}
     DataModel& operator=(const DataModel& other) {}
+
+    QHash<QString, float> _degrees;
+
+    void computeDegreeCentrality();
 
     JsonParser _dataSource;
 };
