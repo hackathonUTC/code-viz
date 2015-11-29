@@ -16,7 +16,7 @@ Item {
 
     Component.onCompleted: {
         console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
-        listModel.append(DataModel.queryClasses());
+        classListModel.append(DataModel.queryClasses());
 
         /*for (var i = 0; i < listModel.count; ++i){
             listInheritance.append(DataModel.queryInherits(listModel.get(i).name))
@@ -30,7 +30,7 @@ Item {
 
 
     ListModel {
-        id: listModel
+        id: classListModel
     }
 
     ListModel {
@@ -161,7 +161,7 @@ Item {
 
         Repeater {
             id: repeater
-            model: listModel
+            model: classListModel
             anchors.fill: parent
             delegate: ClassBox {
                 zoom: root.zoom
