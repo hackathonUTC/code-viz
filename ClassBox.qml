@@ -14,6 +14,55 @@ Item {
         anchors.fill: parent
     }
 
+    ListModel {
+        id: lineList;
+    }
+
+    function getAttributePoint(attrName)
+    {
+        for(var i = 0 ; i < attributeRepeater.model.count ; ++i)
+        {
+            if(attributeRepeater.itemAt(i).attributeName === attrName)
+            {
+                return attributeRepeater.itemAt(i);
+            }
+        }
+    }
+
+    function getMethodPoint(methodName)
+    {
+        for(var i = 0 ; i < methodRepeater.model.count ; ++i)
+        {
+            if(methodRepeater.itemAt(i).methodName === methodName)
+            {
+                return methodRepeater.itemAt(i);
+            }
+        }
+    }
+
+    function refreshLinks()
+    {
+        console.log(referenceListModel.count)
+        lineList.clear();
+        for(var i = 0 ; i < referenceListModel.count ; ++i)
+        {
+            var ref = referenceListModel.get(i);
+            var methodObj = getMethodPoint(ref.method);
+            var attrObj = getAttributePoint(ref.attribute)
+
+            var pointFrom = mapToItem(attributeRepeater, attrObj.x + attrObj.width, attrObj.y + contentContainer.y)
+            var pointTo = mapToItem(methodRepeater, methodObj.x + root.width/2, methodObj.y + contentContainer.y)
+            console.log("***************" + pointFrom.x + " " + pointFrom.y + " " + pointTo.x + " " + pointTo.y)
+
+//            lineList.append({
+//                           "fromX":pointFrom.x,
+//                           "fromY":pointFrom.y,
+//                           "toX":pointTo.x,
+//                           "toY":pointTo.y
+//                       });
+        }
+    }
+
     Component.onCompleted: {
         methodListModel.append(DataModel.queryMethods(root.title))
         attributeListModel.append(DataModel.queryAttributes(root.title))
@@ -29,7 +78,9 @@ Item {
             while (tmp[j])
             {
                 console.debug(tmp[j])
-                referenceListModel.append(tmp[j++])}} // Ranger les noms de fonction 1 à 1 dans la ListModel
+                referenceListModel.append(tmp[j++])
+            }
+        } // Ranger les noms de fonction 1 à 1 dans la ListModel
     }
 
 
@@ -75,6 +126,7 @@ Item {
         }
 
         Row {
+            id:contentContainer
             Column{
                 visible: opacity > 0.0
                 opacity: root.state === "zeroZoom" ? 1.0 : 0.0
@@ -83,8 +135,12 @@ Item {
                 }
 
                 width: root.state === "zeroZoom" ? titleContainer.width / 2 : 0
+
+                onWidthChanged: refreshLinks();
+
                 id: attributesContainer
                 Repeater{
+                    id: attributeRepeater
                     model: attributeListModel
                     delegate:
                         Row {
@@ -105,6 +161,7 @@ Item {
                 }
 
                 Repeater {
+                    id: methodRepeater
                     model: methodListModel
                     delegate:
                         Row {
@@ -120,53 +177,26 @@ Item {
         }
     }
 
+    Repeater {
+        id:linksRepeater
+        model: lineList
+        anchors.fill: parent;
+        delegate: Rectangle {
+            id: rec
 
-        Canvas {
-            width: 1000
-            height: 1000
-            onPaint: {
-                var j = 0
-                // Get drawing context
-                var context = getContext("2d");
-                var methodposX
-                var methodposY
-                var attributeposX
-                var attributeposY
-                for (; j < referenceListModel.count; ++j)
-                {
-                    var i = 0
-
-                    while (i < methodsContainer.children.length && methodsContainer.children[i].methodName !== referenceListModel.get(i).method)
-                    {
-                        console.debug(referenceListModel.get(i).method)
-                        ++i;}
-                    if (methodsContainer.children[i].methodName == referenceListModel.get(i).method)
-                    {
-                        methodposX = methodsContainer.children.mapToItem(null, 0, 0).x
-                        methodposY = methodsContainer.children.mapToItem(null, 0, 0).y
-                    }
-                    i = 0
-                    while (i < attributesContainer.children.length && attributesContainer.children.attributeName != attribute)
-                        ++i;
-                    if (attributesContainer.children.attributeName == attribute)
-                    {
-                        attributeposX = attributesContainer.children[i].mapToItem(null, 0, 0).x
-                        attributeposY = attributesContainer.children[i].mapToItem(null, 0, 0).y
-                    }
-
-                    console.debug("Tracer une ligne de (" + methodposX + ", " + methodposY + ") vers (" + attributeposX + ", " + attributeposY + ").")
-                    // Draw a line
-                    context.beginPath();
-                    context.lineWidth = 2;
-                    context.moveTo(methodposX, methodposY);
-                    context.strokeStyle = "blue"
-                    context.lineTo(attributeposX, attributeposY);
-                    context.stroke();
-                }
+            transform: Rotation {
+                angle: Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI
             }
+
+            x: fromX
+            y: fromY
+            z: parent.z + 1
+            height: 2
+            width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
+
+
         }
-
-
+    }
 
     MouseArea {
         anchors.fill: parent
