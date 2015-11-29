@@ -229,9 +229,11 @@ Item {
                             }
 
                             id: textField
+                            visible: (root.state === "firstZoom" && visibility === "public") || (root.state === "zeroZoom");
+
                             font.pixelSize: 15
                             width: parent.width
-                            text: root.state === "firstZoom" ? (visibility === "public" ? name+"()" : "") : visibility +": " + name + "()"
+                            text: (root.state === "firstZoom" ? "" : visibility+": " ) + name + "()"
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter                            
