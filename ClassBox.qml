@@ -4,12 +4,12 @@ import codeviz 1.0
 Item {
     id: root
 
-    width: classNamePlaceHolder.implicitWidth // size * zoom * centralityCoefficient
+//    width: classNamePlaceHolder.implicitWidth // size * zoom * centralityCoefficient
     height: classContent.height * zoom * centralityCoefficient
 
     property real baseSize: 25
-    property real coefficientSize: baseSize + centralityCoefficient * 25
-    property real centralityCoefficient
+    property real coefficientSize: baseSize + centralityCoefficient * baseSize
+    property real centralityCoefficient: 1.0
     property double zoom: 1.0
 
     property alias title: classNamePlaceHolder.text
@@ -111,12 +111,32 @@ Item {
         id: inheritageListModel
     }
 
-    states: [State {name: "zeroZoom"
-            when: zoom > 3},
-        State {name: "firstZoom"
-            when: zoom <= 3 && zoom > 2},
-        State {name: "secondZoom"
-            when: zoom <= 2}]
+    states: [
+        State {
+            name: "zeroZoom"
+            when: zoom > 3
+            PropertyChanges {
+                target: root
+                width: 400 // Math.min(classNamePlaceHolder.implicitWidth, 400)
+            }
+        },
+        State {
+            name: "firstZoom"
+            when: zoom <= 3 && zoom > 2
+            PropertyChanges {
+                target: root
+                width: 300 // Math.min(classNamePlaceHolder.implicitWidth, 300)
+            }
+        },
+        State {
+            name: "secondZoom"
+            when: zoom <= 2
+            PropertyChanges {
+                target: root
+                width: Math.min(classNamePlaceHolder.implicitWidth, 200)
+            }
+        }
+    ]
 
     Column {
         id: classContent
@@ -132,12 +152,21 @@ Item {
             opacity: 0.8
             Text {
                 id: classNamePlaceHolder
-                font.pixelSize: titleContainer.height
+                anchors.fill: parent
+                elide: Text.ElideRight
+                font.pixelSize: titleContainer.height - 10
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
             }
         }
 
         Row {
+            id: classRow
+            height: attributesContainer.height > methodsContainer.height
+            ? attributesContainer.height
+            : methodsContainer.height
             Column {
+                id: attributesContainer
                 visible: opacity > 0.0
                 opacity: root.state === "zeroZoom" ? 1.0 : 0.0
                 Behavior on opacity {

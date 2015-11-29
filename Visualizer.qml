@@ -16,7 +16,6 @@ Item {
         id: lineList
     }
 
-
     function refreshInheritance()
     {
         lineList.clear()
@@ -33,14 +32,12 @@ Item {
                     "toX": motherClass.x,
                     "toY": motherClass.y
                 });
-
             }
         }
-
     }
 
     property real zoom: 1.0
-    readonly property real maximumZoom: 4.0
+    readonly property real maximumZoom: 7.0
     readonly property real minimumZoom: 1.0
     readonly property real zoomOffset: 1.5
 
@@ -48,7 +45,6 @@ Item {
 
     Component.onCompleted: {
         classListModel.append(DataModel.queryClasses());
-        console.debug("moo" + classListModel.get(0).centrality)
         refreshInheritance();
     }
 
@@ -59,8 +55,6 @@ Item {
     ListModel {
         id: listInheritance
     }
-
-
 
     Component {
         id: cListElement
