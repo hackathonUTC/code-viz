@@ -117,6 +117,8 @@ Item {
                 }
             }
         }
+
+        refreshMethods()
     }
 
     function refreshMethods()
@@ -276,29 +278,32 @@ Item {
 
 
                 x: (flickable.contentWidth) / 2.0 + positionX
-                    y: (flickable.contentHeight) / 2.0 + positionY
-                    title: name
+                y: (flickable.contentHeight) / 2.0 + positionY
+                title: name
 
-                    onMethodFocused: {
-                        root.focusedMethodFrom = methodName
-                        root.focusedMethodTo = methodName
-                        root.focusedClass = className
-                    }
+                onMethodFocused: {
+                    root.focusedMethodFrom = methodName
+                    root.focusedMethodTo = methodName
+                    root.focusedClass = className
+                }
 
-                    onMethodUnFocused: {
-                        root.focusedMethodFrom = ""
-                        root.focusedMethodTo = ""
-                    }
+                onMethodUnFocused: {
+                    root.focusedMethodFrom = ""
+                    root.focusedMethodTo = ""
+                }
 
-                    onXChanged: {
-                        refreshInheritance()
-                        refreshMethods()
-                    }
+                onWidthChanged: {
 
-                    onYChanged: {
-                        refreshInheritance()
-                        refreshMethods()
-                    }
+                    refreshInheritance()
+                }
+
+                onXChanged: {
+                    refreshInheritance()
+                }
+
+                onYChanged: {
+                    refreshInheritance()
+                }
             }
 
         }
