@@ -75,6 +75,13 @@ Item {
         contentHeight: parent.height //* zoom
         boundsBehavior: Flickable.StopAtBounds
 
+        Behavior on contentX {
+            NumberAnimation { }
+        }
+        Behavior on contentY {
+            NumberAnimation { }
+        }
+
         Rectangle {
             width: flickable.contentWidth
             height: flickable.contentHeight
