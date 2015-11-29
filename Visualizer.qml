@@ -249,7 +249,6 @@ Item {
                         refreshInheritance()
                         refreshMethods()
                     }
-
             }
 
         }
