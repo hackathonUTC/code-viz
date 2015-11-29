@@ -9,13 +9,14 @@ Item {
     property real zoom: 1.0
     readonly property real maximumZoom: 4.0
     readonly property real minimumZoom: 1.0
-    readonly property real zoomOffset: 0.4
+    readonly property real zoomOffset: 1.5
 
     property real distanceFromCenter: 350 * zoom
 
     Component.onCompleted: {
         console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
         classListModel.append(DataModel.queryClasses());
+
     }
 
     ListModel {
@@ -39,6 +40,13 @@ Item {
         anchors.fill: parent
         contentWidth: parent.width * zoom
         contentHeight: parent.height * zoom
+
+        Rectangle {
+            width: flickable.contentWidth
+            height: flickable.contentHeight
+            color: "red"
+            opacity: 0.7
+        }
 
         MouseArea {
             width: flickable.contentWidth
@@ -73,12 +81,11 @@ Item {
             anchors.fill: parent
             delegate: ClassBox {
                 zoom: root.zoom
-                scale: zoom
+                scale: zoom * (0.5 + 1.1*centrality)
 
                 Behavior on scale {
                     NumberAnimation {
-                        easing.type: Easing.OutQuint
-                        duration: 1000
+
                     }
                 }
 

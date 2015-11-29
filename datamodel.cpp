@@ -17,7 +17,7 @@ QList<QObject *> DataModel::queryClasses()
 
         ClassObject* classObj = new ClassObject();
         classObj->setName(className);
-        classObj->setCentrality(_degrees[className]);
+        classObj->setCentrality(_degrees[className] / _maxDegree);
 
         result.append(classObj);
     }
@@ -171,11 +171,12 @@ DataModel::DataModel()
 
 void DataModel::computeDegreeCentrality()
 {
+    _maxDegree = 0.f;
     QJsonArray classes = _dataSource.listClasses();
 
     const float intraClassCallWeight = 0.5f;
-    const float extraClassCallWeight = 0.5f;
-    const float inheritanceWeight = 0.5f;
+    const float extraClassCallWeight = 1.f;
+    const float inheritanceWeight = 1.f;
 
     for(QJsonValue oneClass : classes)
     {
@@ -208,6 +209,12 @@ void DataModel::computeDegreeCentrality()
             QString parentName = parentClass.toObject()["classTo"].toString();
             _degrees[parentName] += inheritanceWeight;
         }
+    }
+
+    foreach(float degree, _degrees)
+    {
+        if(_maxDegree < degree)
+            _maxDegree = degree;
     }
 }
 
