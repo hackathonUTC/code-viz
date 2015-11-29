@@ -200,7 +200,7 @@ Item {
                         width: parent.width
                         property string attributeName: name
                         Text {
-                            text: name + ":"+ type
+                            text: type + " "+ name
                             width: parent.width
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
@@ -230,7 +230,7 @@ Item {
                             id: textField
                             font.pixelSize: 15
                             width: parent.width
-                            text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
+                            text: root.state === "firstZoom" ? (visibility === "public" ? name+"()" : "") : visibility +": " + name + "()"
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter                            
