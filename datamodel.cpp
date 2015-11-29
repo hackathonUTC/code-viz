@@ -263,3 +263,11 @@ void DataModel::computePositions()
     }
 }
 
+Q_INVOKABLE QList<QPoint*> DataModel::setBaseClassBoxLocations(ClassPair *cc)
+{
+
+
+
+}
+
+

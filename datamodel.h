@@ -35,7 +35,7 @@ public:
     Q_INVOKABLE QList<QObject*> queryMethodReferences(QString className, QString methodName);
     Q_INVOKABLE QList<QObject*> queryInherits(QString className);
 
-    //Q_INVOKABLE QList<QPoint*> setBaseClassBoxLocations()
+    Q_INVOKABLE QList<QPoint*> setBaseClassBoxLocations(ClassPair *cc,
 
 private:
     DataModel();
