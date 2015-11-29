@@ -4,9 +4,8 @@ import codeviz 1.0
 Item {
     id: root
 
-//    width: classNamePlaceHolder.implicitWidth // size * zoom * centralityCoefficient
     height: classContent.height
-
+    clip: true
     property real baseSize: 25
     property real coefficientSize: baseSize + centralityCoefficient * baseSize
     property real centralityCoefficient: 1.0
@@ -14,6 +13,14 @@ Item {
 
     property alias title: classNamePlaceHolder.text
     property alias inheritsListModel:inheritageListModel
+
+    Behavior on width {
+        NumberAnimation { }
+    }
+
+    Behavior on height {
+        NumberAnimation { }
+    }
 
     Rectangle {
         color: "grey"
@@ -180,11 +187,14 @@ Item {
                 Repeater{
                     id: attributeRepeater
                     model: attributeListModel
+                    width: parent.width
                     delegate:
                         Row {
+                        width: parent.width
                         property string attributeName: name
                         Text {
                             text: name + ":"+ type
+                            width: parent.width
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -204,11 +214,14 @@ Item {
                 Repeater {
                     id: methodRepeater
                     model: methodListModel
+                    width: parent.width
                     delegate:
                         Row {
                         property string methodName: name
+                        width: parent.width
                         Text {
                             id: textField
+                            width: parent.width
                             text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
