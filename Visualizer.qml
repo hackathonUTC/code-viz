@@ -5,6 +5,9 @@ import codeviz 1.0
 Item {
     id: root
 
+    property string focusedMethod: ""
+    property string focusedClass: ""
+
     states: [
         State {
             name: "zeroZoom"
@@ -84,7 +87,10 @@ Item {
 
                     lineMethodsList.append({
 
-
+                        "nameClassFrom":  methodList.get(j).classFrom,
+                        "nameClassTo":  methodList.get(j).classTo,
+                        "nameMethodFrom":  methodList.get(j).methodFrom,
+                        "nameMethodTo":  methodList.get(j).methodTo,
                         "fromX": pointFrom.x + pointFrom.width/2,
                         "fromY": pointFrom.y,
                         "toX": pointTo.x  + pointTo.width/2,
@@ -227,6 +233,7 @@ Item {
             delegate: ClassBox {
                 id: classBox
                 zoom: root.zoom
+                focusedMethod: root.focusedMethod
                 centralityCoefficient: centrality
 
 //                    Behavior on width {
@@ -346,9 +353,10 @@ Item {
         Repeater{
             id: repeaterLinksMethods
             model: lineMethodsList
-            anchors.fill: parent
+            anchors.fill: parent            
 
-            property Rectangle recColored : null
+            property int focusedLinkIndex: -1
+
 
             delegate: Rectangle {
                 id: recMethods
@@ -362,9 +370,11 @@ Item {
                 y: fromY
                 z: flickable.z + 1
 
-                color: "purple"
-                opacity: root.state === "zeroZoom" || root.state === "firstZoom" ? 0.3 : 0.0
                 visible: opacity > 0.0
+
+                color: index === repeaterLinksMethods.focusedLinkIndex ? "red" : "grey"
+                opacity: root.state === "zeroZoom" || root.state === "firstZoom" ? (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.2) : 0.0
+
 
                 Behavior on opacity {
                     NumberAnimation { }
@@ -381,11 +391,13 @@ Item {
                     width: parent.width
                     hoverEnabled: true
                     onEntered: {
-                        linkHighlight.visible = true;
+                        root.focusedMethod = nameMethodFrom
+                        repeaterLinksMethods.focusedLinkIndex = index
                     }
 
                     onExited: {
-                        linkHighlight.visible = false;
+                        root.focusedMethod = ""
+                        repeaterLinksMethods.focusedLinkIndex = -1
                     }
 
                     onClicked: {
@@ -394,23 +406,14 @@ Item {
                         flickable.contentX += deltaX
                         flickable.contentY += deltaY
                         flickable.returnToBounds();
-                        if (repeaterLinksMethods.recColored)
-                        {
-                            repeaterLinksMethods.recColored.color = "grey"
-                            repeaterLinksMethods.recColored.opacity = 0.2
-                        }
 
-                        rec.color = "red"
-                        rec.opacity = 1
-                        repeaterLinksMethods.recColored = rec
                     }
 
                     Rectangle {
                         id: linkHighlightMethods
                         anchors.fill: parent
                         visible: false
-                        color: "yellow"
-                        opacity: 0.9
+                        opacity: 1
                         antialiasing: true
                         radius: height / 2.0
                     }
