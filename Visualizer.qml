@@ -15,12 +15,12 @@ Item {
 
     Component.onCompleted: {
         console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
-        listModel.append(DataModel.queryClasses());
+        classListModel.append(DataModel.queryClasses());
 
     }
 
     ListModel {
-        id: listModel
+        id: classListModel
     }
 
     Component {
@@ -77,7 +77,7 @@ Item {
 
         Repeater {
             id: repeater
-            model: listModel
+            model: classListModel
             anchors.fill: parent
             delegate: ClassBox {
                 zoom: root.zoom
