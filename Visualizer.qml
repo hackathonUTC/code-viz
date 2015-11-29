@@ -84,8 +84,7 @@ Item {
         Rectangle {
             width: flickable.contentWidth
             height: flickable.contentHeight
-            color: "black"
-            opacity: 0.7
+            color: "white"
         }
 
         MouseArea {
@@ -201,11 +200,13 @@ Item {
 
         }
 
+
         Repeater{
             id: repeaterLinksClasses
             model: lineList
             anchors.fill: parent
 
+            property Rectangle recColored : null
 
             delegate: Rectangle {
                 id: rec
@@ -219,12 +220,16 @@ Item {
                 y: fromY
                 z: flickable.z + 1
 
+                color: "grey"
+                opacity: 0.3
+
 
                 height: 2
                 width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
 
 
                 MouseArea {
+
                     anchors.centerIn: parent
                     height: parent.height * 4.0
                     width: parent.width
@@ -243,6 +248,15 @@ Item {
                         flickable.contentX += deltaX
                         flickable.contentY += deltaY
                         flickable.returnToBounds();
+                        if (repeaterLinksClasses.recColored)
+                        {
+                            repeaterLinksClasses.recColored.color = "grey"
+                            repeaterLinksClasses.recColored.opacity = 0.2
+                        }
+
+                        rec.color = "red"
+                        rec.opacity = 1
+                        repeaterLinksClasses.recColored = rec
                     }
 
                     Rectangle {
@@ -250,6 +264,7 @@ Item {
                         anchors.fill: parent
                         visible: false
                         color: "yellow"
+                        opacity: 0.9
                         antialiasing: true
                         radius: height / 2.0
                     }

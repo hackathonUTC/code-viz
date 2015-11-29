@@ -6,6 +6,10 @@
 
 #include <QDebug>
 
+#include <qmath.h>
+
+#define DEC 20
+
 QList<QObject *> DataModel::queryClasses()
 {
     QList<QObject*> result;
@@ -248,26 +252,141 @@ void DataModel::computePositions()
 
     qSort(sortedClasses.begin(), sortedClasses.end());
 
-    // Let's take the biggest one
-    ClassPair biggest = sortedClasses[0];
-    _positions.insert(biggest.first, QPoint(0, 0));
 
 
 
-    QJsonArray children = _dataSource.listLinksInheritsReverse(biggest.first);
+    // Calcul des positions des ClassBox
+    int nombre_de_centres = ((sortedClasses[2].second / sortedClasses[1].second) > 0.95f || (sortedClasses[1].second / sortedClasses[0].second) < 0.8f) ? 1 : 2;
 
-
-    for(QJsonValue childVal : children)
+    // Let's set the biggest(s) one(s)
+    float R = sortedClasses[0].second * 25; // 25 taille de base du classBox
+    if (nombre_de_centres == 1)
+        _positions.insert(sortedClasses[0].first, QPoint(0, 0));
+    else
     {
+        float* d = new float[2];
+        dist(1, 1, R, 0, d);
+        _positions.insert(sortedClasses[0].first, QPoint((int) (d[0]/2.f * sortedClasses[1].second/sortedClasses[0].second + DEC), 0));
+        _positions.insert(sortedClasses[1].first, QPoint((int) (-d[0]/2.f * sortedClasses[0].second/sortedClasses[1].second + DEC), 0));
+    }
 
+    // Consider the other classes, ordering by cov decreasing with the biggest(s)
+    // Replacing
+    int i = 2;
+    QList<ClassPair> sortedCovar = sortedClasses;
+    if (nombre_de_centres == 1)
+    {
+        // Calculating covar with 1 center
+        for (; i < keys.size(); ++i)
+            sortedCovar[i].second = closeness(sortedCovar[i].first, sortedCovar[0].first);
+
+        // Ordering (with naive algortihm...)
+        for (i = 2; i < keys.size() - 1; ++i)
+        {
+            float covmax = sortedCovar[i].second;
+            int j = i + 1;
+            int indexmax = i;
+            for (; j < keys.size(); ++j){
+                if (covmax < sortedCovar[j].second)
+                {
+                    indexmax = j;
+                    covmax = sortedCovar[j].second;
+                }
+            }
+            ClassPair temp = sortedClasses[i];
+            sortedClasses[i].first = sortedClasses[indexmax].first;
+            sortedClasses[i].second = covmax;
+            sortedClasses[indexmax] = temp;
+        }
+
+        // Array ordered by now. Calculating locations of all classes
+        i = nombre_de_centres;
+        float angle = 0;
+        for (; i < keys.size(); ++i)
+        {
+            float* d = new float[2];
+            dist(sortedCovar[i].second, sortedCovar[2].second, R, angle, d);
+            _positions.insert(sortedClasses[i].first, QPoint((int) d[0], (int) d[1]));
+            angle += 7 * M_PI / 6;
+        }
+    }
+    else
+    {
+        // Calculating covar with 2 center
+        for (; i < keys.size(); ++i)
+            sortedCovar[i].second = closeness(sortedCovar[i].first, sortedCovar[0].first) + closeness(sortedCovar[i].first, sortedCovar[1].first) * sortedClasses[1].second / sortedClasses[0].second;
+
+        // Ordering (with naive algortihm...)
+        for (i = 2; i < keys.size() - 1; ++i)
+        {
+            float covmax = sortedCovar[i].second;
+            int j = i + 1;
+            int indexmax = i;
+            for (; j < keys.size(); ++j){
+                if (covmax < sortedCovar[j].second)
+                {
+                    indexmax = j;
+                    covmax = sortedCovar[j].second;
+                }
+            }
+            ClassPair temp = sortedClasses[i];
+            sortedClasses[i].first = sortedClasses[indexmax].first;
+            sortedClasses[i].second = covmax;
+            sortedClasses[indexmax] = temp;
+        }
+
+        // Array ordered by now. Calculating locations of all classes
+        _positions.insert(sortedClasses[2].first, QPoint(0, -20));
+        float angle = 7 * M_PI / 6;
+        for (i = 3; i < keys.size(); ++i)
+        {
+            float* d = new float[2];
+            dist(sortedCovar[i].second, sortedCovar[2].second, R, angle, d);
+            _positions.insert(sortedClasses[i].first, QPoint((int) d[0], (int) d[1]));
+            angle += 7 * M_PI / 6;
+        }
     }
 }
 
-Q_INVOKABLE QList<QPoint*> DataModel::setBaseClassBoxLocations(ClassPair *cc)
-{
+float DataModel::closeness(QString class1, QString class2){
+    float value = 0.f;
+    QJsonArray inherits1 = _dataSource.listLinksInherits(class1);
+    for(QJsonValue it : inherits1)
+    {
+        if(it.toObject()["classTo"] == class2)
+            value += 1.f;
+    }
 
+    QJsonArray inherits2 = _dataSource.listLinksInherits(class2);
+    for(QJsonValue it : inherits2)
+    {
+        if(it.toObject()["classTo"] == class1)
+            value += 1.f;
+    }
 
+    QJsonArray methodCalls1 = _dataSource.listLinksCallsOutside(class1);
+    for(QJsonValue it : methodCalls1)
+    {
+        if(it.toObject()["classTo"] == class2)
+            value += 0.2f;
+    }
 
+    QJsonArray methodCalls2 = _dataSource.listLinksCallsOutside(class2);
+    for(QJsonValue it : methodCalls2)
+    {
+        if(it.toObject()["classTo"] == class1)
+            value += 0.2f;
+    }
+
+    return value;
 }
+
+void DataModel::dist(float cov1, float covmax /* max des covariances de la ligne de cov1*/, float R, float angle, float res[2])
+{
+    float tmp = qMin(0.01f, covmax / cov1) * R;
+    res[0] = tmp * cos(angle);
+    res[1] = tmp * sin(angle);
+}
+
 
 
