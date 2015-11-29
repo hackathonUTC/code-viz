@@ -78,6 +78,7 @@ Item {
         anchors.fill: parent
         contentWidth: parent.width// * zoom
         contentHeight: parent.height //* zoom
+        boundsBehavior: Flickable.StopAtBounds
 
         Rectangle {
             width: flickable.contentWidth
@@ -225,7 +226,7 @@ Item {
 
                 MouseArea {
                     anchors.centerIn: parent
-                    height: parent.height * 3.0
+                    height: parent.height * 4.0
                     width: parent.width
                     hoverEnabled: true
                     onEntered: {
@@ -237,7 +238,11 @@ Item {
                     }
 
                     onClicked: {
-                        console.debug("clicked on rect :)")
+                        var deltaX = rec.to.x - (flickable.contentX + root.width / 2.0)
+                        var deltaY = rec.to.y - (flickable.contentY + root.height / 2.0)
+                        flickable.contentX += deltaX
+                        flickable.contentY += deltaY
+                        flickable.returnToBounds();
                     }
 
                     Rectangle {
@@ -250,8 +255,6 @@ Item {
                     }
                 }
             }
-
         }
-
     }
 }
