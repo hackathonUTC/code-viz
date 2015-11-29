@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QPoint>
 #include "jsonparser.h"
 
 class QQmlEngine;
@@ -43,8 +44,12 @@ private:
 
     QHash<QString, float> _degrees;
     float _maxDegree;
+    QHash<QString, QPoint> _positions;
 
     void computeDegreeCentrality();
+    void computePositions();
+
+    float closeness(QString class1, QString class2);
 
 
 
