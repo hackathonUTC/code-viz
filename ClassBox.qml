@@ -6,24 +6,25 @@ Item {
     property alias title: titleText.text
 
     property double zoom: 1.0
-    property alias inheritsListModel:inheritsListModel
+    property alias inheritsListModel:inheritageListModel
 
-
+    Rectangle {
+        color: "grey"
+        opacity: 0.5
+        anchors.fill: parent
+    }
 
     Component.onCompleted: {
         methodListModel.append(DataModel.queryMethods(root.title))
         attributeListModel.append(DataModel.queryAttributes(root.title))
-        referenceListModel.append(DataModel.queryMethodReferences(root.title))
         callInsideListModel.append(DataModel.queryCallsInsideClass(root.title))
         inheritageListModel.append(DataModel.queryInherits(root.title))
+
+        //referenceListModel.append(DataModel.queryMethodReferences(root.title))
     }
 
     ListModel {
         id: methodListModel
-    }
-
-    ListModel {
-        id: inheritsListModel
     }
 
     ListModel {
