@@ -125,8 +125,7 @@ Item {
 
                     if (zoom != newZoom) {
                         zoom = newZoom;
-                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
-                                             flickable.contentHeight / 2.0)
+                        var newCenter = Qt.point(wheel.x, wheel.y);
                         flickable.resizeContent(newZoom * root.width,
                                                 newZoom * root.height,
                                                 newCenter)
@@ -136,8 +135,7 @@ Item {
                     var newZoom = Math.max(root.minimumZoom, zoom - zoomOffset);
                     if (zoom != newZoom) {
                         zoom = newZoom;
-                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
-                                                 flickable.contentHeight / 2.0)
+                        var newCenter = Qt.point(wheel.x, wheel.y);
                         flickable.resizeContent(newZoom * root.width,
                                                     newZoom * root.height,
                                                     newCenter)
