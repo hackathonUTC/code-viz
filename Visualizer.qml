@@ -12,6 +12,7 @@ Item {
     Component.onCompleted: {
         console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
         listModel.append(DataModel.queryClasses());
+
     }
 
     ListModel {

@@ -4,21 +4,16 @@
 #include <QJsonObject>
 #include "dataobjects.h"
 
-#include <QDebug>
-
 QList<QObject *> DataModel::queryClasses()
 {
     QList<QObject*> result;
     QJsonArray jClasses = _dataSource.listClasses();
-
-    qDebug() << "prout" << jClasses;
 
     result.reserve(jClasses.size());
 
     for(QJsonValue jClass : jClasses)
     {
         QString className = jClass.toString();
-        qDebug() << jClass << className;
 
         ClassObject* classObj = new ClassObject();
         classObj->setName(className);

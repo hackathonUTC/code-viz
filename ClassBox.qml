@@ -6,49 +6,42 @@ Item {
     property alias title: titleText.text
 
     property double zoom: 1.0
-    property var methods
-
-    property var attributes
 
     Component.onCompleted: {
-        attributes = DataModel.queryAttributes(title);
-        methods = DataModel.queryMethods(title);
+        methodListModel.append(DataModel.queryMethods(root.title))
+        attributeListModel.append(DataModel.queryAttributes(root.title))
+        referenceListModel.append(DataModel.queryMethodReferences(root.title))
+        callInsideListModel.append(DataModel.queryCallsInsideClass(root.title))
+        inheritageListModel.append(DataModel.queryInherits(root.title))
     }
 
+    ListModel {
+        id: methodListModel
+    }
 
-    /*property var methods: ListModel{
-            id:listMethods
-            ListElement{
-                name:"blabla"
-                visibility:"machin"
-            }
-            ListElement{
-                name:"method"
-                visibility:"public"
-            }
-        }*/
+    ListModel {
+        id: attributeListModel
+    }
+
+    ListModel {
+        id: referenceListModel
+    }
+
+    ListModel {
+        id: callInsideListModel
+    }
+
+    ListModel {
+        id: inheritageListModel
+    }
 
     states: [State {name: "zeroZoom"
-                    when: zoom > 5},
+                    when: zoom > 3},
              State {name: "firstZoom"
-                    when: zoom <= 5 && zoom > 2.5},
+                    when: zoom <= 3 && zoom > 2},
              State {name: "secondZoom"
-                    when: zoom <= 2.5}]
+                    when: zoom <= 2}]
 
-
-
-
-    /*property var attributes: ListModel{
-        id:listAttributes
-        ListElement{
-            name:"blabla"
-            type:"public"
-        }
-        ListElement{
-            name:"method"
-            type:"truc"
-        }
-    }*/
 
     Column {
         anchors.fill: parent
@@ -66,10 +59,10 @@ Item {
         Row {
             Column{
                 visible: root.state === "zeroZoom"
-                width: /*titleContainer.width / 2 */ root.state === "zeroZoom" ? titleContainer.width / 2 : 0
+                width: root.state === "zeroZoom" ? titleContainer.width / 2 : 0
                 id: attributesContainer
                 Repeater{
-                    model: attributes
+                    model: attributeListModel
                     delegate:
                         Row{
                         Text{
@@ -83,11 +76,11 @@ Item {
                 visible: !(root.state === "secondZoom")
                 id: methodsContainer
                 Repeater{
-                    model: methods
+                    model: methodListModel
                     delegate:
                         Row{
                         Text{
-                            text: /*name + ":" + visibility*/root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
+                            text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
                         }
                     }
                 }
