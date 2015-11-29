@@ -15,6 +15,8 @@ Item {
     property alias inheritsListModel:inheritageListModel
     property alias callOutsideListModel: callOutsideListModel
 
+    property var focusedMethod: ""
+
 
     Behavior on width {
         NumberAnimation { }
@@ -218,7 +220,7 @@ Item {
                     NumberAnimation {}
                 }
 
-                Repeater {
+                Repeater {                    
                     id: methodRepeater
                     model: methodListModel
                     width: parent.width
@@ -234,6 +236,7 @@ Item {
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
+                            color: methodName == root.focusedMethod ? "red" : "black"
                         }
                     }
                 }
