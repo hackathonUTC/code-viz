@@ -14,6 +14,8 @@ Item {
 
     property alias title: classNamePlaceHolder.text
     property alias inheritsListModel:inheritageListModel
+    property alias callOutsideListModel: callOutsideListModel
+
 
     Rectangle {
         color: "grey"
@@ -74,6 +76,7 @@ Item {
         methodListModel.append(DataModel.queryMethods(root.title))
         attributeListModel.append(DataModel.queryAttributes(root.title))
         callInsideListModel.append(DataModel.queryCallsInsideClass(root.title))
+        callOutsideListModel.append(DataModel.queryCallsOutsideClass(root.title))
         inheritageListModel.append(DataModel.queryInherits(root.title))
 
         // Récupérer les références
@@ -105,6 +108,10 @@ Item {
 
     ListModel {
         id: callInsideListModel
+    }
+
+    ListModel {
+        id: callOutsideListModel
     }
 
     ListModel {
@@ -178,7 +185,7 @@ Item {
                         property string methodName: name
                         Text {
                             id: textField
-
+                            font.pixelSize: 15
                             text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
                         }
                     }

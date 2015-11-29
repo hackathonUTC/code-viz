@@ -12,8 +12,21 @@ Item {
         }
     }
 
+    function getIndexMethodFromClass(className, methodName){
+
+        var methods = DataModel.queryMethods(className)
+
+        for(var i = 0; i < methods.count; ++i){
+            console.debug("************" + methods.get(i))
+        }
+    }
+
     ListModel {
         id: lineList
+    }
+
+    ListModel {
+        id: lineMethodsList
     }
 
 
@@ -33,6 +46,35 @@ Item {
                     "toX": motherClass.x,
                     "toY": motherClass.y
                 });
+
+            }
+        }
+
+    }
+
+    function refreshMethods()
+    {
+        lineMethodsList.clear()
+        for(var i = 0; i < repeater.model.count; ++i){
+            var childAt = repeater.itemAt(i)
+            var methodList = childAt.callOutsideListModel;
+            if(methodList.count > 0)
+            {
+                for (var j = 0; j < methodList.count; ++j){
+
+
+                    //methodList.get(j).methodTo
+
+                    lineMethodsList.append({
+
+                        "fromX": getChildFromName(methodList.get(j).classFrom).x,
+                        "fromY": getChildFromName(methodList.get(j).classFrom).y + getIndexMethodFromClass(methodList.get(j).methodFrom)*15,
+                        "toX": getChildFromName(methodList.get(j).classTo).x,
+                        "toY": getChildFromName(methodList.get(j).classTo).y,
+                    });
+                }
+
+
 
             }
         }
@@ -262,6 +304,77 @@ Item {
 
                     Rectangle {
                         id: linkHighlight
+                        anchors.fill: parent
+                        visible: false
+                        color: "yellow"
+                        opacity: 0.9
+                        antialiasing: true
+                        radius: height / 2.0
+                    }
+                }
+            }
+        }
+
+        Repeater{
+            id: repeaterLinksMethods
+            model: lineMethodsList
+            anchors.fill: parent
+
+            property Rectangle recColored : null
+
+            delegate: Rectangle {
+                id: recMethods
+
+                property point to: Qt.point(toX, toY)
+                transform: Rotation {
+                    angle: fromX < toX ? Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI : 180 + Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI
+                }
+
+                x: fromX
+                y: fromY
+                z: flickable.z + 1
+
+                color: "grey"
+                opacity: 0.3
+
+
+                height: 2
+                width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
+
+
+                MouseArea {
+
+                    anchors.centerIn: parent
+                    height: parent.height * 4.0
+                    width: parent.width
+                    hoverEnabled: true
+                    onEntered: {
+                        linkHighlight.visible = true;
+                    }
+
+                    onExited: {
+                        linkHighlight.visible = false;
+                    }
+
+                    onClicked: {
+                        var deltaX = rec.to.x - (flickable.contentX + root.width / 2.0)
+                        var deltaY = rec.to.y - (flickable.contentY + root.height / 2.0)
+                        flickable.contentX += deltaX
+                        flickable.contentY += deltaY
+                        flickable.returnToBounds();
+                        if (repeaterLinksMethods.recColored)
+                        {
+                            repeaterLinksMethods.recColored.color = "grey"
+                            repeaterLinksMethods.recColored.opacity = 0.2
+                        }
+
+                        rec.color = "red"
+                        rec.opacity = 1
+                        repeaterLinksMethods.recColored = rec
+                    }
+
+                    Rectangle {
+                        id: linkHighlightMethods
                         anchors.fill: parent
                         visible: false
                         color: "yellow"
