@@ -176,11 +176,6 @@ Item {
                 }
             }
 
-            onDoubleClicked: {
-                var mousePoint = Qt.point(mouse.x, mouse.y);
-                ++zoom;
-            }
-
             onWheel: {
                 if (wheel.angleDelta.y > 0) {
                     var scrollPoint = root.mapFromItem(flickable.contentItem, wheel.x, wheel.y);

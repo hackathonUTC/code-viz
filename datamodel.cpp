@@ -4,8 +4,6 @@
 #include <QJsonObject>
 #include "dataobjects.h"
 
-#include <QDebug>
-
 QList<QObject *> DataModel::queryClasses()
 {
     QList<QObject*> result;
@@ -160,7 +158,6 @@ QList<QObject *> DataModel::queryInherits(QString className)
         linkObj->setClassFrom(className);
 
         linkObj->setClassTo(classTo);
-        //qDebug() << classTo;
 
         result.append(linkObj);
     }

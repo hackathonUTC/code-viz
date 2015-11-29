@@ -347,10 +347,6 @@
 						"visibility":"public"
 					},
 					{
-						"name":"disable",
-						"visibility":"public"
-					},
-					{
 						"name":"updateView",
 						"visibility":"public"
 					},
