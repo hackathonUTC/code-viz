@@ -171,9 +171,7 @@ Item {
             width: flickable.contentWidth
             height: flickable.contentHeight
             onClicked: {
-                if (mouse.button === Qt.RightButton) {
-                } else if (mouse.button === Qt.LeftButton) {
-                }
+                repeaterLinksClasses.focusedLinkIndex = -1
             }
 
             onWheel: {
@@ -241,13 +239,14 @@ Item {
 
                     onMethodFocused: {
                         root.focusedMethodFrom = methodName
+                        root.focusedMethodTo = methodName
                         root.focusedClass = className
                     }
 
                     onMethodUnFocused: {
                         root.focusedMethodFrom = ""
+                        root.focusedMethodTo = ""
                     }
-
 
                     onXChanged: {
                         refreshInheritance()
@@ -362,8 +361,10 @@ Item {
 
                 visible: opacity > 0.0
 
-                color: index === repeaterLinksMethods.focusedLinkIndex ? "red" : "green"
-                opacity: (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.2)
+                color: nameMethodFrom == root.focusedMethodFrom || nameMethodTo == root.focusedMethodTo || index === repeaterLinksMethods.focusedLinkIndex ? "red" : "green"
+                opacity: (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.3)
+
+
 
 
                 Behavior on opacity {
@@ -384,6 +385,7 @@ Item {
                         root.focusedMethodFrom = nameMethodFrom
                         root.focusedMethodTo = nameMethodTo
                         repeaterLinksMethods.focusedLinkIndex = index
+
                     }
 
                     onExited: {
