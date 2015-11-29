@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE QList<QObject*> queryMethodReferences(QString className, QString methodName);
     Q_INVOKABLE QList<QObject*> queryInherits(QString className);
 
+    //Q_INVOKABLE QList<QPoint*> setBaseClassBoxLocations()
 
 private:
     DataModel();
@@ -44,6 +45,8 @@ private:
     float _maxDegree;
 
     void computeDegreeCentrality();
+
+
 
     JsonParser _dataSource;
 };
