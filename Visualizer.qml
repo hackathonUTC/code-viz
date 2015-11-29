@@ -291,7 +291,7 @@ Item {
                 y: fromY
                 z: flickable.z + 1
 
-                color: index === repeaterLinksClasses.focusedLinkIndex ? "red" : "grey"
+                color: index === repeaterLinksClasses.focusedLinkIndex ? "purple" : "grey"
                 opacity: index === repeaterLinksClasses.focusedLinkIndex ? 1.0 : 0.2
 
 
@@ -330,7 +330,7 @@ Item {
                         id: linkHighlight
                         anchors.fill: parent
                         visible: false
-                        color: "yellow"
+                        color: "purple"
                         opacity: 0.9
                         antialiasing: true
                         radius: height / 2.0
