@@ -16,7 +16,6 @@ Item {
     Component.onCompleted: {
         console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
         classListModel.append(DataModel.queryClasses());
-
     }
 
     ListModel {
@@ -40,13 +39,6 @@ Item {
         anchors.fill: parent
         contentWidth: parent.width * zoom
         contentHeight: parent.height * zoom
-
-        Rectangle {
-            width: flickable.contentWidth
-            height: flickable.contentHeight
-            color: "red"
-            opacity: 0.7
-        }
 
         MouseArea {
             width: flickable.contentWidth
