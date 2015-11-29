@@ -134,6 +134,21 @@ QJsonArray JsonParser::listLinksInherits(QString classRequested)
     return result;
 }
 
+QJsonArray JsonParser::listLinksInheritsReverse(QString classRequested)
+{
+    QJsonArray result;
+    foreach (const QJsonValue & value, _linksArray) {
+        QJsonObject obj = value.toObject();
+
+        if (obj["type"].toString() == "inherits"
+                && obj["classTo"].toString() == classRequested)
+        {
+            result.append(obj);
+        }
+    }
+    return result;
+}
+
 JsonParser::~JsonParser()
 {
 
