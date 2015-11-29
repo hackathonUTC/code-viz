@@ -235,10 +235,8 @@ Item {
                 centralityCoefficient: centrality
 
 
-                    x: (flickable.contentWidth - width) / 2.0 -
-                       + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
-                    y: (flickable.contentHeight - height) / 2.0
-                        + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
+                x: (flickable.contentWidth) / 2.0 + positionX
+                    y: (flickable.contentHeight) / 2.0 + positionY
                     title: name
 
                     onMethodFocused: {

@@ -24,6 +24,8 @@ QList<QObject *> DataModel::queryClasses()
         ClassObject* classObj = new ClassObject();
         classObj->setName(className);
         classObj->setCentrality(_degrees[className] / _maxDegree);
+        classObj->setPositionX(_positions[className].x());
+        classObj->setPositionY(_positions[className].y());
 
         result.append(classObj);
     }
@@ -164,7 +166,6 @@ QList<QObject *> DataModel::queryInherits(QString className)
         linkObj->setClassFrom(className);
 
         linkObj->setClassTo(classTo);
-        //qDebug() << classTo;
 
         result.append(linkObj);
     }
@@ -259,7 +260,7 @@ void DataModel::computePositions()
     int nombre_de_centres = ((sortedClasses[2].second / sortedClasses[1].second) > 0.95f || (sortedClasses[1].second / sortedClasses[0].second) < 0.8f) ? 1 : 2;
 
     // Let's set the biggest(s) one(s)
-    float R = sortedClasses[0].second * 25; // 25 taille de base du classBox
+    float R = sortedClasses[0].second * 1.3; // 200 décalage de base du classBox
     if (nombre_de_centres == 1)
         _positions.insert(sortedClasses[0].first, QPoint(0, 0));
     else
@@ -267,7 +268,6 @@ void DataModel::computePositions()
         float* d = new float[2];
         dist(1, 1, R, 0, d);
         _positions.insert(sortedClasses[0].first, QPoint((int) (d[0]/2.f * sortedClasses[1].second/sortedClasses[0].second + DEC), 0));
-        _positions.insert(sortedClasses[1].first, QPoint((int) (-d[0]/2.f * sortedClasses[0].second/sortedClasses[1].second + DEC), 0));
     }
 
     // Consider the other classes, ordering by cov decreasing with the biggest(s)
@@ -293,10 +293,11 @@ void DataModel::computePositions()
                     covmax = sortedCovar[j].second;
                 }
             }
-            ClassPair temp = sortedClasses[i];
-            sortedClasses[i].first = sortedClasses[indexmax].first;
-            sortedClasses[i].second = covmax;
-            sortedClasses[indexmax] = temp;
+            ClassPair temp = sortedCovar[i];
+            sortedCovar[i].first = sortedCovar[indexmax].first;
+            sortedCovar[i].second = covmax;
+            sortedCovar[indexmax] = temp;
+
         }
 
         // Array ordered by now. Calculating locations of all classes
@@ -306,8 +307,8 @@ void DataModel::computePositions()
         {
             float* d = new float[2];
             dist(sortedCovar[i].second, sortedCovar[2].second, R, angle, d);
-            _positions.insert(sortedClasses[i].first, QPoint((int) d[0], (int) d[1]));
-            angle += 7 * M_PI / 6;
+            _positions.insert(sortedCovar[i].first, QPoint((int) d[0], (int) d[1]));
+            angle += 6.6 * M_PI / 6.f;
         }
     }
     else
@@ -330,20 +331,20 @@ void DataModel::computePositions()
                 }
             }
             ClassPair temp = sortedClasses[i];
-            sortedClasses[i].first = sortedClasses[indexmax].first;
-            sortedClasses[i].second = covmax;
-            sortedClasses[indexmax] = temp;
+            sortedCovar[i].first = sortedCovar[indexmax].first;
+            sortedCovar[i].second = covmax;
+            sortedCovar[indexmax] = temp;
         }
 
         // Array ordered by now. Calculating locations of all classes
         _positions.insert(sortedClasses[2].first, QPoint(0, -20));
-        float angle = 7 * M_PI / 6;
+        float angle = 6.6 * M_PI / 6;
         for (i = 3; i < keys.size(); ++i)
         {
             float* d = new float[2];
             dist(sortedCovar[i].second, sortedCovar[2].second, R, angle, d);
-            _positions.insert(sortedClasses[i].first, QPoint((int) d[0], (int) d[1]));
-            angle += 7 * M_PI / 6;
+            _positions.insert(sortedCovar[i].first, QPoint((int) d[0], (int) d[1]));
+            angle += 6.6 * M_PI / 6;
         }
     }
 }
@@ -383,7 +384,7 @@ float DataModel::closeness(QString class1, QString class2){
 
 void DataModel::dist(float cov1, float covmax /* max des covariances de la ligne de cov1*/, float R, float angle, float res[2])
 {
-    float tmp = qMin(0.01f, covmax / cov1) * R;
+    float tmp = qMax(qMin(5.f, covmax / cov1), 1.f) * R + 380;
     res[0] = tmp * cos(angle);
     res[1] = tmp * sin(angle);
 }
