@@ -64,23 +64,6 @@ Item {
 
     function refreshLinks()
     {
-        lineList.clear();
-        for(var i = 0 ; i < referenceListModel.count ; ++i)
-        {
-            var ref = referenceListModel.get(i);
-            var methodObj = getMethodPoint(ref.method);
-            var attrObj = getAttributePoint(ref.attribute)
-
-            var pointFrom = mapToItem(attributeRepeater, attrObj.x + attrObj.width, attrObj.y + contentContainer.height)
-            var pointTo = mapToItem(methodRepeater, methodObj.x + root.width/2, methodObj.y + contentContainer.height)
-
-            lineList.append({
-                           "fromX":pointFrom.x,
-                           "fromY":pointFrom.y,
-                           "toX":pointTo.x,
-                           "toY":pointTo.y
-                       });
-        }
     }
 
     Component.onCompleted: {
