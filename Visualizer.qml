@@ -176,11 +176,6 @@ Item {
                 }
             }
 
-            onDoubleClicked: {
-                var mousePoint = Qt.point(mouse.x, mouse.y);
-                ++zoom;
-            }
-
             onWheel: {
                 if (wheel.angleDelta.y > 0) {
                     var scrollPoint = root.mapFromItem(flickable.contentItem, wheel.x, wheel.y);
@@ -369,8 +364,10 @@ Item {
 
                 visible: opacity > 0.0
 
-                color: index === repeaterLinksMethods.focusedLinkIndex ? "red" : "green"
-                opacity: (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.2)
+                color: nameMethodFrom == root.focusedMethodFrom || nameMethodTo == root.focusedMethodTo || index === repeaterLinksMethods.focusedLinkIndex ? "red" : "green"
+                opacity: (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.3)
+
+
 
 
                 Behavior on opacity {
@@ -391,6 +388,7 @@ Item {
                         root.focusedMethodFrom = nameMethodFrom
                         root.focusedMethodTo = nameMethodTo
                         repeaterLinksMethods.focusedLinkIndex = index
+
                     }
 
                     onExited: {
