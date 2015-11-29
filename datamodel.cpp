@@ -263,3 +263,37 @@ void DataModel::computePositions()
     }
 }
 
+float DataModel::closeness(QString class1, QString class2)
+{
+    float value = 0.f;
+    QJsonArray inherits1 = _dataSource.listLinksInherits(class1);
+    for(QJsonValue it : inherits1)
+    {
+        if(it.toObject()["classTo"] == class2)
+            value += 1.f;
+    }
+
+    QJsonArray inherits2 = _dataSource.listLinksInherits(class2);
+    for(QJsonValue it : inherits2)
+    {
+        if(it.toObject()["classTo"] == class1)
+            value += 1.f;
+    }
+
+    QJsonArray methodCalls1 = _dataSource.listLinksCallsOutside(class1);
+    for(QJsonValue it : methodCalls1)
+    {
+        if(it.toObject()["classTo"] == class2)
+            value += 0.2f;
+    }
+
+    QJsonArray methodCalls2 = _dataSource.listLinksCallsOutside(class2);
+    for(QJsonValue it : methodCalls2)
+    {
+        if(it.toObject()["classTo"] == class1)
+            value += 0.2f;
+    }
+
+    return value;
+}
+
