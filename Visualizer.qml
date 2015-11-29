@@ -21,8 +21,7 @@ Item {
             if(motherList.count > 0)
             {
                 var motherClass = getChildFromName(motherList.get(0).classTo)
-//                console.log("from : " + childAt.x + ";" + childAt.y)
-//                console.log("to : " + motherClass.x + ";" + motherClass.y)
+
                 canvas.lineList.push({
 
                     "fromX": childAt.x,
@@ -73,8 +72,8 @@ Item {
         id: flickable
         focus: true
         anchors.fill: parent
-        contentWidth: parent.width * zoom
-        contentHeight: parent.height * zoom
+        contentWidth: parent.width// * zoom
+        contentHeight: parent.height //* zoom
 
         Rectangle {
             width: flickable.contentWidth
@@ -103,35 +102,50 @@ Item {
 
             onWheel: {
                 if (wheel.angleDelta.y > 0) {
-                    var scrollPoint = Qt.point(wheel.x, wheel.y);
-                 /*  console.debug("wheel " + scrollPoint)
-                    console.debug("////////////////////////////:")
-                    console.debug("click on  = " + wheel.x +  " ; " + wheel.y)
-                    console.debug("content on  = " + (flickable.contentItem.x) +  " ; " + (flickable.contentItem.y))
-                    console.debug("MAP " + JSON.stringify(root.mapToItem(flickable.contentItem, wheel.x, wheel.y)))
-                    console.debug("width = " + flickable.contentItem.width)*/
+                    var scrollPoint = root.mapFromItem(flickable.contentItem, wheel.x, wheel.y);
 
-                   flickable.contentItem.y += 100
+                    var newZoom = Math.min(root.maximumZoom, zoom + zoomOffset);
+                    console.debug("newZoom " + newZoom)
+                    var currentWidth = flickable.contentWidth;
+                    console.debug("currentWidth " + currentWidth)
+                    var currentHeight = flickable.contentHeight;
+                    console.debug("currentHeight " + currentHeight)
+                    var newWidth = root.width * newZoom;
+                    console.debug("newWidth " + newWidth)
+                    var newHeight = root.height * newZoom;
+                    console.debug("newHeight " + newHeight)
+                    var offsetWidth = (newWidth - currentWidth) / 2.0
+                    var offsetHeight = (newHeight - currentHeight) / 2.0
 
-                    zoom = Math.min(root.maximumZoom, zoom + zoomOffset);
+                    var scrollOffset = Qt.point(newZoom * (scrollPoint.x - root.width / 2.0),
+                                                newZoom * (scrollPoint.y - root.height / 2.0))
+
+                    console.debug("scroll " + scrollPoint.x + ";" + scrollPoint.y)
+                    console.debug("scrollOffset = " + scrollOffset.x + ";" + scrollOffset.y)
+
+                    if (zoom != newZoom) {
+                        zoom = newZoom;
+                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
+                                             flickable.contentHeight / 2.0)
+                        flickable.resizeContent(newZoom * root.width,
+                                                newZoom * root.height,
+                                                newCenter)
+                        flickable.returnToBounds();
+                    }
                 } else {
-                    zoom = Math.max(root.minimumZoom, zoom - zoomOffset);
+                    var newZoom = Math.max(root.minimumZoom, zoom - zoomOffset);
+                    if (zoom != newZoom) {
+                        zoom = newZoom;
+                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
+                                                 flickable.contentHeight / 2.0)
+                        flickable.resizeContent(newZoom * root.width,
+                                                    newZoom * root.height,
+                                                    newCenter)
+                        flickable.returnToBounds();
+                    }
                 }
             }
         }
-
-
-        Timer{
-            interval: 5000
-            running: true
-            onTriggered: {
-
-                //console.debug("test")
-                canvas.requestPaint();
-
-            }
-        }
-
 
         Canvas {
             id: canvas
@@ -153,8 +167,7 @@ Item {
                 for(var i = 0 ; i < lineList.length ; ++i)
                 {
                     var line = lineList[i];
-                    //console.log("line from " + line.fromX + ";" + line.fromY)
-                    //console.log("line to " + line.toX + ";" + line.toY)
+
                     context.moveTo(line.fromX, line.fromY);
                     context.lineTo(line.toX, line.toY);
                     context.arc(line.toX, line.toY, 10, 0, 2*Math.PI, true)
@@ -165,6 +178,7 @@ Item {
         }
 
 
+
         Repeater {
             id: repeater
             model: classListModel
@@ -173,7 +187,6 @@ Item {
             delegate: ClassBox {
                 id: classBox
                     zoom: root.zoom
-
 
 //                    Behavior on width {
 //                        NumberAnimation { }
@@ -211,7 +224,52 @@ Item {
 
             }
 
+        }
+
+        Repeater{
+            id: repeaterLinksClasses
+            model: classListModel
+            anchors.fill: parent
+
+
+            delegate: Rectangle{
+
+                id: rec
+
+                property var from: getChildFromName(name)
+                property var to: getChildFromName(from.inheritsListModel.get(0).classTo)
+
+                transform: Rotation {
+                    angle: from.x < to.x ? Math.atan((to.y - from.y)/(to.x - from.x))*180/Math.PI : 180 + Math.atan((to.y - from.y)/(to.x - from.x))*180/Math.PI
+                }
+
+                x: from.x
+                y: from.y
+                z: parent.z + 1
+
+
+                height: 2
+                width: Math.sqrt((from.x - to.x)*(from.x - to.x) + (from.y - to.y)*(from.y - to.y))
+
+                //rotation: -20
+
+                Component.onCompleted: {
+                    /*from = getChildFromName(name)
+                    to = getChildFromName(from.inheritsListModel.get(0).classTo)
+
+                    rec.x = from.x
+                    rec.y = from.y
+
+                    rec.width = Math.sqrt((from.x - to.x)*(from.x - to.x) + (from.y - to.y)*(from.y - to.y))
+
+                    rec.rotation = 30*/
+
+                    console.log("***********" + (Math.atan2((to.y - from.y)/(to.x - from.x)))*180/Math.PI)
+                }
+
+            }
 
         }
+
     }
 }
