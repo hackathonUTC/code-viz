@@ -12,27 +12,31 @@ Item {
         }
     }
 
+    ListModel {
+        id: lineList
+    }
+
+
     function refreshInheritance()
     {
-        canvas.lineList = [];
+        lineList.clear()
         for(var i = 0; i < repeater.model.count; ++i){
             var childAt = repeater.itemAt(i)
             var motherList = childAt.inheritsListModel;
             if(motherList.count > 0)
             {
                 var motherClass = getChildFromName(motherList.get(0).classTo)
-
-                canvas.lineList.push({
+                lineList.append({
 
                     "fromX": childAt.x,
                     "fromY": childAt.y,
                     "toX": motherClass.x,
                     "toY": motherClass.y
                 });
+
             }
         }
 
-        canvas.requestPaint()
     }
 
     property real zoom: 1.0
@@ -144,38 +148,11 @@ Item {
                         flickable.returnToBounds();
                     }
                 }
+
+                refreshInheritance()
             }
         }
 
-        Canvas {
-            id: canvas
-            height: flickable.contentHeight;
-            width: flickable.contentWidth;
-            anchors.fill: parent;
-
-            property var context: getContext("2d");
-            property var lineList;
-
-            onPaint: {
-
-
-                // Draw a line
-                context.reset()
-                context.beginPath();
-                context.lineWidth = 2;
-                context.strokeStyle = "grey"
-                for(var i = 0 ; i < lineList.length ; ++i)
-                {
-                    var line = lineList[i];
-
-                    context.moveTo(line.fromX, line.fromY);
-                    context.lineTo(line.toX, line.toY);
-                    context.arc(line.toX, line.toY, 10, 0, 2*Math.PI, true)
-                }
-                context.stroke();
-            }
-
-        }
 
 
 
@@ -183,6 +160,7 @@ Item {
             id: repeater
             model: classListModel
             anchors.fill: parent
+
 
             delegate: ClassBox {
                 id: classBox
@@ -212,6 +190,7 @@ Item {
                         + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                     title: name
 
+
                     onXChanged: {
                         refreshInheritance()
                     }
@@ -220,15 +199,13 @@ Item {
                         refreshInheritance()
                     }
 
-
-
             }
 
         }
 
         Repeater{
             id: repeaterLinksClasses
-            model: classListModel
+            model: lineList
             anchors.fill: parent
 
 
@@ -236,36 +213,18 @@ Item {
 
                 id: rec
 
-                property var from: getChildFromName(name)
-                property var to: getChildFromName(from.inheritsListModel.get(0).classTo)
-
                 transform: Rotation {
-                    angle: from.x < to.x ? Math.atan((to.y - from.y)/(to.x - from.x))*180/Math.PI : 180 + Math.atan((to.y - from.y)/(to.x - from.x))*180/Math.PI
+                    angle: fromX < toX ? Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI : 180 + Math.atan((toY - fromY)/(toX - fromX))*180/Math.PI
                 }
 
-                x: from.x
-                y: from.y
-                z: parent.z + 1
+                x: fromX
+                y: fromY
+                z: flickable.z + 1
 
 
                 height: 2
-                width: Math.sqrt((from.x - to.x)*(from.x - to.x) + (from.y - to.y)*(from.y - to.y))
+                width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
 
-                //rotation: -20
-
-                Component.onCompleted: {
-                    /*from = getChildFromName(name)
-                    to = getChildFromName(from.inheritsListModel.get(0).classTo)
-
-                    rec.x = from.x
-                    rec.y = from.y
-
-                    rec.width = Math.sqrt((from.x - to.x)*(from.x - to.x) + (from.y - to.y)*(from.y - to.y))
-
-                    rec.rotation = 30*/
-
-                    console.log("***********" + (Math.atan2((to.y - from.y)/(to.x - from.x)))*180/Math.PI)
-                }
 
             }
 
