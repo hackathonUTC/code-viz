@@ -44,7 +44,6 @@ Item {
     property real distanceFromCenter: 350 * zoom
 
     Component.onCompleted: {
-        console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
         classListModel.append(DataModel.queryClasses());
         refreshInheritance();
     }
@@ -97,13 +96,23 @@ Item {
 
             onDoubleClicked: {
                 var mousePoint = Qt.point(mouse.x, mouse.y);
-                console.debug("MAP " + mapToItem(flickable.contentItem, mouse.x, mouse.y))
+                console.debug("MAP " + mapFromItem(flickable.contentItem, mouse.x, mouse.y))
                 console.debug("double click " + mouse.x + " ; " + mouse.y);
                 ++zoom;
             }
 
             onWheel: {
-                if(wheel.angleDelta.y > 0) {
+                if (wheel.angleDelta.y > 0) {
+                    var scrollPoint = Qt.point(wheel.x, wheel.y);
+//                    console.debug("wheel " + scrollPoint)
+                    console.debug("////////////////////////////:")
+                    console.debug("click on  = " + wheel.x +  " ; " + wheel.y)
+                    console.debug("content on  = " + (flickable.contentItem.x) +  " ; " + (flickable.contentItem.y))
+                    console.debug("MAP " + JSON.stringify(root.mapToItem(flickable.contentItem, wheel.x, wheel.y)))
+                    console.debug("width = " + flickable.contentItem.width)
+
+//                    flickable.contentItem.y += 100
+
                     zoom = Math.min(root.maximumZoom, zoom + zoomOffset);
                 } else {
                     zoom = Math.max(root.minimumZoom, zoom - zoomOffset);
@@ -159,24 +168,25 @@ Item {
             anchors.fill: parent
 
             delegate: ClassBox {
+                id: classBox
                     zoom: root.zoom
-                    //scale: zoom
 
-                    id: classBox
 
-                    Behavior on scale {
-                        NumberAnimation {
+//                    Behavior on width {
+//                        NumberAnimation { }
+//                    }
 
-                        }
-                    }
+//                    Behavior on height {
+//                        NumberAnimation { }
+//                    }
 
-                    Behavior on x {
-                        NumberAnimation { }
-                    }
+//                    Behavior on x {
+//                        NumberAnimation { }
+//                    }
 
-                    Behavior on y {
-                        NumberAnimation { }
-                    }
+//                    Behavior on y {
+//                        NumberAnimation { }
+//                    }
 
                     width: 150 * zoom
                     height: 250 * zoom
@@ -199,30 +209,6 @@ Item {
             }
 
 
-        }
-    }
-
-    Button {
-        anchors.centerIn: parent
-        width: 50
-        height: 50
-
-        onClicked: {
-            console.debug("clicked")
-            var newAttributes = {"test": "real",
-                    "aaa":"string"};
-            var newMethods = {
-                "foo": "bar"
-            };
-            var newElement = cListElement.createObject(root, {
-                className: "firstClass",
-                attributes: newAttributes,
-                methods: newMethods
-            });
-            listModel.append(newElement);
-
-
-            console.debug(JSON.stringify(newElement))
         }
     }
 }
