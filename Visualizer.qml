@@ -73,8 +73,8 @@ Item {
         id: flickable
         focus: true
         anchors.fill: parent
-        contentWidth: parent.width * zoom
-        contentHeight: parent.height * zoom
+        contentWidth: parent.width// * zoom
+        contentHeight: parent.height //* zoom
 
         Rectangle {
             width: flickable.contentWidth
@@ -103,35 +103,48 @@ Item {
 
             onWheel: {
                 if (wheel.angleDelta.y > 0) {
-                    var scrollPoint = Qt.point(wheel.x, wheel.y);
-                 /*  console.debug("wheel " + scrollPoint)
-                    console.debug("////////////////////////////:")
-                    console.debug("click on  = " + wheel.x +  " ; " + wheel.y)
-                    console.debug("content on  = " + (flickable.contentItem.x) +  " ; " + (flickable.contentItem.y))
-                    console.debug("MAP " + JSON.stringify(root.mapToItem(flickable.contentItem, wheel.x, wheel.y)))
-                    console.debug("width = " + flickable.contentItem.width)*/
+                    var scrollPoint = root.mapFromItem(flickable.contentItem, wheel.x, wheel.y);
 
-                   flickable.contentItem.y += 100
+                    var newZoom = Math.min(root.maximumZoom, zoom + zoomOffset);
+                    console.debug("newZoom " + newZoom)
+                    var currentWidth = flickable.contentWidth;
+                    console.debug("currentWidth " + currentWidth)
+                    var currentHeight = flickable.contentHeight;
+                    console.debug("currentHeight " + currentHeight)
+                    var newWidth = root.width * newZoom;
+                    console.debug("newWidth " + newWidth)
+                    var newHeight = root.height * newZoom;
+                    console.debug("newHeight " + newHeight)
+                    var offsetWidth = (newWidth - currentWidth) / 2.0
+                    var offsetHeight = (newHeight - currentHeight) / 2.0
 
-                    zoom = Math.min(root.maximumZoom, zoom + zoomOffset);
+                    var scrollOffset = Qt.point(newZoom * (scrollPoint.x - root.width / 2.0),
+                                                newZoom * (scrollPoint.y - root.height / 2.0))
+
+                    console.debug("scroll " + scrollPoint.x + ";" + scrollPoint.y)
+                    console.debug("scrollOffset = " + scrollOffset.x + ";" + scrollOffset.y)
+
+                    if (zoom != newZoom) {
+                        zoom = newZoom;
+                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
+                                             flickable.contentHeight / 2.0)
+                        flickable.resizeContent(newZoom * root.width,
+                                                newZoom * root.height,
+                                                newCenter)
+                    }
                 } else {
-                    zoom = Math.max(root.minimumZoom, zoom - zoomOffset);
+                    var newZoom = Math.max(root.minimumZoom, zoom - zoomOffset);
+                    if (zoom != newZoom) {
+                        zoom = newZoom;
+                        var newCenter = Qt.point(flickable.contentWidth / 2.0,
+                                                 flickable.contentHeight / 2.0)
+                            flickable.resizeContent(newZoom * root.width,
+                                                    newZoom * root.height,
+                                                    newCenter)
+                    }
                 }
             }
         }
-
-
-        Timer{
-            interval: 5000
-            running: true
-            onTriggered: {
-
-                //console.debug("test")
-                canvas.requestPaint();
-
-            }
-        }
-
 
         Canvas {
             id: canvas
