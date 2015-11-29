@@ -157,8 +157,8 @@ Item {
 
             delegate: ClassBox {
                 id: classBox
-                    zoom: root.zoom
-                    centralityCoefficient: centrality
+                zoom: root.zoom
+                centralityCoefficient: centrality
 
 //                    Behavior on width {
 //                        NumberAnimation { }

@@ -5,7 +5,7 @@ Item {
     id: root
 
 //    width: classNamePlaceHolder.implicitWidth // size * zoom * centralityCoefficient
-    height: classContent.height * zoom * centralityCoefficient
+    height: classContent.height
 
     property real baseSize: 25
     property real coefficientSize: baseSize + centralityCoefficient * baseSize
@@ -117,7 +117,7 @@ Item {
             when: zoom > 3
             PropertyChanges {
                 target: root
-                width: 400 // Math.min(classNamePlaceHolder.implicitWidth, 400)
+                width: 450 // Math.min(classNamePlaceHolder.implicitWidth, 400)
             }
         },
         State {
@@ -185,6 +185,9 @@ Item {
                         property string attributeName: name
                         Text {
                             text: name + ":"+ type
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
                         }
                     }
                 }
@@ -206,8 +209,10 @@ Item {
                         property string methodName: name
                         Text {
                             id: textField
-
                             text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
+                            elide: Text.ElideRight
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
                         }
                     }
                 }
