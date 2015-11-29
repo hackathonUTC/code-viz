@@ -29,6 +29,7 @@ Item {
             if (repeater.itemAt(i).title === name)
                 return repeater.itemAt(i);
         }
+        return null;
     }
 
     function getIndexMethodFromClass(className, methodName){
@@ -80,21 +81,26 @@ Item {
             {
                 for (var j = 0; j < methodList.count; ++j){
 
-                    var pointFrom = getChildFromName(methodList.get(j).classFrom)
-                    var pointTo = getChildFromName(methodList.get(j).classTo)
+                    if(getChildFromName(methodList.get(j).classTo))
+                    {
+                        var pointFrom = getChildFromName(methodList.get(j).classFrom)
+                        var pointTo = getChildFromName(methodList.get(j).classTo)
 
 
-                    lineMethodsList.append({
 
-                        "nameClassFrom":  methodList.get(j).classFrom,
-                        "nameClassTo":  methodList.get(j).classTo,
-                        "nameMethodFrom":  methodList.get(j).methodFrom,
-                        "nameMethodTo":  methodList.get(j).methodTo,
-                        "fromX": pointFrom.x + pointFrom.width/2,
-                        "fromY": pointFrom.y,
-                        "toX": pointTo.x  + pointTo.width/2,
-                        "toY": pointTo.y
-                    });
+                        //console.debug("-----------------" + getIndexMethodFromClass(methodList.get(j).classFrom, methodList.get(j).methodFrom))
+                        lineMethodsList.append({
+
+                            "nameClassFrom":  methodList.get(j).classFrom,
+                            "nameClassTo":  methodList.get(j).classTo,
+                            "nameMethodFrom":  methodList.get(j).methodFrom,
+                            "nameMethodTo":  methodList.get(j).methodTo,
+                            "fromX": pointFrom.x + pointFrom.width/2,
+                            "fromY": pointFrom.y,
+                            "toX": pointTo.x  + pointTo.width/2,
+                            "toY": pointTo.y
+                        });
+                    }
                 }
 
 
@@ -243,7 +249,6 @@ Item {
                         refreshInheritance()
                         refreshMethods()
                     }
-
             }
 
         }
