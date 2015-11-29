@@ -78,6 +78,7 @@ Item {
             anchors.right: parent.right
             height: coefficientSize
             color: "steelblue"
+            opacity: 0.8
             Text {
                 id: classNamePlaceHolder
                 font.pixelSize: titleContainer.height
