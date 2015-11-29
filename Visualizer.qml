@@ -370,7 +370,7 @@ Item {
                 visible: opacity > 0.0
 
                 color: nameMethodFrom == root.focusedMethodFrom || nameMethodTo == root.focusedMethodTo || index === repeaterLinksMethods.focusedLinkIndex ? "red" : "green"
-                opacity: (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.4)
+                opacity: (index === repeaterLinksMethods.focusedLinkIndex ? 1.0 : 0.3)
 
 
 

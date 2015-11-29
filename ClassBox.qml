@@ -1,6 +1,85 @@
 import QtQuick 2.0
 import codeviz 1.0
 
+/*test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  test de points
+  */
+
 Item {
     id: root
 
