@@ -241,13 +241,14 @@ Item {
 
                     onMethodFocused: {
                         root.focusedMethodFrom = methodName
+                        root.focusedMethodTo = methodName
                         root.focusedClass = className
                     }
 
                     onMethodUnFocused: {
                         root.focusedMethodFrom = ""
+                        root.focusedMethodTo = ""
                     }
-
 
                     onXChanged: {
                         refreshInheritance()
