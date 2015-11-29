@@ -5,6 +5,21 @@ import codeviz 1.0
 Item {
     id: root
 
+    states: [
+        State {
+            name: "zeroZoom"
+            when: zoom > 3
+        },
+        State {
+            name: "firstZoom"
+            when: zoom <= 3 && zoom > 2
+        },
+        State {
+            name: "secondZoom"
+            when: zoom <= 2
+        }
+    ]
+
     function getChildFromName(name){
         for(var i = 0; i < repeater.count; ++i){
             if (repeater.itemAt(i).title === name)
@@ -16,8 +31,9 @@ Item {
 
         var methods = DataModel.queryMethods(className)
 
-        for(var i = 0; i < methods.count; ++i){
-            console.debug("************" + methods.get(i))
+        for(var i = 0; i < methods.length; ++i){
+            if (methods[i].name === methodName)
+                return i;
         }
     }
 
@@ -46,10 +62,8 @@ Item {
                     "toX": motherClass.x,
                     "toY": motherClass.y
                 });
-
             }
         }
-
     }
 
     function refreshMethods()
@@ -62,18 +76,21 @@ Item {
             {
                 for (var j = 0; j < methodList.count; ++j){
 
+                    var pointFrom = getChildFromName(methodList.get(j).classFrom)
+                    var pointTo = getChildFromName(methodList.get(j).classTo)
 
-                    //methodList.get(j).methodTo
+
+                    console.debug("-----------------" + getIndexMethodFromClass(methodList.get(j).classFrom, methodList.get(j).methodFrom))
 
                     lineMethodsList.append({
 
-                        "fromX": getChildFromName(methodList.get(j).classFrom).x,
-                        "fromY": getChildFromName(methodList.get(j).classFrom).y + getIndexMethodFromClass(methodList.get(j).methodFrom)*15,
-                        "toX": getChildFromName(methodList.get(j).classTo).x,
-                        "toY": getChildFromName(methodList.get(j).classTo).y,
+
+                        "fromX": pointFrom.x + pointFrom.width/2,
+                        "fromY": pointFrom.y,
+                        "toX": pointTo.x  + pointTo.width/2,
+                        "toY": pointTo.y
                     });
                 }
-
 
 
             }
@@ -82,7 +99,7 @@ Item {
     }
 
     property real zoom: 1.0
-    readonly property real maximumZoom: 4.0
+    readonly property real maximumZoom: 7.0
     readonly property real minimumZoom: 1.0
     readonly property real zoomOffset: 1.5
 
@@ -90,7 +107,6 @@ Item {
 
     Component.onCompleted: {
         classListModel.append(DataModel.queryClasses());
-        console.debug("moo" + classListModel.get(0).centrality)
         refreshInheritance();
     }
 
@@ -101,8 +117,6 @@ Item {
     ListModel {
         id: listInheritance
     }
-
-
 
     Component {
         id: cListElement
@@ -205,8 +219,8 @@ Item {
 
             delegate: ClassBox {
                 id: classBox
-                    zoom: root.zoom
-                    centralityCoefficient: centrality
+                zoom: root.zoom
+                centralityCoefficient: centrality
 
 //                    Behavior on width {
 //                        NumberAnimation { }
@@ -232,10 +246,12 @@ Item {
 
                     onXChanged: {
                         refreshInheritance()
+                        refreshMethods()
                     }
 
                     onYChanged: {
                         refreshInheritance()
+                        refreshMethods()
                     }
 
             }
@@ -253,6 +269,15 @@ Item {
 
             delegate: Rectangle {
                 id: rec
+
+                Rectangle {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+
+                    color:parent.color;
+                    height: 15
+                    width: 15
+                }
 
                 property point to: Qt.point(toX, toY)
                 transform: Rotation {
@@ -334,9 +359,13 @@ Item {
                 y: fromY
                 z: flickable.z + 1
 
-                color: "grey"
-                opacity: 0.3
+                color: "purple"
+                opacity: root.state === "zeroZoom" || root.state === "firstZoom" ? 0.3 : 0.0
+                visible: opacity > 0.0
 
+                Behavior on opacity {
+                    NumberAnimation { }
+                }
 
                 height: 2
                 width: Math.sqrt((fromX - toX)*(fromX - toX) + (fromY - toY)*(fromY - toY))
