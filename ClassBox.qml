@@ -10,7 +10,6 @@ Item {
     Component.onCompleted: {
         methodListModel.append(DataModel.queryMethods(root.title))
         attributeListModel.append(DataModel.queryAttributes(root.title))
-        referenceListModel.append(DataModel.queryMethodReferences(root.title))
         callInsideListModel.append(DataModel.queryCallsInsideClass(root.title))
         inheritageListModel.append(DataModel.queryInherits(root.title))
     }
@@ -36,15 +35,20 @@ Item {
     }
 
     states: [State {name: "zeroZoom"
-                    when: zoom > 3},
-             State {name: "firstZoom"
-                    when: zoom <= 3 && zoom > 2},
-             State {name: "secondZoom"
-                    when: zoom <= 2}]
+            when: zoom > 3},
+        State {name: "firstZoom"
+            when: zoom <= 3 && zoom > 2},
+        State {name: "secondZoom"
+            when: zoom <= 2}]
 
+    Canvas {
+    width: 200
+    height: 300
+    }
 
     Column {
         anchors.fill: parent
+
         Rectangle {
             id: titleContainer
             anchors.left: parent.left
@@ -93,9 +97,25 @@ Item {
                             text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
                         }
                     }
+
+
+
+                    /*Repeater {
+                        model: referenceListModel // Ne prend que les arcs avec les références
+                        delegate:
+                            Path {
+                            startX: 0
+                            startY: 100
+                            PathLine {
+                                x: 200
+                                y: 300
+                            }
+                        }
+                    }*/
                 }
             }
         }
+
     }
 
     MouseArea {
