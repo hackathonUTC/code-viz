@@ -17,6 +17,7 @@ QList<QObject *> DataModel::queryClasses()
 
         ClassObject* classObj = new ClassObject();
         classObj->setName(className);
+        classObj->setCentrality(_degrees[className]);
 
         result.append(classObj);
     }
@@ -165,5 +166,48 @@ QList<QObject *> DataModel::queryInherits(QString className)
 
 DataModel::DataModel()
 {
+    computeDegreeCentrality();
+}
+
+void DataModel::computeDegreeCentrality()
+{
+    QJsonArray classes = _dataSource.listClasses();
+
+    const float intraClassCallWeight = 0.5f;
+    const float extraClassCallWeight = 0.5f;
+    const float inheritanceWeight = 0.5f;
+
+    for(QJsonValue oneClass : classes)
+    {
+        QString className = oneClass.toString();
+        _degrees.insert(className, 0.f);
+    }
+
+    for(QJsonValue oneClass : classes)
+    {
+        QString className = oneClass.toString();
+        float& degree = _degrees[className];
+
+        // Initial weight is 1;
+        degree += 1.f;
+
+        QJsonArray internalCalls = _dataSource.listLinksCallsInside(className);
+        degree += internalCalls.size() * intraClassCallWeight;
+
+        QJsonArray externalCalls = _dataSource.listLinksCallsOutside(className);
+        degree += externalCalls.size() * extraClassCallWeight;
+        for(QJsonValue call : externalCalls)
+        {
+            QString otherClass = call.toObject()["classTo"].toString();
+            _degrees[otherClass] += extraClassCallWeight;
+        }
+
+        QJsonArray inheritsFrom = _dataSource.listLinksInherits(className);
+        for(QJsonValue parentClass : inheritsFrom)
+        {
+            QString parentName = parentClass.toObject()["classTo"].toString();
+            _degrees[parentName] += inheritanceWeight;
+        }
+    }
 }
 
