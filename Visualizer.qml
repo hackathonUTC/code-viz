@@ -2,17 +2,34 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 import codeviz 1.0
 
+import codeviz 1.0
+
 Item {
     id: root
 
     property real zoom: 1.0
-    property real distanceFromCenter: 400 * zoom
+    property real distanceFromCenter: 350 * zoom
+
+    Component.onCompleted: {
+        console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
+        listModel.append(DataModel.queryClasses());
+        for (var i = 0; i < listModel.count; ++i){
+            listInheritance.append(DataModel.queryInherits(listModel.get(i).name))
+            console.debug(listInheritance.get(0).name, "------")
+        }
+
+
+
+    }
 
 
 
     ListModel {
         id: listModel
+    }
 
+    ListModel {
+        id: listInheritance
     }
 
 
@@ -25,7 +42,6 @@ Item {
             property var attributes;
             property var methods;
             property var inheritsFrom;
-
         }
     }
 
@@ -55,7 +71,9 @@ Item {
             }
 
             onDoubleClicked: {
-                console.debug("double click");
+                var mousePoint = Qt.point(mouse.x, mouse.y);
+                console.debug("MAP " + mapToItem(flickable.contentItem, mouse.x, mouse.y))
+                console.debug("double click " + mouse.x + " ; " + mouse.y);
                 ++zoom;
             }
 
@@ -123,9 +141,6 @@ Item {
                 rec.rotation = Math.atan(myItem.height/myItem.width)*180/Math.PI
 
             }
-            Component.onCompleted: {
-                console.debug(DataModel.queryInherits("Filiere")[0].classTo, "----------")
-            }
 
             Rectangle{
                 id: rec
@@ -141,6 +156,7 @@ Item {
             model: listModel
             anchors.fill: parent
             delegate: ClassBox {
+                zoom: root.zoom
                 scale: zoom
 
                 Behavior on scale {
@@ -163,7 +179,7 @@ Item {
                    + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
                 y: (flickable.contentHeight - height) / 2.0
                     + Math.sin((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
-                title: className
+                title: name
             }
         }
     }
