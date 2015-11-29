@@ -15,7 +15,8 @@ Item {
     property alias inheritsListModel:inheritageListModel
     property alias callOutsideListModel: callOutsideListModel
 
-    property var focusedMethod: ""
+    property string focusedMethodFrom: ""
+    property string focusedMethodTo: ""
 
 
     Behavior on width {
@@ -235,8 +236,8 @@ Item {
                             text: root.state === "firstZoom" ? (visibility === "public" ? name : "") : name + ":" + visibility
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            color: methodName == root.focusedMethod ? "red" : "black"
+                            horizontalAlignment: Text.AlignHCenter                            
+                            color: methodName == root.focusedMethodFrom || methodName == root.focusedMethodTo ? "red" : "black"
                         }
                     }
                 }

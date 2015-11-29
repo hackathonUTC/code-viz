@@ -5,7 +5,8 @@ import codeviz 1.0
 Item {
     id: root
 
-    property string focusedMethod: ""
+    property string focusedMethodFrom: ""
+    property string focusedMethodTo: ""
     property string focusedClass: ""
 
     states: [
@@ -233,24 +234,12 @@ Item {
             delegate: ClassBox {
                 id: classBox
                 zoom: root.zoom
-                focusedMethod: root.focusedMethod
+                focusedMethodFrom: root.focusedMethodFrom
+                focusedMethodTo: root.focusedMethodTo
+
+
                 centralityCoefficient: centrality
 
-//                    Behavior on width {
-//                        NumberAnimation { }
-//                    }
-
-//                    Behavior on height {
-//                        NumberAnimation { }
-//                    }
-
-//                    Behavior on x {
-//                        NumberAnimation { }
-//                    }
-
-//                    Behavior on y {
-//                        NumberAnimation { }
-//                    }
 
                     x: (flickable.contentWidth - width) / 2.0 -
                        + Math.cos((2 * index + 0.5) * Math.PI / repeater.count) * distanceFromCenter
@@ -391,12 +380,14 @@ Item {
                     width: parent.width
                     hoverEnabled: true
                     onEntered: {
-                        root.focusedMethod = nameMethodFrom
+                        root.focusedMethodFrom = nameMethodFrom
+                        root.focusedMethodTo = nameMethodTo
                         repeaterLinksMethods.focusedLinkIndex = index
                     }
 
                     onExited: {
-                        root.focusedMethod = ""
+                        root.focusedMethodFrom = ""
+                        root.focusedMethodTo = ""
                         repeaterLinksMethods.focusedLinkIndex = -1
                     }
 

@@ -355,6 +355,10 @@
 						"visibility":"public"
 					},
 					{
+						"name":"update",
+						"visibility":"public"
+					},
+					{
 						"name":"slotCursusChanged",
 						"visibility":"public"
 					},
