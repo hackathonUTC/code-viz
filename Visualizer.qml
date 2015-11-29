@@ -230,8 +230,7 @@ Item {
             anchors.fill: parent
 
 
-            delegate: Rectangle{
-
+            delegate: Rectangle {
                 id: rec
 
                 property var from: getChildFromName(name)
@@ -265,6 +264,32 @@ Item {
                     console.log("***********" + (Math.atan2((to.y - from.y)/(to.x - from.x)))*180/Math.PI)
                 }
 
+                MouseArea {
+                    anchors.centerIn: parent
+                    height: parent.height * 3.0
+                    width: parent.width
+                    hoverEnabled: true
+                    onEntered: {
+                        linkHighlight.visible = true;
+                    }
+
+                    onExited: {
+                        linkHighlight.visible = false;
+                    }
+
+                    onClicked: {
+                        console.debug("clicked on rect :)")
+                    }
+
+                    Rectangle {
+                        id: linkHighlight
+                        anchors.fill: parent
+                        visible: false
+                        color: "yellow"
+                        antialiasing: true
+                        radius: height / 2.0
+                    }
+                }
             }
 
         }
