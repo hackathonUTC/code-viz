@@ -7,16 +7,19 @@ Item {
     id: root
 
     property real zoom: 1.0
+    readonly property real maximumZoom: 4.0
+    readonly property real minimumZoom: 1.0
+    readonly property real zoomOffset: 0.4
+
     property real distanceFromCenter: 350 * zoom
 
     Component.onCompleted: {
         console.debug("Data = " + JSON.stringify(DataModel.queryClasses()))
-        listModel.append(DataModel.queryClasses());
-
+        classListModel.append(DataModel.queryClasses());
     }
 
     ListModel {
-        id: listModel
+        id: classListModel
     }
 
     Component {
@@ -37,13 +40,6 @@ Item {
         contentWidth: parent.width * zoom
         contentHeight: parent.height * zoom
 
-        Rectangle {
-            width: flickable.contentWidth
-            height: flickable.contentHeight
-            color: "red"
-            opacity: 0.7
-        }
-
         MouseArea {
             width: flickable.contentWidth
             height: flickable.contentHeight
@@ -63,14 +59,17 @@ Item {
             }
 
             onWheel: {
-                console.debug("dezoom")
-                zoom = Math.max(1.0, zoom - 1);
+                if(wheel.angleDelta.y > 0) {
+                    zoom = Math.min(root.maximumZoom, zoom + zoomOffset);
+                } else {
+                    zoom = Math.max(root.minimumZoom, zoom - zoomOffset);
+                }
             }
         }
 
         Repeater {
             id: repeater
-            model: listModel
+            model: classListModel
             anchors.fill: parent
             delegate: ClassBox {
                 zoom: root.zoom
@@ -78,7 +77,8 @@ Item {
 
                 Behavior on scale {
                     NumberAnimation {
-
+                        easing.type: Easing.OutQuint
+                        duration: 1000
                     }
                 }
 
